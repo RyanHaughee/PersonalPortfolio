@@ -1,0 +1,70 @@
+<style>
+.vm{
+    text-align:center;
+    border: 1px white;
+    border-style:solid;
+}
+.med-text{
+    font-size:18px;
+}
+</style>
+
+<script>
+export default {
+    data() {
+        return {
+            draft_picks: []
+        }
+    },
+    mounted() {
+        var self = this;
+        self.get_all_draft_picks();
+    },
+    methods: {
+        get_all_draft_picks:function(){
+            var self = this;
+            $.get('get_all_draft_picks', function(response){
+                if (response){
+                    self.draft_picks = response.all_draft_picks;
+                    console.log(self.draft_picks);
+                } 
+            })
+        }
+    }
+}
+</script>
+<template>
+    <table class="med-text" style="width:100%">
+        <tr class="vm" v-for="pick in draft_picks" :key="pick" style="margin:5px" :style="[pick.otc ? {'border':'2px gold','border-style':'solid'} : '']">
+            <td>
+                {{ pick.round }}.{{ pick.pick }}
+            </td>
+            <td>
+                <div><img :src="pick.logo" style="width:60px; height:60px;"/></div>
+            </td> 
+            <td>
+                {{ pick.team_name }} 
+            </td>
+            <td v-if="pick.prospect_name">
+                <span><img :src="pick.prospect_image" style="max-width:60px; max-height:60px;"/></span>
+            </td>
+            <td v-else>
+                <span style="margin-right:10px"><img src="https://www.playerprofiler.com/wp-content/uploads/2014/05/HeadshotSilhouette3.png" style="max-width:60px; max-height:60px;"/></span> 
+            </td>
+            <td>
+                <span v-if="pick.prospect_name" style="margin-left:10px">{{ pick.prospect_name }}, {{ pick.position }}</span>
+                <span v-else-if="pick.otc" style="color:#FFD701; font-weight:700;">ON THE CLOCK</span>
+                <span v-else>-</span>
+            </td>
+            <td v-if="pick.prospect_name">
+                <img v-if="pick.nfl_team_logo" :src="pick.nfl_team_logo" style="max-width:100%; max-width:35px"/>
+                <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png" style="max-width:100%; max-width:35px; max-height:100%"/>
+                <span style="border-left: 1px solid white; height:40px; display:inline-block; vertical-align:middle; margin-right:3px; margin-left:3px"></span>
+                <img v-if="pick.cfb_team_logo" :src="pick.cfb_team_logo" style="max-width:100%; max-width:35px"/>
+                <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png" style="max-width:100%; max-width:35px; max-height:100%"/>
+            </td>
+            <td v-else>
+            </td>
+        </tr>
+    </table>
+</template>
