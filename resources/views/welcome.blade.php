@@ -9,20 +9,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/e45fe32dae.js" crossorigin="anonymous"></script>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Draft Room</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    </head>
-    <body>
-        <div id="app">
-            <draft-index></draft-index>
-        </div>
-    </body>
-    <script src="{{ mix('js/app.js') }}"></script>
+    Hello!
 </html>
  
