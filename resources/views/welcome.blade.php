@@ -9,6 +9,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/e45fe32dae.js" crossorigin="anonymous"></script>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    Hello!
+    Hello Friends!
 </html>
  
