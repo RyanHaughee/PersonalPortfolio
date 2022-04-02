@@ -130,7 +130,7 @@ export default {
                                                 </div>
                                               </div>
                                               <div v-if="selected_prospect.highlight_video" style="margin-top:20px; padding:5px">
-                                                  <iframe width="100%" height="225" :src="selected_prospect.highlight_video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                  <iframe width="80%" height="180" :src="selected_prospect.highlight_video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                               </div>
                                           </div>
                                           <div class="col-sm-6">
