@@ -20156,7 +20156,8 @@ var _hoisted_1 = {
     "max-height": "100vh",
     "overflow-y": "scroll",
     "display": "inline-block",
-    "width": "100%"
+    "width": "100%",
+    "box-sizing": "border-box"
   }
 };
 var _hoisted_2 = {
@@ -20185,7 +20186,8 @@ var _hoisted_6 = {
   style: {
     "text-align": "center",
     "overflow-x": "scroll",
-    "display": "inline-block"
+    "display": "inline-block",
+    "max-width": "100%"
   }
 };
 var _hoisted_7 = {
@@ -20341,7 +20343,7 @@ var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
     "width": "30px",
     "border": "1px black",
     "border-style": "solid",
-    "background-color": "#DCCD96",
+    "background-color": "#CEBC76",
     "color": "white"
   }
 }, "Combine", -1

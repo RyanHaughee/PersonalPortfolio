@@ -150,15 +150,15 @@ export default {
 </script>
 
 <template>
-  <div style="max-height: 100vh; overflow-y: scroll;display: inline-block; width:100%;">
+  <div style="max-height: 100vh; overflow-y: scroll;display: inline-block; width:100%; box-sizing: border-box">
       <table class="table" style="border:1px #dee2e6; border-style:solid;">
           <tbody>
               <template style="cursor:pointer" v-for="(prospect, index) in prospects">
                       <tr class="player-row sf" @click="expand_prospect(index)" :key="prospect" :style="[prospect.pick_id ? {'color':'#7C7C7B'} : '']">
                           <template v-if="selected_index == index && selected_prospect">
-                              <td colspan="4" style="background-color:#1e2121;">
+                              <td colspan="4" style="background-color:#1e2121">
                                   <div style="max-width:100%; margin-bottom:20px">
-                                      <div class="row" style="text-align:center;overflow-x: scroll;display: inline-block;">
+                                      <div class="row" style="text-align:center;overflow-x: scroll;display: inline-block;max-width:100%">
                                           <div class="col-sm-6">
                                               <img class="prospect-image" v-if="selected_prospect.image" :src="selected_prospect.image"/>
                                               <img class="prospect-image" v-else src="https://www.playerprofiler.com/wp-content/uploads/2014/05/HeadshotSilhouette3.png"/>
@@ -202,7 +202,7 @@ export default {
                                               <table style="display:inline-block; vertical-align:middle;">
                                                   <tr>
                                                       <th class="low-padding" colspan="2" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #002D62; color:white">Draft</th>
-                                                      <th class="low-padding" colspan="3" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #DCCD96; color:white">Combine</th>
+                                                      <th class="low-padding" colspan="3" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #CEBC76; color:white">Combine</th>
                                                       <th class="low-padding" :colspan="selected_prospect.stat_headers.length" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #961B0B; color:white">Best College Szn</th>
                                                   </tr>
                                                   <tr>
