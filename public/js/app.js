@@ -19577,7 +19577,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "table",
+  "class": "table-board",
   style: {
     "width": "100%"
   }
@@ -20771,7 +20771,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width : 480px) {\n.heading{\n            font-size:24px\n}\n.table{\n            font-size:18px\n}\n.vm{\n            text-align:center;\n            border: 1px white;\n            border-style:solid;\n}\n.team-logo-board{\n            width:60px; height:60px;\n}\n.team-logo-table-board{\n            max-width:100%; max-width:45px; max-height:100%;\n}\n.logo-seperator-table-board{\n            border-left: 1px solid white; height:45px; display:inline-block; vertical-align:middle; margin-right:5px; margin-left:5px\n}\n.mobile-break{\n            display:none;\n}\n.prospect-image-board{\n            max-width:60px; max-height:60px;\n}\n.table>tr>td{\n            vertical-align:middle;\n}\n}\n@media (max-width : 480px) {\n.heading{\n            font-size:14px\n}\n.table{\n            font-size:10px;\n}\n.vm{\n            text-align:center;\n            border: 1px white;\n            border-style:solid;\n            margin: auto;\n}\n.team-logo-board{\n            width:50px; height:50px;\n}\n.team-logo-table-board{\n            max-width:100%; max-width:25px; max-height:100%\n}\n.logo-seperator-table-board{\n            border-top: 1px solid white; width:30px; display:inline-block; vertical-align:middle; margin-top:2px; margin-bottom:2px;\n}\n.prospect-image-board{\n            max-width:50px; max-height:50px;\n}\n.table>tr>td{\n            vertical-align:middle;\n}\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width : 480px) {\n.heading{\n            font-size:24px\n}\n.table-board{\n            font-size:18px\n}\n.vm{\n            text-align:center;\n            border: 1px white;\n            border-style:solid;\n}\n.team-logo-board{\n            width:60px; height:60px;\n}\n.team-logo-table-board{\n            max-width:100%; max-width:45px; max-height:100%;\n}\n.logo-seperator-table-board{\n            border-left: 1px solid white; height:45px; display:inline-block; vertical-align:middle; margin-right:5px; margin-left:5px\n}\n.mobile-break{\n            display:none;\n}\n.prospect-image-board{\n            max-width:60px; max-height:60px;\n}\n.table>tr>td{\n            vertical-align:middle;\n}\n}\n@media (max-width : 480px) {\n.heading{\n            font-size:14px\n}\n.table{\n            font-size:10px;\n}\n.vm{\n            text-align:center;\n            border: 1px white;\n            border-style:solid;\n            margin: auto;\n}\n.team-logo-board{\n            width:50px; height:50px;\n}\n.team-logo-table-board{\n            max-width:100%; max-width:25px; max-height:100%\n}\n.logo-seperator-table-board{\n            border-top: 1px solid white; width:30px; display:inline-block; vertical-align:middle; margin-top:2px; margin-bottom:2px;\n}\n.prospect-image-board{\n            max-width:50px; max-height:50px;\n}\n.table>tr>td{\n            vertical-align:middle;\n}\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

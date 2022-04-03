@@ -3,7 +3,7 @@
         .heading{
             font-size:24px
         }
-        .table{
+        .table-board{
             font-size:18px
         }
         .vm{
@@ -87,7 +87,7 @@ export default {
 }
 </script>
 <template>
-    <table class="table" style="width:100%">
+    <table class="table-board" style="width:100%">
         <tr class="vm" v-for="pick in draft_picks" :key="pick" style="margin:5px" :style="[pick.otc ? {'border':'2px gold','border-style':'solid'} : '']">
             <td>
                 {{ pick.round }}.{{ pick.pick }}
