@@ -20318,7 +20318,8 @@ var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
     "border": "1px black",
     "border-style": "solid",
     "background-color": "#002D62",
-    "color": "white"
+    "color": "white",
+    "font-size": "14px"
   }
 }, "Draft", -1
 /* HOISTED */
@@ -20333,7 +20334,8 @@ var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
     "border": "1px black",
     "border-style": "solid",
     "background-color": "#CEBC76",
-    "color": "white"
+    "color": "white",
+    "font-size": "14px"
   }
 }, "Combine", -1
 /* HOISTED */
@@ -20583,7 +20585,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "border": "1px black",
         "border-style": "solid",
         "background-color": "#961B0B",
-        "color": "white"
+        "color": "white",
+        "font-size": "14px"
       }
     }, "Best College Szn", 8
     /* PROPS */

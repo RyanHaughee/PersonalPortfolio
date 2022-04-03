@@ -201,9 +201,9 @@ export default {
                                                   </div>
                                               <table style="display:inline-block; vertical-align:middle;">
                                                   <tr>
-                                                      <th class="low-padding" colspan="2" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #002D62; color:white">Draft</th>
-                                                      <th class="low-padding" colspan="3" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #CEBC76; color:white">Combine</th>
-                                                      <th class="low-padding" :colspan="selected_prospect.stat_headers.length" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #961B0B; color:white">Best College Szn</th>
+                                                      <th class="low-padding" colspan="2" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #002D62; color:white; font-size:14px">Draft</th>
+                                                      <th class="low-padding" colspan="3" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #CEBC76; color:white; font-size:14px">Combine</th>
+                                                      <th class="low-padding" :colspan="selected_prospect.stat_headers.length" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #961B0B; color:white; font-size:14px">Best College Szn</th>
                                                   </tr>
                                                   <tr>
                                                       <th class="low-padding stat-td">RD</th>
