@@ -9,17 +9,6 @@
     .table>tbody>tr>td{
         vertical-align:middle;
     }
-    .low-padding{
-        padding:5px !important
-    }
-    .stat-td{
-        text-align:center; 
-        width:30px; 
-        font-size:14px; 
-        border:1px black; 
-        border-style:solid;
-        color:#FFFFFF
-    }
     .menu-cat{
         font-size:16px;
         padding:5px;

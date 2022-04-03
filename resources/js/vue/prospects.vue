@@ -1,3 +1,59 @@
+<style>
+    @media (min-width : 480px) {
+        .heading{
+            font-size:20px
+        }
+        .table{
+            font-size:14px
+        }
+        .prospect-image-table{
+            max-width:100%; max-width:100px
+        }
+        .prospect-image{
+            max-width:100%; max-width:160px
+        }
+        .team-logo-table{
+            max-width:100%; max-width:45px; max-height:100%;
+        }
+        .logo-seperator-table{
+            border-left: 1px solid white; height:45px; display:inline-block; vertical-align:middle; margin-right:5px; margin-left:5px
+        }
+        .stat-td{
+            text-align:center; width:30px; font-size:14px; border:1px black; border-style:solid; color:#FFFFFF
+        }
+        .low-padding{
+            padding:5px !important
+        }
+    }
+    @media (max-width : 480px) {
+        .heading{
+            font-size:14px
+        }
+        .table{
+            font-size:10px
+        }
+        .prospect-image-table{
+            max-width:100%; max-width:60px
+        }
+        .prospect-image{
+            max-width:100%; max-width:120px; margin-bottom:5px
+        }
+        .team-logo-table{
+            max-width:100%; max-width:30px; max-height:100%
+        }
+        .logo-seperator-table{
+            border-top: 1px solid white; width:30px; display:inline-block; vertical-align:middle; margin-top:5px; margin-bottom:5px
+        }
+        .stat-td{
+            text-align:center; width:20px; font-size:10px; border:1px black; border-style:solid; color:#FFFFFF
+        }
+        .low-padding{
+            padding:3px !important
+        }
+    }
+
+</style>
+
 <script>
 export default {
     props:['pos'],
@@ -75,7 +131,6 @@ export default {
             sds.prospect_id = prospect_id;
             $.post('select_prospect', sds, function(response){
                 if (response){
-                    console.log(response);
                     if (response.success){
                         self.$emit('playerSelected');
                     } else {
@@ -93,24 +148,24 @@ export default {
 
 <template>
   <div style="max-height: 100vh; overflow-y: scroll;display: inline-block; width:100%;">
-      <table class="table" style="border:1px #dee2e6; border-style:solid">
+      <table class="table" style="border:1px #dee2e6; border-style:solid;">
           <tbody>
               <template style="cursor:pointer" v-for="(prospect, index) in prospects">
-                      <tr class="player-row" @click="expand_prospect(index)" :key="prospect" :style="[prospect.pick_id ? {'color':'#7C7C7B'} : '']">
+                      <tr class="player-row sf" @click="expand_prospect(index)" :key="prospect" :style="[prospect.pick_id ? {'color':'#7C7C7B'} : '']">
                           <template v-if="selected_index == index && selected_prospect">
                               <td colspan="4" style="background-color:#1e2121;">
                                   <div style="max-width:100%; margin-bottom:20px">
                                       <div class="row" style="text-align:center;overflow-x: scroll;display: inline-block;">
                                           <div class="col-sm-6">
-                                              <img v-if="selected_prospect.image" :src="selected_prospect.image" style="max-width:100%; max-width:160px"/>
-                                              <img v-else src="https://www.playerprofiler.com/wp-content/uploads/2014/05/HeadshotSilhouette3.png" style="max-width:100%; max-width:160px"/>
+                                              <img class="prospect-image" v-if="selected_prospect.image" :src="selected_prospect.image"/>
+                                              <img class="prospect-image" v-else src="https://www.playerprofiler.com/wp-content/uploads/2014/05/HeadshotSilhouette3.png"/>
                                               <span v-if="selected_prospect.ff_logo"> 
                                                 <span style="border-left: 1px solid white; height:120px; display:inline-block; vertical-align:middle; margin-right:5px; margin-left:5px"></span>
-                                                <img v-if="selected_prospect.ff_logo" :src="selected_prospect.ff_logo" style="max-height:120px; width:160px"/>
+                                                <img class="prospect-image" v-if="selected_prospect.ff_logo" :src="selected_prospect.ff_logo"/>
                                              </span>
-                                              <h4>{{ selected_prospect.name }}, {{ selected_prospect.pos }}</h4>
-                                              <h6>{{ Math.floor(selected_prospect.height / 12) }}'{{ selected_prospect.height%12 }} | {{ selected_prospect.weight }} lbs</h6>
-                                              <h6>Birthday: {{ selected_prospect.birthday }} ({{ selected_prospect.age }} years old)</h6>
+                                              <div class="heading">{{ selected_prospect.name }}, {{ selected_prospect.pos }}</div>
+                                              <div>{{ Math.floor(selected_prospect.height / 12) }}'{{ selected_prospect.height%12 }} | {{ selected_prospect.weight }} lbs</div>
+                                              <div>Birthday: {{ selected_prospect.birthday }} ({{ selected_prospect.age }} years old)</div>
                                               <div style="margin-top:20px; text-align:center">
                                                 <button v-if="!selected_prospect.pick_id && !show_password" class="btn btn-success" style="width:200px" v-on:click.stop="show_select()">Select</button>
                                                 <div v-if="!selected_prospect.pick_id && show_password" class="form-inline" style="display: inline;">
@@ -130,7 +185,7 @@ export default {
                                                 </div>
                                               </div>
                                               <div v-if="selected_prospect.highlight_video" style="margin-top:20px; padding:5px">
-                                                  <iframe width="80%" height="180" :src="selected_prospect.highlight_video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                  <iframe width="100%" height="180" :src="selected_prospect.highlight_video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                               </div>
                                           </div>
                                           <div class="col-sm-6">
@@ -143,9 +198,9 @@ export default {
                                                   </div>
                                               <table style="display:inline-block; vertical-align:middle;">
                                                   <tr>
-                                                      <th class="low-padding" colspan="2" style="text-align:center; width:30px; font-size:14px; border:1px black; border-style:solid;background-color: #002D62; color:white">Draft</th>
-                                                      <th class="low-padding" colspan="3" style="text-align:center; width:30px; font-size:14px; border:1px black; border-style:solid;background-color: #DCCD96; color:white">Combine</th>
-                                                      <th class="low-padding" :colspan="selected_prospect.stat_headers.length" style="text-align:center; width:30px; font-size:14px; border:1px black; border-style:solid;background-color: #231F20; color:white">Best College Szn</th>
+                                                      <th class="low-padding" colspan="2" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #002D62; color:white">Draft</th>
+                                                      <th class="low-padding" colspan="3" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #DCCD96; color:white">Combine</th>
+                                                      <th class="low-padding" :colspan="selected_prospect.stat_headers.length" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #231F20; color:white">Best College Szn</th>
                                                   </tr>
                                                   <tr>
                                                       <th class="low-padding stat-td">RD</th>
@@ -164,10 +219,10 @@ export default {
                                                       <td v-for="stat in selected_prospect.stat_stats" class="low-padding stat-td"  :key="stat">{{ stat }}</td>
                                                   </tr>
                                               </table>
-                                              <div style="margin-top:20px; font-size:18px; font-weight:700">
+                                              <div style="margin-top:20px; font-weight:700">
                                                   THE REPORT
                                               </div>
-                                              <div style="margin:10px; font-size:14px; line-height:1.5; font-weight:400">
+                                              <div style="margin:10px; line-height:1.5; font-weight:400">
                                                   {{ selected_prospect.scouting_report }}
                                               </div>
                                           </div>
@@ -177,15 +232,15 @@ export default {
                           </template>
                           <template v-else>
                               <td style="text-align:center;">
-                                  <img v-if="prospect.image" :src="prospect.image" style="max-width:100%; max-width:100px" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
-                                  <img v-else src="https://www.playerprofiler.com/wp-content/uploads/2014/05/HeadshotSilhouette3.png" style="max-width:100%; max-width:100px"/>
+                                  <img v-if="prospect.image" class="prospect-image-table" :src="prospect.image" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
+                                  <img v-else class="prospect-image-table" src="https://www.playerprofiler.com/wp-content/uploads/2014/05/HeadshotSilhouette3.png"/>
                               </td>
                               <td>
-                                  <h4><span :style="[prospect.pick_id ? {'text-decoration':'line-through'} : '']">{{ prospect.name }}, {{ prospect.pos }}</span></h4>
-                                  <h6 v-if="prospect.pick_id">Round {{ prospect.round }}, Pick {{ prospect.pick }}</h6>
+                                  <div class="heading"><span :style="[prospect.pick_id ? {'text-decoration':'line-through'} : '']">{{ prospect.name }}, {{ prospect.pos }}</span></div>
+                                  <div v-if="prospect.pick_id">Round {{ prospect.round }}, Pick {{ prospect.pick }}</div>
                               </td>
                               <td style="text-align:center;">
-                                  <table style="text-align:center; font-size:18px">
+                                  <table style="text-align:center;">
                                       <tr>
                                           <th style="padding:5px; text-align:center">OVR</th>
                                           <td style="padding:5px; text-align:center">#{{ prospect.ovr_rank }}</td>
@@ -198,11 +253,11 @@ export default {
                               </td>
                               <td style="margin:auto;">
                                   <div style="text-align:left;">
-                                      <img v-if="prospect.nfl_team_logo" :src="prospect.nfl_team_logo" style="max-width:100%; max-width:45px" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
-                                      <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png" style="max-width:100%; max-width:45px; max-height:100%" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
-                                      <span style="border-left: 1px solid white; height:45px; display:inline-block; vertical-align:middle; margin-right:5px; margin-left:5px" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"></span>
-                                      <img v-if="prospect.cfb_team_logo" :src="prospect.cfb_team_logo" style="max-width:100%; max-width:45px" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
-                                      <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png" style="max-width:100%; max-width:45px; max-height:100%" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
+                                      <img v-if="prospect.nfl_team_logo" class="team-logo-table" :src="prospect.nfl_team_logo" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
+                                      <img v-else class="team-logo-table" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
+                                      <span class="logo-seperator-table" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"></span>
+                                      <img v-if="prospect.cfb_team_logo" class="team-logo-table" :src="prospect.cfb_team_logo" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
+                                      <img v-else class="team-logo-table" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
                                   </div>
                               </td>
                               <!-- <td>
