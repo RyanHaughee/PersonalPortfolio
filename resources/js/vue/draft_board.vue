@@ -11,19 +11,19 @@
             border: 1px white;
             border-style:solid;
         }
-        .team-logo{
+        .team-logo-board{
             width:60px; height:60px;
         }
-        .team-logo-table{
+        .team-logo-table-board{
             max-width:100%; max-width:45px; max-height:100%;
         }
-        .logo-seperator-table{
+        .logo-seperator-table-board{
             border-left: 1px solid white; height:45px; display:inline-block; vertical-align:middle; margin-right:5px; margin-left:5px
         }
         .mobile-break{
             display:none;
         }
-        .prospect-image{
+        .prospect-image-board{
             max-width:60px; max-height:60px;
         }
         .table>tr>td{
