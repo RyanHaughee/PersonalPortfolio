@@ -20558,8 +20558,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $data.has_error = 0;
       }, ["stop"]))
     }, _hoisted_22)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.selected_prospect.highlight_video ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
-      width: "100%",
-      height: "180",
+      width: "90%",
+      height: "200",
       src: $data.selected_prospect.highlight_video,
       title: "YouTube video player",
       frameborder: "0",
@@ -20591,7 +20591,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "width": "30px",
         "border": "1px black",
         "border-style": "solid",
-        "background-color": "#231F20",
+        "background-color": "#961B0B",
         "color": "white"
       }
     }, "Best College Szn", 8

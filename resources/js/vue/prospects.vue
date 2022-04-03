@@ -188,7 +188,7 @@ export default {
                                                 </div>
                                               </div>
                                               <div v-if="selected_prospect.highlight_video" style="margin-top:20px; padding:5px">
-                                                  <iframe width="100%" height="180" :src="selected_prospect.highlight_video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                  <iframe width="90%" height="200" :src="selected_prospect.highlight_video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                               </div>
                                           </div>
                                           <div class="col-sm-6">
@@ -203,7 +203,7 @@ export default {
                                                   <tr>
                                                       <th class="low-padding" colspan="2" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #002D62; color:white">Draft</th>
                                                       <th class="low-padding" colspan="3" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #DCCD96; color:white">Combine</th>
-                                                      <th class="low-padding" :colspan="selected_prospect.stat_headers.length" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #231F20; color:white">Best College Szn</th>
+                                                      <th class="low-padding" :colspan="selected_prospect.stat_headers.length" style="text-align:center; width:30px; border:1px black; border-style:solid;background-color: #961B0B; color:white">Best College Szn</th>
                                                   </tr>
                                                   <tr>
                                                       <th class="low-padding stat-td">RD</th>
