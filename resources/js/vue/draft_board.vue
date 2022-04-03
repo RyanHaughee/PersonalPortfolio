@@ -93,13 +93,13 @@ export default {
                 {{ pick.round }}.{{ pick.pick }}
             </td>
             <td>
-                <div><img class="team-logo" :src="pick.logo"/></div>
+                <div><img class="team-logo-board" :src="pick.logo"/></div>
             </td> 
             <td>
                 {{ pick.team_name }} 
             </td>
             <td v-if="pick.prospect_name">
-                <span><img class="prospect-image" :src="pick.prospect_image"/></span>
+                <span><img class="prospect-image-board" :src="pick.prospect_image"/></span>
             </td>
             <td v-else>
                 <span style="margin-right:10px"><img src="https://www.playerprofiler.com/wp-content/uploads/2014/05/HeadshotSilhouette3.png" style="max-width:60px; max-height:60px;"/></span> 
