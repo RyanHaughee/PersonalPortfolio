@@ -24,6 +24,9 @@
         .low-padding{
             padding:5px !important
         }
+        .mobile-break{
+            display:none;
+        }
     }
     @media (max-width : 480px) {
         .heading{
@@ -42,7 +45,7 @@
             max-width:100%; max-width:30px; max-height:100%
         }
         .logo-seperator-table{
-            border-top: 1px solid white; width:30px; display:inline-block; vertical-align:middle; margin-top:5px; margin-bottom:5px
+            border-top: 1px solid white; width:30px; display:inline-block; vertical-align:middle; margin-top:5px; margin-bottom:5px;
         }
         .stat-td{
             text-align:center; width:20px; font-size:10px; border:1px black; border-style:solid; color:#FFFFFF
@@ -255,7 +258,9 @@ export default {
                                   <div style="text-align:left;">
                                       <img v-if="prospect.nfl_team_logo" class="team-logo-table" :src="prospect.nfl_team_logo" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
                                       <img v-else class="team-logo-table" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
+                                      <br class="mobile-break">
                                       <span class="logo-seperator-table" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"></span>
+                                      <br class="mobile-break">
                                       <img v-if="prospect.cfb_team_logo" class="team-logo-table" :src="prospect.cfb_team_logo" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
                                       <img v-else class="team-logo-table" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
                                   </div>

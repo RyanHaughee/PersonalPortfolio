@@ -20478,7 +20478,20 @@ var _hoisted_60 = {
   }
 };
 var _hoisted_61 = ["src"];
-var _hoisted_62 = ["src"];
+
+var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", {
+  "class": "mobile-break"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_63 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", {
+  "class": "mobile-break"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_64 = ["src"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prospects, function (prospect, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
@@ -20656,14 +20669,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       } : ''])
     }, null, 4
     /* STYLE */
-    )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    )), _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "logo-seperator-table",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([prospect.pick_id ? {
         'opacity': '0.5'
       } : ''])
     }, null, 4
     /* STYLE */
-    ), prospect.cfb_team_logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    ), _hoisted_63, prospect.cfb_team_logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
       key: 2,
       "class": "team-logo-table",
       src: prospect.cfb_team_logo,
@@ -20672,7 +20685,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       } : ''])
     }, null, 12
     /* STYLE, PROPS */
-    , _hoisted_62)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    , _hoisted_64)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
       key: 3,
       "class": "team-logo-table",
       src: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png",
@@ -20860,7 +20873,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width : 480px) {\n.heading{\n            font-size:20px\n}\n.table{\n            font-size:14px\n}\n.prospect-image-table{\n            max-width:100%; max-width:100px\n}\n.prospect-image{\n            max-width:100%; max-width:160px\n}\n.team-logo-table{\n            max-width:100%; max-width:45px; max-height:100%;\n}\n.logo-seperator-table{\n            border-left: 1px solid white; height:45px; display:inline-block; vertical-align:middle; margin-right:5px; margin-left:5px\n}\n.stat-td{\n            text-align:center; width:30px; font-size:14px; border:1px black; border-style:solid; color:#FFFFFF\n}\n.low-padding{\n            padding:5px !important\n}\n}\n@media (max-width : 480px) {\n.heading{\n            font-size:14px\n}\n.table{\n            font-size:10px\n}\n.prospect-image-table{\n            max-width:100%; max-width:60px\n}\n.prospect-image{\n            max-width:100%; max-width:120px; margin-bottom:5px\n}\n.team-logo-table{\n            max-width:100%; max-width:30px; max-height:100%\n}\n.logo-seperator-table{\n            border-top: 1px solid white; width:30px; display:inline-block; vertical-align:middle; margin-top:5px; margin-bottom:5px\n}\n.stat-td{\n            text-align:center; width:20px; font-size:10px; border:1px black; border-style:solid; color:#FFFFFF\n}\n.low-padding{\n            padding:3px !important\n}\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width : 480px) {\n.heading{\n            font-size:20px\n}\n.table{\n            font-size:14px\n}\n.prospect-image-table{\n            max-width:100%; max-width:100px\n}\n.prospect-image{\n            max-width:100%; max-width:160px\n}\n.team-logo-table{\n            max-width:100%; max-width:45px; max-height:100%;\n}\n.logo-seperator-table{\n            border-left: 1px solid white; height:45px; display:inline-block; vertical-align:middle; margin-right:5px; margin-left:5px\n}\n.stat-td{\n            text-align:center; width:30px; font-size:14px; border:1px black; border-style:solid; color:#FFFFFF\n}\n.low-padding{\n            padding:5px !important\n}\n.mobile-break{\n            display:none;\n}\n}\n@media (max-width : 480px) {\n.heading{\n            font-size:14px\n}\n.table{\n            font-size:10px\n}\n.prospect-image-table{\n            max-width:100%; max-width:60px\n}\n.prospect-image{\n            max-width:100%; max-width:120px; margin-bottom:5px\n}\n.team-logo-table{\n            max-width:100%; max-width:30px; max-height:100%\n}\n.logo-seperator-table{\n            border-top: 1px solid white; width:30px; display:inline-block; vertical-align:middle; margin-top:5px; margin-bottom:5px;\n}\n.stat-td{\n            text-align:center; width:20px; font-size:10px; border:1px black; border-style:solid; color:#FFFFFF\n}\n.low-padding{\n            padding:3px !important\n}\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
