@@ -1,12 +1,65 @@
 <style>
-.vm{
-    text-align:center;
-    border: 1px white;
-    border-style:solid;
-}
-.med-text{
-    font-size:18px;
-}
+ @media (min-width : 480px) {
+        .heading{
+            font-size:24px
+        }
+        .table{
+            font-size:18px
+        }
+        .vm{
+            text-align:center;
+            border: 1px white;
+            border-style:solid;
+        }
+        .team-logo{
+            width:60px; height:60px;
+        }
+        .team-logo-table{
+            max-width:100%; max-width:45px; max-height:100%;
+        }
+        .logo-seperator-table{
+            border-left: 1px solid white; height:45px; display:inline-block; vertical-align:middle; margin-right:5px; margin-left:5px
+        }
+        .mobile-break{
+            display:none;
+        }
+        .prospect-image{
+            max-width:60px; max-height:60px;
+        }
+        .table>tr>td{
+            vertical-align:middle;
+        }
+ }
+ @media (max-width : 480px) {
+        .heading{
+            font-size:14px
+        }
+        .table{
+            font-size:10px;
+        }
+        .vm{
+            text-align:center;
+            border: 1px white;
+            border-style:solid;
+            margin: auto;
+        }
+        .team-logo{
+            width:50px; height:50px;
+        }
+        .team-logo-table{
+            max-width:100%; max-width:25px; max-height:100%
+        }
+        .logo-seperator-table{
+            border-top: 1px solid white; width:30px; display:inline-block; vertical-align:middle; margin-top:2px; margin-bottom:2px;
+        }
+        .prospect-image{
+            max-width:50px; max-height:50px;
+        }
+        .table>tr>td{
+            vertical-align:middle;
+        }
+ }
+
 </style>
 
 <script>
@@ -34,19 +87,19 @@ export default {
 }
 </script>
 <template>
-    <table class="med-text" style="width:100%">
+    <table class="table" style="width:100%">
         <tr class="vm" v-for="pick in draft_picks" :key="pick" style="margin:5px" :style="[pick.otc ? {'border':'2px gold','border-style':'solid'} : '']">
             <td>
                 {{ pick.round }}.{{ pick.pick }}
             </td>
             <td>
-                <div><img :src="pick.logo" style="width:60px; height:60px;"/></div>
+                <div><img class="team-logo" :src="pick.logo"/></div>
             </td> 
             <td>
                 {{ pick.team_name }} 
             </td>
             <td v-if="pick.prospect_name">
-                <span><img :src="pick.prospect_image" style="max-width:60px; max-height:60px;"/></span>
+                <span><img class="prospect-image" :src="pick.prospect_image"/></span>
             </td>
             <td v-else>
                 <span style="margin-right:10px"><img src="https://www.playerprofiler.com/wp-content/uploads/2014/05/HeadshotSilhouette3.png" style="max-width:60px; max-height:60px;"/></span> 
@@ -57,11 +110,13 @@ export default {
                 <span v-else>-</span>
             </td>
             <td v-if="pick.prospect_name">
-                <img v-if="pick.nfl_team_logo" :src="pick.nfl_team_logo" style="max-width:100%; max-width:35px"/>
-                <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png" style="max-width:100%; max-width:35px; max-height:100%"/>
-                <span style="border-left: 1px solid white; height:40px; display:inline-block; vertical-align:middle; margin-right:3px; margin-left:3px"></span>
-                <img v-if="pick.cfb_team_logo" :src="pick.cfb_team_logo" style="max-width:100%; max-width:35px"/>
-                <img v-else src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png" style="max-width:100%; max-width:35px; max-height:100%"/>
+                <img v-if="pick.nfl_team_logo" class="team-logo-table" :src="pick.nfl_team_logo"/>
+                <img v-else class="team-logo-table" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png"/>
+                <br class="mobile-break">
+                <span class="logo-seperator-table"></span>
+                <br class="mobile-break">
+                <img v-if="pick.cfb_team_logo" class="team-logo-table" :src="pick.cfb_team_logo"/>
+                <img v-else class="team-logo-table" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png"/>
             </td>
             <td v-else>
             </td>
