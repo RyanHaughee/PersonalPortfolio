@@ -19628,7 +19628,7 @@ var _hoisted_11 = {
 var _hoisted_12 = ["src"];
 var _hoisted_13 = {
   key: 1,
-  "class": "team-logo-table",
+  "class": "team-logo-table-board",
   src: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png"
 };
 
@@ -19639,7 +19639,7 @@ var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "logo-seperator-table"
+  "class": "logo-seperator-table-board"
 }, null, -1
 /* HOISTED */
 );
@@ -19653,7 +19653,7 @@ var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_17 = ["src"];
 var _hoisted_18 = {
   key: 3,
-  "class": "team-logo-table",
+  "class": "team-logo-table-board",
   src: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png"
 };
 var _hoisted_19 = {
@@ -19688,13 +19688,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     )) : pick.otc ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, "ON THE CLOCK")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, "-"))]), pick.prospect_name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", _hoisted_11, [pick.nfl_team_logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
       key: 0,
-      "class": "team-logo-table",
+      "class": "team-logo-table-board",
       src: pick.nfl_team_logo
     }, null, 8
     /* PROPS */
     , _hoisted_12)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", _hoisted_13)), _hoisted_14, _hoisted_15, _hoisted_16, pick.cfb_team_logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
       key: 2,
-      "class": "team-logo-table",
+      "class": "team-logo-table-board",
       src: pick.cfb_team_logo
     }, null, 8
     /* PROPS */
@@ -20771,7 +20771,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width : 480px) {\n.heading{\n            font-size:24px\n}\n.table{\n            font-size:18px\n}\n.vm{\n            text-align:center;\n            border: 1px white;\n            border-style:solid;\n}\n.team-logo{\n            width:60px; height:60px;\n}\n.team-logo-table{\n            max-width:100%; max-width:45px; max-height:100%;\n}\n.logo-seperator-table{\n            border-left: 1px solid white; height:45px; display:inline-block; vertical-align:middle; margin-right:5px; margin-left:5px\n}\n.mobile-break{\n            display:none;\n}\n.prospect-image{\n            max-width:60px; max-height:60px;\n}\n.table>tr>td{\n            vertical-align:middle;\n}\n}\n@media (max-width : 480px) {\n.heading{\n            font-size:14px\n}\n.table{\n            font-size:10px;\n}\n.vm{\n            text-align:center;\n            border: 1px white;\n            border-style:solid;\n            margin: auto;\n}\n.team-logo{\n            width:50px; height:50px;\n}\n.team-logo-table{\n            max-width:100%; max-width:25px; max-height:100%\n}\n.logo-seperator-table{\n            border-top: 1px solid white; width:30px; display:inline-block; vertical-align:middle; margin-top:2px; margin-bottom:2px;\n}\n.prospect-image{\n            max-width:50px; max-height:50px;\n}\n.table>tr>td{\n            vertical-align:middle;\n}\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width : 480px) {\n.heading{\n            font-size:24px\n}\n.table{\n            font-size:18px\n}\n.vm{\n            text-align:center;\n            border: 1px white;\n            border-style:solid;\n}\n.team-logo{\n            width:60px; height:60px;\n}\n.team-logo-table{\n            max-width:100%; max-width:45px; max-height:100%;\n}\n.logo-seperator-table{\n            border-left: 1px solid white; height:45px; display:inline-block; vertical-align:middle; margin-right:5px; margin-left:5px\n}\n.mobile-break{\n            display:none;\n}\n.prospect-image{\n            max-width:60px; max-height:60px;\n}\n.table>tr>td{\n            vertical-align:middle;\n}\n}\n@media (max-width : 480px) {\n.heading{\n            font-size:14px\n}\n.table{\n            font-size:10px;\n}\n.vm{\n            text-align:center;\n            border: 1px white;\n            border-style:solid;\n            margin: auto;\n}\n.team-logo-board{\n            width:50px; height:50px;\n}\n.team-logo-table-board{\n            max-width:100%; max-width:25px; max-height:100%\n}\n.logo-seperator-table-board{\n            border-top: 1px solid white; width:30px; display:inline-block; vertical-align:middle; margin-top:2px; margin-bottom:2px;\n}\n.prospect-image-board{\n            max-width:50px; max-height:50px;\n}\n.table>tr>td{\n            vertical-align:middle;\n}\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

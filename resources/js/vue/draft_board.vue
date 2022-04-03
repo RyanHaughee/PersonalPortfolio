@@ -43,16 +43,16 @@
             border-style:solid;
             margin: auto;
         }
-        .team-logo{
+        .team-logo-board{
             width:50px; height:50px;
         }
-        .team-logo-table{
+        .team-logo-table-board{
             max-width:100%; max-width:25px; max-height:100%
         }
-        .logo-seperator-table{
+        .logo-seperator-table-board{
             border-top: 1px solid white; width:30px; display:inline-block; vertical-align:middle; margin-top:2px; margin-bottom:2px;
         }
-        .prospect-image{
+        .prospect-image-board{
             max-width:50px; max-height:50px;
         }
         .table>tr>td{
@@ -110,13 +110,13 @@ export default {
                 <span v-else>-</span>
             </td>
             <td v-if="pick.prospect_name">
-                <img v-if="pick.nfl_team_logo" class="team-logo-table" :src="pick.nfl_team_logo"/>
-                <img v-else class="team-logo-table" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png"/>
+                <img v-if="pick.nfl_team_logo" class="team-logo-table-board" :src="pick.nfl_team_logo"/>
+                <img v-else class="team-logo-table-board" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png"/>
                 <br class="mobile-break">
-                <span class="logo-seperator-table"></span>
+                <span class="logo-seperator-table-board"></span>
                 <br class="mobile-break">
-                <img v-if="pick.cfb_team_logo" class="team-logo-table" :src="pick.cfb_team_logo"/>
-                <img v-else class="team-logo-table" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png"/>
+                <img v-if="pick.cfb_team_logo" class="team-logo-table-board" :src="pick.cfb_team_logo"/>
+                <img v-else class="team-logo-table-board" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png"/>
             </td>
             <td v-else>
             </td>
