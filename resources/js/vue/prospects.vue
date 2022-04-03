@@ -243,7 +243,7 @@ export default {
                                   <div v-if="prospect.pick_id">Round {{ prospect.round }}, Pick {{ prospect.pick }}</div>
                               </td>
                               <td style="text-align:center;">
-                                  <table style="text-align:center;">
+                                  <table style="text-align:center; font-size:18px">
                                       <tr>
                                           <th style="padding:5px; text-align:center">OVR</th>
                                           <td style="padding:5px; text-align:center">#{{ prospect.ovr_rank }}</td>

@@ -20429,7 +20429,8 @@ var _hoisted_53 = {
 };
 var _hoisted_54 = {
   style: {
-    "text-align": "center"
+    "text-align": "center",
+    "font-size": "18px"
   }
 };
 
