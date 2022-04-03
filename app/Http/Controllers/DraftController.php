@@ -49,7 +49,7 @@ class DraftController extends Controller
             // Setting signficant stats and headers
             $prospect->headers = [];
             $prospect->stat_stats = [];
-            if ($prospect->pos == "WR"){
+            if ($prospect->pos == "WR" || $prospect->pos == "TE"){
                 $prospect->stat_headers = ["GP","REC","YD","TD"];
                 $prospect->stat_stats = [$prospect->gp, $prospect->rec, $prospect->rec_yds, $prospect->rec_td];
             } else if ($prospect->pos == "QB"){
