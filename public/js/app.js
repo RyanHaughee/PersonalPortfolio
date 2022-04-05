@@ -19386,14 +19386,18 @@ __webpack_require__.r(__webpack_exports__);
       sds.team_id = self.team_id;
       $.get('mock_until_next_pick', sds, function (response) {
         if (response) {
-          self.$refs.otc_pick.get_otc_pick();
-          self.$refs.last_pick.get_last_pick();
+          console.log("RESPONSE");
+        } else {
+          console.log("NO RESPONSE");
+        }
 
-          if (self.parent_menu_selected == 'players') {
-            self.$refs.prospects.get_prospects();
-          } else {
-            self.$refs.draft_board.get_all_draft_picks();
-          }
+        self.$refs.otc_pick.get_otc_pick();
+        self.$refs.last_pick.get_last_pick();
+
+        if (self.parent_menu_selected == 'players') {
+          self.$refs.prospects.get_prospects();
+        } else {
+          self.$refs.draft_board.get_all_draft_picks();
         }
       });
     },
