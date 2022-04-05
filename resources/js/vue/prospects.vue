@@ -130,7 +130,7 @@ export default {
             var self = this;
             self.password_submit_loading = 1
             if (self.mock_draft_id){
-                if (self.password == "mock"){
+                if (self.password == "mock" || self.password == "Mock"){
                     self.select_player(prospect_id);
                 } else {
                     self.has_error = 1;

@@ -59,7 +59,7 @@ export default {
             parent_menu_selected:'players',
             reload_key: 0,
             team_id: null,
-            mock_draft_id: null
+            mock_draft_id: 15
         }
     },
     methods: {

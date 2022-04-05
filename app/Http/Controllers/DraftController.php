@@ -425,6 +425,25 @@ class DraftController extends Controller
             ->where('team_needs.team_id','=',$otc_pick->team_id)
             ->first();
 
+        $past_picks = DB::table('dynasty_picks')
+            ->select(DB::raw('prospects.pos, prospects.id as prospect_id'))
+            ->leftJoin('mock_draft_picks','mock_draft_picks.dynasty_pick_id','=','dynasty_picks.id')
+            ->leftJoin('prospects','prospects.id','=','mock_draft_picks.prospect_id')
+            ->where('mock_draft_picks.mock_draft_id','=',$mock_draft_id)
+            ->where('mock_draft_picks.team_id','=',$otc_pick->team_id)
+            ->get();
+
+        foreach($past_picks as $past_pick){
+            if ($past_pick->pos == 'QB' || $past_pick->pos == 'TE'){
+                $team_needs->{strtolower($past_pick->pos)} = $team_needs->{strtolower($past_pick->pos)} - 2;
+            } else {
+                $team_needs->{strtolower($past_pick->pos)} = $team_needs->{strtolower($past_pick->pos)} - 1;
+            }
+            if ($team_needs->{strtolower($past_pick->pos)} < 1){
+                $team_needs->{strtolower($past_pick->pos)} = 1;
+            }
+        }
+
         $total_pick_val = 0;
         foreach($eligible_players as $player){
             $team_need_pos_multiplier = (($team_needs->{strtolower($player->pos)})+2)/3;
@@ -476,13 +495,6 @@ class DraftController extends Controller
         while($pick <= 38){
             $otc_pick = MockDraftPick::find_otc_pick($mock_draft_id);
 
-            Log::info($otc_pick->team_id);
-            Log::info($team_id);
-            if ($otc_pick->team_id == $team_id){
-                Log::info("break");
-                break;
-            }
-
             $pick_string = "pick_".$otc_pick->id;
 
             $eligible_players = DB::table('mock_draft_data')
@@ -499,6 +511,25 @@ class DraftController extends Controller
                 ->select(DB::raw('team_needs.*'))
                 ->where('team_needs.team_id','=',$otc_pick->team_id)
                 ->first();
+
+            $past_picks = DB::table('dynasty_picks')
+                ->select(DB::raw('prospects.pos, prospects.id as prospect_id'))
+                ->leftJoin('mock_draft_picks','mock_draft_picks.dynasty_pick_id','=','dynasty_picks.id')
+                ->leftJoin('prospects','prospects.id','=','mock_draft_picks.prospect_id')
+                ->where('mock_draft_picks.mock_draft_id','=',$mock_draft_id)
+                ->where('mock_draft_picks.team_id','=',$otc_pick->team_id)
+                ->get();
+    
+            foreach($past_picks as $past_pick){
+                if ($past_pick->pos == 'QB' || $past_pick->pos == 'TE'){
+                    $team_needs->{strtolower($past_pick->pos)} = $team_needs->{strtolower($past_pick->pos)} - 2;
+                } else {
+                    $team_needs->{strtolower($past_pick->pos)} = $team_needs->{strtolower($past_pick->pos)} - 1;
+                }
+                if ($team_needs->{strtolower($past_pick->pos)} < 1){
+                    $team_needs->{strtolower($past_pick->pos)} = 1;
+                }
+            }
 
             $total_pick_val = 0;
             foreach($eligible_players as $player){

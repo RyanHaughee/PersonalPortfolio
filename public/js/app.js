@@ -19345,7 +19345,7 @@ __webpack_require__.r(__webpack_exports__);
       parent_menu_selected: 'players',
       reload_key: 0,
       team_id: null,
-      mock_draft_id: null
+      mock_draft_id: 15
     };
   },
   methods: {
@@ -19677,7 +19677,7 @@ __webpack_require__.r(__webpack_exports__);
       self.password_submit_loading = 1;
 
       if (self.mock_draft_id) {
-        if (self.password == "mock") {
+        if (self.password == "mock" || self.password == "Mock") {
           self.select_player(prospect_id);
         } else {
           self.has_error = 1;
