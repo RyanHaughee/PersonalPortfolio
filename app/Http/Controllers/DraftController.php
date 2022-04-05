@@ -498,7 +498,7 @@ class DraftController extends Controller
             $pick_string = "pick_".$otc_pick->id;
 
             if ($team_id == $otc_pick->team_id){
-                return;
+                break;
             }
 
             $eligible_players = DB::table('mock_draft_data')
