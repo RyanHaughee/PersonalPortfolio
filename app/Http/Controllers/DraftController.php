@@ -497,6 +497,10 @@ class DraftController extends Controller
 
             $pick_string = "pick_".$otc_pick->id;
 
+            if ($team_id == $otc_pick->team_id){
+                return;
+            }
+
             $eligible_players = DB::table('mock_draft_data')
                 ->select(DB::raw('mock_draft_data.'.$pick_string.' as prospect_score, prospects.pos, prospects.id as prospect_id'))
                 ->leftJoin('prospects','prospects.id','=','mock_draft_data.prospect_id')
