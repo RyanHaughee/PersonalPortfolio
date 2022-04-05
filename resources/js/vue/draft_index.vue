@@ -121,7 +121,7 @@ export default {
     <div :key="reload_key">
         <div class="container mt-5">
             <div v-if="mock_draft_id" class="alert alert-warning" role="alert">
-                YOU ARE NOW IN A MOCK DRAFT. {{ team_id }} {{ mock_draft_id }}
+                YOU ARE NOW IN A MOCK DRAFT!
             </div>
             <div class="row">
                 <div class="col-md-2">
