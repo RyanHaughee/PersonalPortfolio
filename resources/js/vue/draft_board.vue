@@ -64,6 +64,7 @@
 
 <script>
 export default {
+    props: ['mock_draft_id'],
     data() {
         return {
             draft_picks: []
@@ -76,10 +77,13 @@ export default {
     methods: {
         get_all_draft_picks:function(){
             var self = this;
-            $.get('get_all_draft_picks', function(response){
+            var sds = {};
+            if (self.mock_draft_id){
+                sds.mock_draft_id = self.mock_draft_id
+            }
+            $.get('get_all_draft_picks', sds, function(response){
                 if (response){
                     self.draft_picks = response.all_draft_picks;
-                    console.log(self.draft_picks);
                 } 
             })
         }

@@ -35,16 +35,7 @@
         text-decoration: none
     }
 
-    .dot {
-        height: 6px;
-        width: 6px;
-        margin-left: 3px;
-        margin-right: 3px;
-        margin-top: 2px !important;
-        background-color: rgb(207, 23, 23);
-        border-radius: 50%;
-        display: inline-block
-    }
+    .dot { height: 6px; width: 6px; margin-left: 3px; margin-right: 3px; margin-top: 2px !important; background-color: rgb(207, 23, 23); border-radius: 50%; display: inline-block}
 </style>
 
 
@@ -54,27 +45,73 @@ import DraftTicker from './draft_ticker.vue'
 import DraftBoard from './draft_board.vue'
 import OtcPick from './otc_pick.vue'
 import LastPick from './last_pick.vue'
+import MockDraftConfig from './mock_draft_config.vue'
 export default {
-    components: { Prospects, DraftTicker, DraftBoard, OtcPick, LastPick },
+    components: { Prospects, DraftTicker, DraftBoard, OtcPick, LastPick, MockDraftConfig },
+    mounted() {
+        var self = this;
+    },
     data() {
         return {
             filter:{
                 pos: 'All'
             },
             parent_menu_selected:'players',
-            reload_key: 0
+            reload_key: 0,
+            team_id: null,
+            mock_draft_id: null
         }
     },
     methods: {
-        log_parent_menu_selected(){
-            console.log(this.parent_menu_selected);
-        },
         set_parent_menu_selected(){
             this.parent_menu_selected = "board";
         },
         reload_components(){
             var self = this;
             self.reload_key = (self.reload_key+1);
+        },
+        begin_mock(event){
+            var self = this;
+            self.mock_draft_id = event.mock_draft_id;
+            self.team_id = event.team_id;
+        },
+        make_next_pick(){
+            var self = this;
+            var sds = {};
+            sds.mock_draft_id = self.mock_draft_id;
+            sds.team_id = self.team_id;
+            $.get('mock_next_pick', sds, function(response){
+                if (response){
+                    self.$refs.otc_pick.get_otc_pick();
+                    self.$refs.last_pick.get_last_pick();
+                    if (self.parent_menu_selected == 'players'){
+                        self.$refs.prospects.get_prospects();
+                    } else {
+                        self.$refs.draft_board.get_all_draft_picks();
+                    }
+                } 
+            })
+        },
+        sim_to_next_pick(){
+            var self = this;
+            var sds = {};
+            sds.mock_draft_id = self.mock_draft_id;
+            sds.team_id = self.team_id;
+            $.get('mock_until_next_pick', sds, function(response){
+                if (response){
+                    self.$refs.otc_pick.get_otc_pick();
+                    self.$refs.last_pick.get_last_pick();
+                    if (self.parent_menu_selected == 'players'){
+                        self.$refs.prospects.get_prospects();
+                    } else {
+                        self.$refs.draft_board.get_all_draft_picks();
+                    }
+                } 
+            })
+        },
+        end_mock(){
+            var self = this;
+            self.mock_draft_id = null;
         }
     }
 }
@@ -83,6 +120,9 @@ export default {
 <template>
     <div :key="reload_key">
         <div class="container mt-5">
+            <div v-if="mock_draft_id" class="alert alert-warning" role="alert">
+                YOU ARE NOW IN A MOCK DRAFT. {{ team_id }} {{ mock_draft_id }}
+            </div>
             <div class="row">
                 <div class="col-md-2">
                 </div>
@@ -104,14 +144,22 @@ export default {
                         <div class="sub-menu-cat" :style="[filter.pos == 'TE' ? {'background-color':'#1e2121'} : '']" @click="filter.pos='TE'">TE</div>
                     </span>
                     <div class="menu-cat" v-on:click="parent_menu_selected='board'"><i v-if="parent_menu_selected == 'board'" class="fa-solid fa-angle-down"></i><i v-else class="fa-solid fa-angle-right"></i> Board</div>
-                    <otc-pick style="margin-top:5px"></otc-pick>
-                    <last-pick style="margin-top:5px"></last-pick>
+                    <otc-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" ref="otc_pick"></otc-pick>
+                    <last-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" ref="last_pick"></last-pick>
+                    <span v-if="!mock_draft_id">
+                        <mock-draft-config @beginmock="begin_mock"></mock-draft-config>
+                    </span>
+                    <span v-else>
+                        <button type="button" class="btn btn-sm btn-success" style="margin-top:10px" @click="make_next_pick()">Sim Next Pick</button>
+                        <button type="button" class="btn btn-sm btn-secondary" style="margin-top:10px" @click="sim_to_next_pick()">Sim To My Pick</button>
+                        <button type="button" class="btn btn-sm btn-danger" style="margin-top:10px" @click="end_mock()">End Mock</button>
+                    </span>
                 </div>
                 <div class="col-sm-10" v-if="parent_menu_selected == 'players'">
-                    <prospects :pos="filter.pos" @playerSelected="reload_components()"></prospects>
+                    <prospects :pos="filter.pos" @playerSelected="reload_components()" :mock_draft_id="mock_draft_id" ref="prospects"></prospects>
                 </div>
                 <div class="col-sm-10" v-else-if="parent_menu_selected == 'board'">
-                    <draft-board :pos="filter.pos"></draft-board>
+                    <draft-board :mock_draft_id="mock_draft_id" :pos="filter.pos" ref="draft_board"></draft-board>
                 </div>
             </div>
         </div>

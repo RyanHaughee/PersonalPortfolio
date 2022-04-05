@@ -6,6 +6,13 @@
 
 <script>
 export default {
+    props:['mock_draft_id'],
+    watch: {
+        mock_draft_id(){
+            var self = this;
+            self.get_otc_pick(); 
+        }
+    },
     data() {
         return {
             otc_pick: {}
@@ -18,8 +25,11 @@ export default {
     methods: {
         get_otc_pick:function(){
             var self = this;
-            $.get('get_otc_pick', function(response){
-                console.log(response);
+            var sds = {};
+            if (self.mock_draft_id){
+                sds.mock_draft_id = self.mock_draft_id
+            }
+            $.get('get_otc_pick', sds, function(response){
                 if (response){
                     self.otc_pick = response.otc_pick;
                 } 
@@ -29,7 +39,7 @@ export default {
 }
 </script>
 <template>
-    <div class="container" style="max-width:100%; text-align:center; border:1px white; border-style:solid;">
+    <div v-if="otc_pick" class="container" style="max-width:100%; text-align:center; border:1px white; border-style:solid;">
         <div class="row" style="padding:2px">
             <div class="col-sm-6 p1">
                 <img :src="otc_pick.logo" style="max-width:50px; max-height:50px;"/>

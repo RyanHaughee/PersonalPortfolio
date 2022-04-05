@@ -15,7 +15,6 @@ export default {
             $.get('get_draft_picks', function(response){
                 if (response){
                     self.draft_picks = response.draft_picks;
-                    console.log(self.draft_picks);
                 } 
             })
         }

@@ -59,7 +59,7 @@
 
 <script>
 export default {
-    props:['pos'],
+    props:['pos','mock_draft_id'],
     data() {
         return {
             prospects:[],
@@ -73,10 +73,14 @@ export default {
         }
     },
     watch: {
-      pos() {
-        var self = this;
-        self.get_prospects();
-      }
+        pos() {
+            var self = this;
+            self.get_prospects();
+        },
+        mock_draft_id() {
+            var self = this;
+            self.get_prospects();
+        }
     },
     mounted() {
         var self = this;
@@ -87,13 +91,25 @@ export default {
             var self = this;
             var sds = {};
             sds.pos = self.pos;
-            $.get('get_prospects', sds, function(response){
-                if (response){
-                    self.prospects = response.prospects;
-                    self.selected_index = null;
-                    self.selected_prospect = null;
-                } 
-            })
+            if (!self.mock_draft_id){
+                $.get('get_prospects', sds, function(response){
+                    if (response){
+                        self.prospects = response.prospects;
+                        self.selected_index = null;
+                        self.selected_prospect = null;
+                    } 
+                })
+            } else {
+                sds.mock_draft_id = self.mock_draft_id;
+                $.get('get_mock_prospects', sds, function(response){
+                    if (response){
+                        self.prospects = response.prospects;
+                        self.selected_index = null;
+                        self.selected_prospect = null;
+                    } 
+                })
+            }
+
         },
         expand_prospect:function(index){
             var self = this;
@@ -113,25 +129,35 @@ export default {
         check_password:function(prospect_id){
             var self = this;
             self.password_submit_loading = 1
-            var sds = {};
-            sds.password = self.password;
-            $.post('password_check', sds, function(response){
-                if (response){
-                    if (response.success){
-                        self.select_player(prospect_id);
-                    } else {
-                        self.has_error = 1;
-                        self.error_message = response.message;
-                        console.log(self.error_message);
-                        self.password_submit_loading = 0;
-                    }
-                } 
-            })
+            if (self.mock_draft_id){
+                if (self.password == "mock"){
+                    self.select_player(prospect_id);
+                } else {
+                    self.has_error = 1;
+                    self.error_message = "Invalid password.";
+                    self.password_submit_loading = 0;
+                }
+            } else {
+                var sds = {};
+                sds.password = self.password;
+                $.post('password_check', sds, function(response){
+                    if (response){
+                        if (response.success){
+                            self.select_player(prospect_id);
+                        } else {
+                            self.has_error = 1;
+                            self.error_message = response.message;
+                            self.password_submit_loading = 0;
+                        }
+                    } 
+                })
+            }
         },
         select_player:function(prospect_id){
             var self = this;
             var sds = {};
             sds.prospect_id = prospect_id;
+            sds.mock_draft_id = self.mock_draft_id;
             $.post('select_prospect', sds, function(response){
                 if (response){
                     if (response.success){

@@ -6,6 +6,13 @@
 
 <script>
 export default {
+    props:['mock_draft_id'],
+    watch: {
+        mock_draft_id(){
+            var self = this;
+            self.get_last_pick(); 
+        }
+    },
     data() {
         return {
             last_pick: null
@@ -18,8 +25,11 @@ export default {
     methods: {
         get_last_pick:function(){
             var self = this;
-            $.get('get_last_pick', function(response){
-                console.log(response);
+            var sds = {};
+            if (self.mock_draft_id){
+                sds.mock_draft_id = self.mock_draft_id
+            }
+            $.get('get_last_pick', sds, function(response){
                 if (response){
                     self.last_pick = response.last_pick;
                 } 
