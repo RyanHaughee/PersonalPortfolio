@@ -20325,7 +20325,10 @@ var _hoisted_6 = /*#__PURE__*/_withScopeId(function () {
 
 var _hoisted_7 = ["value"];
 var _hoisted_8 = {
-  key: 0
+  key: 0,
+  style: {
+    "margin-bottom": "10px"
+  }
 };
 var _hoisted_9 = ["src"];
 
