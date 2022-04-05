@@ -20325,10 +20325,7 @@ var _hoisted_6 = /*#__PURE__*/_withScopeId(function () {
 
 var _hoisted_7 = ["value"];
 var _hoisted_8 = {
-  key: 0,
-  style: {
-    "margin-bottom": "10px"
-  }
+  key: 0
 };
 var _hoisted_9 = ["src"];
 
@@ -20376,7 +20373,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     "class": "btn btn-sm btn-success",
     style: {
-      "margin-top": "10px"
+      "margin-top": "10px",
+      "margin-bottom": "10px"
     },
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $options.begin_draft();

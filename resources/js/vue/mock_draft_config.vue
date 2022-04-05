@@ -78,9 +78,9 @@ export default {
             <select class="custom-select custom-select-lg mb-3" placeholder="Select Team" v-model="selected_team">
                 <option v-for="team in teams" :value="team" :key="team">{{ team.team_name }}</option>
             </select>
-            <span v-if="selected_team && selected_team.logo" style="margin-bottom:10px"> 
+            <span v-if="selected_team && selected_team.logo"> 
                 <img style="height:70px; width:70px" v-if="selected_team.logo" :src="selected_team.logo"/><br/>
-                <button type="button" class="btn btn-sm btn-success" style="margin-top:10px" @click="begin_draft()">Begin Draft</button>
+                <button type="button" class="btn btn-sm btn-success" style="margin-top:10px; margin-bottom:10px" @click="begin_draft()">Begin Draft</button>
             </span>
         </div>
     </div>
