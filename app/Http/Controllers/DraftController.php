@@ -291,6 +291,7 @@ class DraftController extends Controller
             $pick->prospect_id = $input['prospect_id'];
             $pick->team_id = $otc_pick->team_id;
             $pick->dynasty_pick_id = $otc_pick->id;
+            $pick->league_id = $league_id;
             $pick->user_pick = 1;
             $pick->save();
         } else {
