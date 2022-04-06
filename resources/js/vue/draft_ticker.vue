@@ -1,5 +1,6 @@
 <script>
 export default {
+    props:['league_id'],
     data() {
         return {
             draft_picks: []
@@ -12,7 +13,9 @@ export default {
     methods: {
         get_draft_picks:function(){
             var self = this;
-            $.get('get_draft_picks', function(response){
+            var sds = {};
+            sds.league_id = self.league_id;
+            $.get('/get_draft_picks', sds, function(response){
                 if (response){
                     self.draft_picks = response.draft_picks;
                 } 

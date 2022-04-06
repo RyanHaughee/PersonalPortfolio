@@ -59,7 +59,7 @@
 
 <script>
 export default {
-    props:['pos','mock_draft_id'],
+    props:['pos','mock_draft_id','league_id'],
     data() {
         return {
             prospects:[],
@@ -89,10 +89,11 @@ export default {
     methods: {
         get_prospects:function(){
             var self = this;
+            console.log("getting prospects");
             var sds = {};
             sds.pos = self.pos;
             if (!self.mock_draft_id){
-                $.get('get_prospects', sds, function(response){
+                $.get('/get_prospects', sds, function(response){
                     if (response){
                         self.prospects = response.prospects;
                         self.selected_index = null;
@@ -101,7 +102,7 @@ export default {
                 })
             } else {
                 sds.mock_draft_id = self.mock_draft_id;
-                $.get('get_mock_prospects', sds, function(response){
+                $.get('/get_mock_prospects', sds, function(response){
                     if (response){
                         self.prospects = response.prospects;
                         self.selected_index = null;
@@ -140,7 +141,7 @@ export default {
             } else {
                 var sds = {};
                 sds.password = self.password;
-                $.post('password_check', sds, function(response){
+                $.post('/password_check', sds, function(response){
                     if (response){
                         if (response.success){
                             self.select_player(prospect_id);
@@ -158,7 +159,8 @@ export default {
             var sds = {};
             sds.prospect_id = prospect_id;
             sds.mock_draft_id = self.mock_draft_id;
-            $.post('select_prospect', sds, function(response){
+            sds.league_id = self.league_id;
+            $.post('/select_prospect', sds, function(response){
                 if (response){
                     if (response.success){
                         self.$emit('playerSelected');

@@ -12,13 +12,14 @@ use App\Models\MockDraftPick;
 
 class DraftController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request, $id){
         $input = $request->all();
-        if (!empty($input['mode']) && $input['mode'] == 'dark'){
-            return view('draft_index_dark');
+        if (!empty($id)){
+            $league_id = $id;
         } else {
-            return view('draft_index');
+            $league_id = 1;
         }
+        return view('draft_index', ['league_id' => $league_id]);
     }
 
     public function get_prospects(Request $request){
@@ -134,6 +135,7 @@ class DraftController extends Controller
 
     public function get_draft_picks(Request $request){
         $input = $request->all();
+        $league_id = $input['league_id'];
 
         $draft_picks = DB::table('dynasty_picks')
             ->select(DB::raw('dynasty_picks.id, prospects.name as prospect_name, prospects.pos as position, dynasty_teams.team_name as team_name, dynasty_picks.round, dynasty_picks.pick, cfb_teams.school'))
@@ -141,6 +143,7 @@ class DraftController extends Controller
             ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_picks.team_id')
             ->leftJoin('cfb_teams','cfb_teams.api_id','=','prospects.school_id')
             ->whereNotNull('dynasty_picks.prospect_id')
+            ->where('dynasty_picks.league_id','=',$league_id)
             ->orderBy('dynasty_picks.round','ASC')
             ->orderBy('dynasty_picks.pick','ASC')
             ->get();
@@ -152,11 +155,12 @@ class DraftController extends Controller
             ->leftJoin('cfb_teams','cfb_teams.api_id','=','prospects.school_id')
             ->leftJoin('cfb_team_logos','cfb_team_logos.team_api_id','=','prospects.school_id')
             ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
+            ->where('dynasty_picks.league_id','=',$league_id)
             ->orderBy('dynasty_picks.round','ASC')
             ->orderBy('dynasty_picks.pick','ASC')
             ->get();
 
-        $otc_pick = DynastyPick::find_otc_pick();
+        $otc_pick = DynastyPick::find_otc_pick($league_id);
 
         $response = array();
         $response['draft_picks'] = $draft_picks;
@@ -168,9 +172,11 @@ class DraftController extends Controller
         $input = $request->all();
 
         $mock_draft_id = null;
+        Log::info($input);
         if (!empty($input) && !empty($input['mock_draft_id'])){
             $mock_draft_id = $input['mock_draft_id'];
         }
+        $league_id = $input['league_id'];
 
         if (!empty($mock_draft_id)){
             $all_draft_picks = DB::table('dynasty_picks')
@@ -186,6 +192,7 @@ class DraftController extends Controller
                 ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
                 ->orderBy('dynasty_picks.round','ASC')
                 ->orderBy('dynasty_picks.pick','ASC')
+                ->where('dynasty_picks.league_id','=',$league_id)
                 ->get();
         } else {
             $all_draft_picks = DB::table('dynasty_picks')
@@ -197,6 +204,7 @@ class DraftController extends Controller
                 ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
                 ->orderBy('dynasty_picks.round','ASC')
                 ->orderBy('dynasty_picks.pick','ASC')
+                ->where('dynasty_picks.league_id','=',$league_id)
                 ->get();
         }
 
@@ -217,10 +225,11 @@ class DraftController extends Controller
     public function get_otc_pick(Request $request){
         $input = $request->all();
 
+        $league_id = $input['league_id'];
         if (!empty($input['mock_draft_id'])){
-            $otc_pick = MockDraftPick::find_otc_pick($input['mock_draft_id']);
+            $otc_pick = MockDraftPick::find_otc_pick($league_id, $input['mock_draft_id']);
         } else {
-            $otc_pick = DynastyPick::find_otc_pick();
+            $otc_pick = DynastyPick::find_otc_pick($league_id);
         }
 
         $response = array();
@@ -231,10 +240,11 @@ class DraftController extends Controller
     public function get_last_pick(Request $request){
         $input = $request->all();
 
+        $league_id = $input['league_id'];
         if (!empty($input['mock_draft_id'])){
-            $last_pick = MockDraftPick::get_last_pick($input['mock_draft_id']);
+            $last_pick = MockDraftPick::get_last_pick($league_id, $input['mock_draft_id']);
         } else {
-            $last_pick = DynastyPick::get_last_pick();
+            $last_pick = DynastyPick::get_last_pick($league_id);
         }
 
         $response = array();
@@ -265,6 +275,7 @@ class DraftController extends Controller
 
     public function select_prospect(Request $request){
         $input = $request->all();
+        $league_id = $input['league_id'];
 
         if (empty($input) || (empty($input['prospect_id']))){
             $response = array();
@@ -274,7 +285,7 @@ class DraftController extends Controller
         }
 
         if (!empty($input['mock_draft_id'])){
-            $otc_pick = MockDraftPick::find_otc_pick($input['mock_draft_id']);
+            $otc_pick = MockDraftPick::find_otc_pick($league_id, $input['mock_draft_id']);
             $pick = new MockDraftPick;
             $pick->mock_draft_id = $input['mock_draft_id'];
             $pick->prospect_id = $input['prospect_id'];
@@ -283,7 +294,7 @@ class DraftController extends Controller
             $pick->user_pick = 1;
             $pick->save();
         } else {
-            $otc_pick = DynastyPick::find_otc_pick();
+            $otc_pick = DynastyPick::find_otc_pick($league_id);
             $pick = DynastyPick::find($otc_pick->id);
             $pick->prospect_id = $input['prospect_id'];
             $pick->save();
@@ -360,11 +371,14 @@ class DraftController extends Controller
 
     }
 
-    public function get_teams(){
+    public function get_teams(Request $request){
+        $input = $request->all();
+        $league_id = $input['league_id'];
         $answer = array();
         $teams = DB::table('dynasty_teams')
             ->select(DB::raw('dynasty_teams.*, team_needs.qb, team_needs.rb, team_needs.wr, team_needs.te'))
             ->leftJoin('team_needs','team_needs.team_id','=','dynasty_teams.id')
+            ->where('dynasty_teams.league_id','=',$league_id)
             ->get();
 
         if (empty($teams)){
@@ -377,9 +391,12 @@ class DraftController extends Controller
         return $answer;
     }
 
-    public function start_mock(){
+    public function start_mock(Request $request){
+        $input = $request->all();
+        $league_id = $input['league_id'];
         $answer = array();
         $mock_draft = new MockDraft;
+        $mock_draft->league_id = $league_id;
         $mock_draft->save();
 
         $answer['success'] = true;
@@ -398,8 +415,9 @@ class DraftController extends Controller
             $team_id = $input['team_id'];
             $mock_draft_id = $input['mock_draft_id'];
         }
+        $league_id = $input['league_id'];
 
-        $otc_pick = MockDraftPick::find_otc_pick($mock_draft_id);
+        $otc_pick = MockDraftPick::find_otc_pick($league_id, $mock_draft_id);
 
         if ($otc_pick->team_id == $team_id){
             $answer = array();
@@ -408,7 +426,7 @@ class DraftController extends Controller
             return $answer;
         }
 
-        $pick_string = "pick_".$otc_pick->id;
+        $pick_string = "pick_".$otc_pick->overall;
 
         $eligible_players = DB::table('mock_draft_data')
             ->select(DB::raw('mock_draft_data.'.$pick_string.' as prospect_score, prospects.pos, prospects.id as prospect_id'))
@@ -469,6 +487,7 @@ class DraftController extends Controller
         $update_pick->team_id = $otc_pick->team_id;
         $update_pick->dynasty_pick_id = $otc_pick->id;
         $update_pick->user_pick = 0;
+        $update_pick->league_id = $league_id;
         $update_pick->save();
 
         $answer = array();
@@ -479,6 +498,7 @@ class DraftController extends Controller
 
     public function mock_until_next_pick(Request $request){
         $input = $request->all();
+        $league_id = $input['league_id'];
 
         if (empty($input['team_id']) || empty($input['mock_draft_id'])){
             $answer = array();
@@ -489,13 +509,19 @@ class DraftController extends Controller
             $mock_draft_id = $input['mock_draft_id'];
         }
 
-        $otc_pick = MockDraftPick::find_otc_pick($mock_draft_id);
-        $pick = $otc_pick->id;
+        $otc_pick = MockDraftPick::find_otc_pick($league_id,$mock_draft_id);
+        $pick = $otc_pick->overall;
 
-        while($pick <= 38){
-            $otc_pick = MockDraftPick::find_otc_pick($mock_draft_id);
+        if ($league_id == 1){
+            $max_pick = 38;
+        } else if ($league_id == 2){
+            $max_pick = 30;
+        }
 
-            $pick_string = "pick_".$otc_pick->id;
+        while($pick <= $max_pick){
+            $otc_pick = MockDraftPick::find_otc_pick($league_id, $mock_draft_id);
+
+            $pick_string = "pick_".$otc_pick->overall;
 
             if ($team_id == $otc_pick->team_id){
                 break;
@@ -560,6 +586,7 @@ class DraftController extends Controller
             $update_pick->team_id = $otc_pick->team_id;
             $update_pick->dynasty_pick_id = $otc_pick->id;
             $update_pick->user_pick = 0;
+            $update_pick->league_id = $league_id;
             $update_pick->save();
 
             $pick++;

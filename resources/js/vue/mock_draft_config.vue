@@ -24,6 +24,7 @@
 
 <script>
 export default {
+    props:['league_id'],
     data() {
         return {
             mock_mode: 0,
@@ -41,7 +42,9 @@ export default {
     methods: {
         get_teams(){
             var self = this;
-            $.get('get_teams', function(response){
+            var sds = {};
+            sds.league_id = self.league_id;
+            $.get('/get_teams', sds, function(response){
                 if (response && response.success){
                     self.teams = response.teams;
                 } 
@@ -50,7 +53,9 @@ export default {
         begin_draft(){
             var self = this;
             self.mock_draft_config = 0;
-            $.post('start_mock', function(response){
+            var sds = {};
+            sds.league_id = self.league_id;
+            $.post('/start_mock', sds, function(response){
                 if (response && response.success){
                     self.mock_draft_id = response.mock_draft_id;
                 } 

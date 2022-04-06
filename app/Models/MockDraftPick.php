@@ -11,7 +11,7 @@ class MockDraftPick extends Model
 {
     use HasFactory;
 
-    public static function get_last_pick($mock_draft_id){
+    public static function get_last_pick($league_id, $mock_draft_id){
         $last_pick = DB::table('dynasty_picks')
             ->select(DB::raw('dynasty_picks.id, prospects.name as prospect_name, prospects.pos as position, dynasty_teams.team_name as team_name, dynasty_picks.round, dynasty_picks.pick, cfb_teams.school, dynasty_teams.logo, prospects.image as prospect_image, cfb_team_logos.dark_logo as cfb_team_logo, nfl_logos.logo as nfl_team_logo,dynasty_picks.password'))
             ->leftJoin('mock_draft_picks', function($join) use($mock_draft_id){
@@ -24,6 +24,7 @@ class MockDraftPick extends Model
             ->leftJoin('cfb_team_logos','cfb_team_logos.team_api_id','=','prospects.school_id')
             ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
             ->whereNotNull('mock_draft_picks.id')
+            ->where('dynasty_picks.league_id','=',$league_id)
             ->orderBy('dynasty_picks.round','DESC')
             ->orderBy('dynasty_picks.pick','DESC')
             ->first();
@@ -31,7 +32,7 @@ class MockDraftPick extends Model
         return $last_pick;
     } 
 
-    public static function find_otc_pick($mock_draft_id){
+    public static function find_otc_pick($league_id, $mock_draft_id){
         $otc_pick = DB::table('dynasty_picks')
             ->select(DB::raw('
             dynasty_picks.*,
@@ -43,6 +44,7 @@ class MockDraftPick extends Model
             })
             ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_picks.team_id')
             ->whereNull('mock_draft_picks.id')
+            ->where('dynasty_picks.league_id','=',$league_id)
             ->orderBy('dynasty_picks.round','ASC')
             ->orderBy('dynasty_picks.pick','ASC')
             ->first();

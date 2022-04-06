@@ -48,6 +48,7 @@ import LastPick from './last_pick.vue'
 import MockDraftConfig from './mock_draft_config.vue'
 export default {
     components: { Prospects, DraftTicker, DraftBoard, OtcPick, LastPick, MockDraftConfig },
+    props: ['league_id'],
     mounted() {
         var self = this;
     },
@@ -80,7 +81,8 @@ export default {
             var sds = {};
             sds.mock_draft_id = self.mock_draft_id;
             sds.team_id = self.team_id;
-            $.get('mock_next_pick', sds, function(response){
+            sds.league_id = self.league_id;
+            $.get('/mock_next_pick', sds, function(response){
                 if (response){
                     self.$refs.otc_pick.get_otc_pick();
                     self.$refs.last_pick.get_last_pick();
@@ -97,12 +99,8 @@ export default {
             var sds = {};
             sds.mock_draft_id = self.mock_draft_id;
             sds.team_id = self.team_id;
-            $.get('mock_until_next_pick', sds, function(response){
-                if (response){
-                    console.log("RESPONSE");
-                } else {
-                    console.log("NO RESPONSE");
-                }
+            sds.league_id = self.league_id;
+            $.get('/mock_until_next_pick', sds, function(response){
                 self.$refs.otc_pick.get_otc_pick();
                 self.$refs.last_pick.get_last_pick();
                 if (self.parent_menu_selected == 'players'){
@@ -130,7 +128,7 @@ export default {
                 <div class="col-md-2">
                 </div>
                 <div class="col-md-10">
-                    <draft-ticker></draft-ticker>
+                    <draft-ticker :league_id="league_id"></draft-ticker>
                 </div>
             </div>
         </div>
@@ -147,10 +145,10 @@ export default {
                         <div class="sub-menu-cat" :style="[filter.pos == 'TE' ? {'background-color':'#1e2121'} : '']" @click="filter.pos='TE'">TE</div>
                     </span>
                     <div class="menu-cat" v-on:click="parent_menu_selected='board'"><i v-if="parent_menu_selected == 'board'" class="fa-solid fa-angle-down"></i><i v-else class="fa-solid fa-angle-right"></i> Board</div>
-                    <otc-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" ref="otc_pick"></otc-pick>
-                    <last-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" ref="last_pick"></last-pick>
+                    <otc-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" :league_id="league_id" ref="otc_pick"></otc-pick>
+                    <last-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" :league_id="league_id" ref="last_pick"></last-pick>
                     <span v-if="!mock_draft_id">
-                        <mock-draft-config @beginmock="begin_mock"></mock-draft-config>
+                        <mock-draft-config @beginmock="begin_mock" :league_id="league_id"></mock-draft-config>
                     </span>
                     <span v-else>
                         <button type="button" class="btn btn-sm btn-success" style="margin-top:10px" @click="make_next_pick()">Sim Next Pick</button>
@@ -159,10 +157,10 @@ export default {
                     </span>
                 </div>
                 <div class="col-sm-10" v-if="parent_menu_selected == 'players'">
-                    <prospects :pos="filter.pos" @playerSelected="reload_components()" :mock_draft_id="mock_draft_id" ref="prospects"></prospects>
+                    <prospects :pos="filter.pos" @playerSelected="reload_components()" :mock_draft_id="mock_draft_id" :league_id="league_id" ref="prospects"></prospects>
                 </div>
                 <div class="col-sm-10" v-else-if="parent_menu_selected == 'board'">
-                    <draft-board :mock_draft_id="mock_draft_id" :pos="filter.pos" ref="draft_board"></draft-board>
+                    <draft-board :mock_draft_id="mock_draft_id" :pos="filter.pos" :league_id="league_id" ref="draft_board"></draft-board>
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    props:['mock_draft_id'],
+    props:['mock_draft_id','league_id'],
     watch: {
         mock_draft_id(){
             var self = this;
@@ -29,7 +29,8 @@ export default {
             if (self.mock_draft_id){
                 sds.mock_draft_id = self.mock_draft_id
             }
-            $.get('get_last_pick', sds, function(response){
+            sds.league_id = self.league_id;
+            $.get('/get_last_pick', sds, function(response){
                 if (response){
                     self.last_pick = response.last_pick;
                 } 
