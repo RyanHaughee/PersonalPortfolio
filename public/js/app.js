@@ -19355,7 +19355,7 @@ __webpack_require__.r(__webpack_exports__);
       parent_menu_selected: 'players',
       reload_key: 0,
       team_id: null,
-      mock_draft_id: 31,
+      mock_draft_id: null,
       filter_team_id: 'all'
     };
   },
