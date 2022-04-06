@@ -219,7 +219,7 @@ class DraftController extends Controller
         }
 
         foreach($all_draft_picks as $pick){
-            if ($pick->id == $otc_pick->id){
+            if (!empty($otc_pick) && ($pick->id == $otc_pick->id)){
                 $pick->otc = true;
             } else {
                 $pick->otc = false;
