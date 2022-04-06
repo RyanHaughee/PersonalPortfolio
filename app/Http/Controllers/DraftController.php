@@ -177,6 +177,11 @@ class DraftController extends Controller
             $mock_draft_id = $input['mock_draft_id'];
         }
         $league_id = $input['league_id'];
+        if (!empty($input['filter_team_id'])){
+            $where = 'dynasty_picks.league_id = ' . $league_id . ' and dynasty_picks.team_id = ' . $input['filter_team_id'];
+        } else {
+            $where = 'dynasty_picks.league_id = ' . $league_id;
+        }
 
         if (!empty($mock_draft_id)){
             $all_draft_picks = DB::table('dynasty_picks')
@@ -192,8 +197,11 @@ class DraftController extends Controller
                 ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
                 ->orderBy('dynasty_picks.round','ASC')
                 ->orderBy('dynasty_picks.pick','ASC')
-                ->where('dynasty_picks.league_id','=',$league_id)
+                ->whereRaw($where)
                 ->get();
+
+            $otc_pick = MockDraftPick::find_otc_pick($league_id, $mock_draft_id);
+
         } else {
             $all_draft_picks = DB::table('dynasty_picks')
                 ->select(DB::raw('dynasty_picks.id, prospects.name as prospect_name, prospects.pos as position, dynasty_teams.team_name as team_name, dynasty_picks.round, dynasty_picks.pick, cfb_teams.school, dynasty_teams.logo, prospects.image as prospect_image, cfb_team_logos.dark_logo as cfb_team_logo, nfl_logos.logo as nfl_team_logo'))
@@ -204,18 +212,20 @@ class DraftController extends Controller
                 ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
                 ->orderBy('dynasty_picks.round','ASC')
                 ->orderBy('dynasty_picks.pick','ASC')
-                ->where('dynasty_picks.league_id','=',$league_id)
+                ->whereRaw($where)
                 ->get();
+
+            $otc_pick = DynastyPick::find_otc_pick($league_id);
         }
 
-        $otc_determined = false;
         foreach($all_draft_picks as $pick){
-            $pick->otc = false;
-            if (empty($pick->prospect_name) && !$otc_determined){
-                $otc_determined = true;
+            if ($pick->id == $otc_pick->id){
                 $pick->otc = true;
+            } else {
+                $pick->otc = false;
             }
         }
+
 
         $response = array();
         $response['all_draft_picks'] = $all_draft_picks;

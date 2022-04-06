@@ -51,6 +51,7 @@ export default {
     props: ['league_id'],
     mounted() {
         var self = this;
+        self.get_teams();
     },
     data() {
         return {
@@ -60,7 +61,8 @@ export default {
             parent_menu_selected:'players',
             reload_key: 0,
             team_id: null,
-            mock_draft_id: null
+            mock_draft_id: null,
+            filter_team_id: null
         }
     },
     methods: {
@@ -113,6 +115,16 @@ export default {
         end_mock(){
             var self = this;
             self.mock_draft_id = null;
+        },
+        get_teams(){
+            var self = this;
+            var sds = {};
+            sds.league_id = self.league_id;
+            $.get('/get_teams', sds, function(response){
+                if (response && response.success){
+                    self.teams = response.teams;
+                } 
+            })
         }
     }
 }
@@ -145,6 +157,12 @@ export default {
                         <div class="sub-menu-cat" :style="[filter.pos == 'TE' ? {'background-color':'#1e2121'} : '']" @click="filter.pos='TE'">TE</div>
                     </span>
                     <div class="menu-cat" v-on:click="parent_menu_selected='board'"><i v-if="parent_menu_selected == 'board'" class="fa-solid fa-angle-down"></i><i v-else class="fa-solid fa-angle-right"></i> Board</div>
+                    <span v-if="parent_menu_selected == 'board'">
+                        Filter:
+                        <select class="custom-select custom-select-lg mb-3" placeholder="Filter Team" v-model="filter_team_id">
+                            <option v-for="team in teams" :value="team.id" :key="team">{{ team.team_name }}</option>
+                        </select>
+                    </span>
                     <otc-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" :league_id="league_id" ref="otc_pick"></otc-pick>
                     <last-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" :league_id="league_id" ref="last_pick"></last-pick>
                     <span v-if="!mock_draft_id">
@@ -160,7 +178,7 @@ export default {
                     <prospects :pos="filter.pos" @playerSelected="reload_components()" :mock_draft_id="mock_draft_id" :league_id="league_id" ref="prospects"></prospects>
                 </div>
                 <div class="col-sm-10" v-else-if="parent_menu_selected == 'board'">
-                    <draft-board :mock_draft_id="mock_draft_id" :pos="filter.pos" :league_id="league_id" ref="draft_board"></draft-board>
+                    <draft-board :mock_draft_id="mock_draft_id" :pos="filter.pos" :league_id="league_id" :filter_team_id="filter_team_id" ref="draft_board"></draft-board>
                 </div>
             </div>
         </div>

@@ -64,7 +64,13 @@
 
 <script>
 export default {
-    props: ['mock_draft_id','league_id'],
+    props: ['mock_draft_id','league_id','filter_team_id'],
+    watch: {
+        filter_team_id(){
+            var self = this;
+            self.get_all_draft_picks(); 
+        }
+    },
     data() {
         return {
             draft_picks: []
@@ -82,6 +88,7 @@ export default {
                 sds.mock_draft_id = self.mock_draft_id
             }
             sds.league_id = self.league_id
+            sds.filter_team_id = self.filter_team_id
             $.get('/get_all_draft_picks', sds, function(response){
                 if (response){
                     self.draft_picks = response.all_draft_picks;

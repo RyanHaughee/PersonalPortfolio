@@ -19272,7 +19272,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['mock_draft_id', 'league_id'],
+  props: ['mock_draft_id', 'league_id', 'filter_team_id'],
+  watch: {
+    filter_team_id: function filter_team_id() {
+      var self = this;
+      self.get_all_draft_picks();
+    }
+  },
   data: function data() {
     return {
       draft_picks: []
@@ -19292,6 +19298,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       sds.league_id = self.league_id;
+      sds.filter_team_id = self.filter_team_id;
       $.get('/get_all_draft_picks', sds, function (response) {
         if (response) {
           self.draft_picks = response.all_draft_picks;
@@ -19338,6 +19345,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['league_id'],
   mounted: function mounted() {
     var self = this;
+    self.get_teams();
   },
   data: function data() {
     return {
@@ -19347,7 +19355,8 @@ __webpack_require__.r(__webpack_exports__);
       parent_menu_selected: 'players',
       reload_key: 0,
       team_id: null,
-      mock_draft_id: null
+      mock_draft_id: null,
+      filter_team_id: null
     };
   },
   methods: {
@@ -19402,6 +19411,16 @@ __webpack_require__.r(__webpack_exports__);
     end_mock: function end_mock() {
       var self = this;
       self.mock_draft_id = null;
+    },
+    get_teams: function get_teams() {
+      var self = this;
+      var sds = {};
+      sds.league_id = self.league_id;
+      $.get('/get_teams', sds, function (response) {
+        if (response && response.success) {
+          self.teams = response.teams;
+        }
+      });
     }
   }
 });
@@ -19969,14 +19988,21 @@ var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNo
 var _hoisted_17 = {
   key: 1
 };
-var _hoisted_18 = {
+
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Filter: ");
+
+var _hoisted_19 = ["value"];
+var _hoisted_20 = {
   key: 2
 };
-var _hoisted_19 = {
+var _hoisted_21 = {
+  key: 3
+};
+var _hoisted_22 = {
   key: 0,
   "class": "col-sm-10"
 };
-var _hoisted_20 = {
+var _hoisted_23 = {
   key: 1,
   "class": "col-sm-10"
 };
@@ -20059,7 +20085,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[6] || (_cache[6] = function ($event) {
       return $data.parent_menu_selected = 'board';
     })
-  }, [$data.parent_menu_selected == 'board' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_14)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_15)), _hoisted_16]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_otc_pick, {
+  }, [$data.parent_menu_selected == 'board' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_14)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_15)), _hoisted_16]), $data.parent_menu_selected == 'board' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_17, [_hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "custom-select custom-select-lg mb-3",
+    placeholder: "Filter Team",
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+      return $data.filter_team_id = $event;
+    })
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.teams, function (team) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      value: team.id,
+      key: team
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name), 9
+    /* TEXT, PROPS */
+    , _hoisted_19);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.filter_team_id]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_otc_pick, {
     style: {
       "margin-top": "5px"
     },
@@ -20077,18 +20120,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "last_pick"
   }, null, 8
   /* PROPS */
-  , ["mock_draft_id", "league_id"]), !$data.mock_draft_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mock_draft_config, {
+  , ["mock_draft_id", "league_id"]), !$data.mock_draft_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mock_draft_config, {
     onBeginmock: $options.begin_mock,
     league_id: $props.league_id
   }, null, 8
   /* PROPS */
-  , ["onBeginmock", "league_id"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  , ["onBeginmock", "league_id"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-sm btn-success",
     style: {
       "margin-top": "10px"
     },
-    onClick: _cache[7] || (_cache[7] = function ($event) {
+    onClick: _cache[8] || (_cache[8] = function ($event) {
       return $options.make_next_pick();
     })
   }, "Sim Next Pick"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -20097,7 +20140,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "margin-top": "10px"
     },
-    onClick: _cache[8] || (_cache[8] = function ($event) {
+    onClick: _cache[9] || (_cache[9] = function ($event) {
       return $options.sim_to_next_pick();
     })
   }, "Sim To My Pick"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -20106,12 +20149,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "margin-top": "10px"
     },
-    onClick: _cache[9] || (_cache[9] = function ($event) {
+    onClick: _cache[10] || (_cache[10] = function ($event) {
       return $options.end_mock();
     })
-  }, "End Mock")]))]), $data.parent_menu_selected == 'players' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_prospects, {
+  }, "End Mock")]))]), $data.parent_menu_selected == 'players' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_prospects, {
     pos: $data.filter.pos,
-    onPlayerSelected: _cache[10] || (_cache[10] = function ($event) {
+    onPlayerSelected: _cache[11] || (_cache[11] = function ($event) {
       return $options.reload_components();
     }),
     mock_draft_id: $data.mock_draft_id,
@@ -20119,14 +20162,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "prospects"
   }, null, 8
   /* PROPS */
-  , ["pos", "mock_draft_id", "league_id"])])) : $data.parent_menu_selected == 'board' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draft_board, {
+  , ["pos", "mock_draft_id", "league_id"])])) : $data.parent_menu_selected == 'board' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draft_board, {
     mock_draft_id: $data.mock_draft_id,
     pos: $data.filter.pos,
     league_id: $props.league_id,
+    filter_team_id: $data.filter_team_id,
     ref: "draft_board"
   }, null, 8
   /* PROPS */
-  , ["mock_draft_id", "pos", "league_id"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  , ["mock_draft_id", "pos", "league_id", "filter_team_id"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
 }
 
 /***/ }),
