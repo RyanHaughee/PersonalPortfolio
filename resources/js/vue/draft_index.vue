@@ -61,8 +61,8 @@ export default {
             parent_menu_selected:'players',
             reload_key: 0,
             team_id: null,
-            mock_draft_id: null,
-            filter_team_id: null
+            mock_draft_id: 31,
+            filter_team_id: 'all'
         }
     },
     methods: {
@@ -160,6 +160,7 @@ export default {
                     <span v-if="parent_menu_selected == 'board'">
                         Filter:
                         <select class="custom-select custom-select-lg mb-3" placeholder="Filter Team" v-model="filter_team_id">
+                            <option value="all" selected>All</option>
                             <option v-for="team in teams" :value="team.id" :key="team">{{ team.team_name }}</option>
                         </select>
                     </span>

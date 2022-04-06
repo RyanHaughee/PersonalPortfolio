@@ -19355,8 +19355,8 @@ __webpack_require__.r(__webpack_exports__);
       parent_menu_selected: 'players',
       reload_key: 0,
       team_id: null,
-      mock_draft_id: null,
-      filter_team_id: null
+      mock_draft_id: 31,
+      filter_team_id: 'all'
     };
   },
   methods: {
@@ -19991,18 +19991,25 @@ var _hoisted_17 = {
 
 var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Filter: ");
 
-var _hoisted_19 = ["value"];
-var _hoisted_20 = {
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  value: "all",
+  selected: ""
+}, "All", -1
+/* HOISTED */
+);
+
+var _hoisted_20 = ["value"];
+var _hoisted_21 = {
   key: 2
 };
-var _hoisted_21 = {
+var _hoisted_22 = {
   key: 3
 };
-var _hoisted_22 = {
+var _hoisted_23 = {
   key: 0,
   "class": "col-sm-10"
 };
-var _hoisted_23 = {
+var _hoisted_24 = {
   key: 1,
   "class": "col-sm-10"
 };
@@ -20091,13 +20098,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.filter_team_id = $event;
     })
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.teams, function (team) {
+  }, [_hoisted_19, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.teams, function (team) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       value: team.id,
       key: team
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name), 9
     /* TEXT, PROPS */
-    , _hoisted_19);
+    , _hoisted_20);
   }), 128
   /* KEYED_FRAGMENT */
   ))], 512
@@ -20120,12 +20127,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "last_pick"
   }, null, 8
   /* PROPS */
-  , ["mock_draft_id", "league_id"]), !$data.mock_draft_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mock_draft_config, {
+  , ["mock_draft_id", "league_id"]), !$data.mock_draft_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mock_draft_config, {
     onBeginmock: $options.begin_mock,
     league_id: $props.league_id
   }, null, 8
   /* PROPS */
-  , ["onBeginmock", "league_id"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  , ["onBeginmock", "league_id"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-sm btn-success",
     style: {
@@ -20152,7 +20159,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[10] || (_cache[10] = function ($event) {
       return $options.end_mock();
     })
-  }, "End Mock")]))]), $data.parent_menu_selected == 'players' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_prospects, {
+  }, "End Mock")]))]), $data.parent_menu_selected == 'players' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_prospects, {
     pos: $data.filter.pos,
     onPlayerSelected: _cache[11] || (_cache[11] = function ($event) {
       return $options.reload_components();
@@ -20162,7 +20169,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "prospects"
   }, null, 8
   /* PROPS */
-  , ["pos", "mock_draft_id", "league_id"])])) : $data.parent_menu_selected == 'board' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draft_board, {
+  , ["pos", "mock_draft_id", "league_id"])])) : $data.parent_menu_selected == 'board' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draft_board, {
     mock_draft_id: $data.mock_draft_id,
     pos: $data.filter.pos,
     league_id: $props.league_id,

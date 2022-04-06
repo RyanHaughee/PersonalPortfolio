@@ -178,7 +178,11 @@ class DraftController extends Controller
         }
         $league_id = $input['league_id'];
         if (!empty($input['filter_team_id'])){
-            $where = 'dynasty_picks.league_id = ' . $league_id . ' and dynasty_picks.team_id = ' . $input['filter_team_id'];
+            if ($input['filter_team_id'] == 'all'){
+                $where = 'dynasty_picks.league_id = ' . $league_id;
+            } else {
+                $where = 'dynasty_picks.league_id = ' . $league_id . ' and dynasty_picks.team_id = ' . $input['filter_team_id'];
+            }
         } else {
             $where = 'dynasty_picks.league_id = ' . $league_id;
         }
