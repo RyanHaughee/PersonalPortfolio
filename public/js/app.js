@@ -19668,25 +19668,14 @@ __webpack_require__.r(__webpack_exports__);
       console.log("getting prospects");
       var sds = {};
       sds.pos = self.pos;
-
-      if (!self.mock_draft_id) {
-        $.get('/get_prospects', sds, function (response) {
-          if (response) {
-            self.prospects = response.prospects;
-            self.selected_index = null;
-            self.selected_prospect = null;
-          }
-        });
-      } else {
-        sds.mock_draft_id = self.mock_draft_id;
-        $.get('/get_mock_prospects', sds, function (response) {
-          if (response) {
-            self.prospects = response.prospects;
-            self.selected_index = null;
-            self.selected_prospect = null;
-          }
-        });
-      }
+      sds.mock_draft_id = self.mock_draft_id;
+      $.get('/get_prospects', sds, function (response) {
+        if (response) {
+          self.prospects = response.prospects;
+          self.selected_index = null;
+          self.selected_prospect = null;
+        }
+      });
     },
     expand_prospect: function expand_prospect(index) {
       var self = this;
@@ -20581,7 +20570,7 @@ var _hoisted_2 = {
 var _hoisted_3 = ["onClick"];
 var _hoisted_4 = {
   key: 0,
-  colspan: "4",
+  colspan: "5",
   style: {
     "background-color": "#1e2121"
   }
@@ -20884,30 +20873,54 @@ var _hoisted_58 = {
   }
 };
 var _hoisted_59 = {
+  key: 0,
+  src: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Green_Arrow_Up.svg/1200px-Green_Arrow_Up.svg.png",
+  style: {
+    "max-width": "25px",
+    "width": "100%"
+  }
+};
+var _hoisted_60 = {
+  key: 1,
+  src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Red_Arrow_Down.svg/2048px-Red_Arrow_Down.svg.png",
+  style: {
+    "max-width": "25px",
+    "width": "100%"
+  }
+};
+var _hoisted_61 = {
+  key: 2,
+  src: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Arrow_Blue_Left_001.svg/768px-Arrow_Blue_Left_001.svg.png",
+  style: {
+    "max-width": "25px",
+    "width": "100%"
+  }
+};
+var _hoisted_62 = {
   style: {
     "margin": "auto"
   }
 };
-var _hoisted_60 = {
+var _hoisted_63 = {
   style: {
     "text-align": "left"
   }
 };
-var _hoisted_61 = ["src"];
-
-var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", {
-  "class": "mobile-break"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_63 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", {
-  "class": "mobile-break"
-}, null, -1
-/* HOISTED */
-);
-
 var _hoisted_64 = ["src"];
+
+var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", {
+  "class": "mobile-break"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_66 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", {
+  "class": "mobile-break"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_67 = ["src"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prospects, function (prospect, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
@@ -21068,7 +21081,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_58, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prospect.pos_rank), 1
     /* TEXT */
-    )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [prospect.nfl_team_logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [!prospect.prev_rank || prospect.prev_rank > prospect.ovr_rank ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", _hoisted_59)) : prospect.prev_rank < prospect.ovr_rank ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", _hoisted_60)) : prospect.prev_rank == prospect.ovr_rank ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", _hoisted_61)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [prospect.nfl_team_logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
       key: 0,
       "class": "team-logo-table",
       src: prospect.nfl_team_logo,
@@ -21077,7 +21090,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       } : ''])
     }, null, 12
     /* STYLE, PROPS */
-    , _hoisted_61)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    , _hoisted_64)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
       key: 1,
       "class": "team-logo-table",
       src: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png",
@@ -21086,14 +21099,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       } : ''])
     }, null, 4
     /* STYLE */
-    )), _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    )), _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "logo-seperator-table",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([prospect.pick_id ? {
         'opacity': '0.5'
       } : ''])
     }, null, 4
     /* STYLE */
-    ), _hoisted_63, prospect.cfb_team_logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    ), _hoisted_66, prospect.cfb_team_logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
       key: 2,
       "class": "team-logo-table",
       src: prospect.cfb_team_logo,
@@ -21102,7 +21115,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       } : ''])
     }, null, 12
     /* STYLE, PROPS */
-    , _hoisted_64)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    , _hoisted_67)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
       key: 3,
       "class": "team-logo-table",
       src: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png",

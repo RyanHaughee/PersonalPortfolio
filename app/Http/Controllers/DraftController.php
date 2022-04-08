@@ -29,90 +29,64 @@ class DraftController extends Controller
 
         if (!empty($input) && !empty($input['pos']) && $input['pos'] != 'All'){
             $where_statement = $where_statement . " and prospects.pos = '" . $input['pos'] . "'";
-            $order_by = "prospects.pos_rank";
-        } else {
-            $order_by = "prospects.ovr_rank";
         }
 
-        $prospects = DB::table('prospects')
-            ->select(DB::raw('prospects.*, cfb_team_logos.dark_logo as cfb_team_logo, nfl_logos.logo as nfl_team_logo, dynasty_picks.id as pick_id, dynasty_teams.logo as ff_logo, dynasty_picks.round, dynasty_picks.pick'))
-            ->leftJoin('cfb_team_logos','cfb_team_logos.team_api_id','=','prospects.school_id')
-            ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
-            ->leftJoin('dynasty_picks','dynasty_picks.prospect_id','=','prospects.id')
-            ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_picks.team_id')
-            ->whereRaw($where_statement)
-            ->orderBy($order_by,'asc')
-            ->get();
-
-        $today = strtotime(date('Y-m-d'));
-        foreach($prospects as $prospect){
-            $bday = strtotime($prospect->birthday);
-            $age = round(($today-$bday) / (365*60*60*24),1);
-            $prospect->age = $age;
-
-            // Setting signficant stats and headers
-            $prospect->headers = [];
-            $prospect->stat_stats = [];
-            if ($prospect->pos == "WR" || $prospect->pos == "TE"){
-                $prospect->stat_headers = ["GP","REC","YD","TD"];
-                $prospect->stat_stats = [$prospect->gp, $prospect->rec, $prospect->rec_yds, $prospect->rec_td];
-            } else if ($prospect->pos == "QB"){
-                $prospect->stat_headers = ["GP","CMP","ATT","YD","TD","INT"];
-                $prospect->stat_stats = [$prospect->gp, $prospect->pass_comp, $prospect->pass_att, $prospect->pass_yd, $prospect->pass_td, $prospect->pass_int];
-            } else if ($prospect->pos == "RB"){
-                $prospect->stat_headers = ["GP","RSH","YD","TD","REC","YD","TD"];
-                $prospect->stat_stats = [$prospect->gp, $prospect->rush_att, $prospect->rush_yd, $prospect->rush_td, $prospect->rec, $prospect->rec_yds, $prospect->rec_td];
-            }
-
-        }
-
-        $response = array();
-        $response['prospects'] = $prospects;
-        return $response;
-    }
-
-    public function get_mock_prospects(Request $request){
-        $input = $request->all();
-
-        if (empty($input['mock_draft_id'])){
-            $response = array();
-            $response['success'] = false;
-            $response['message'] = "No mock draft id provided.";
-            return $response;
-        } else {
+        $mock_draft_id = null;
+        if (!empty($input['mock_draft_id'])){
             $mock_draft_id = intval($input['mock_draft_id']);
         }
 
-        $where_statement = "prospects.pos_rank is not null";
+        $order_by = "prospects.ovr_rank";
 
-        if (!empty($input) && !empty($input['pos']) && $input['pos'] != 'All'){
-            $where_statement = $where_statement . " and prospects.pos = '" . $input['pos'] . "'";
-            $order_by = "prospects.pos_rank";
+        if (!empty($mock_draft_id)){
+            $prospects = DB::table('prospects')
+                ->select(DB::raw('
+                    prospects.*, 
+                    cfb_team_logos.dark_logo as cfb_team_logo, 
+                    nfl_logos.logo as nfl_team_logo, 
+                    mock_draft_picks.id as pick_id, 
+                    dynasty_teams.logo as ff_logo, 
+                    dynasty_picks.round, 
+                    dynasty_picks.pick'))
+                ->leftJoin('cfb_team_logos','cfb_team_logos.team_api_id','=','prospects.school_id')
+                ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
+                ->leftJoin('mock_draft_picks', function($join) use($mock_draft_id){
+                    $join->on('mock_draft_picks.prospect_id','=','prospects.id');
+                    $join->where('mock_draft_picks.mock_draft_id','=',$mock_draft_id);
+                })
+                ->leftJoin('dynasty_picks','dynasty_picks.id','=','mock_draft_picks.dynasty_pick_id')
+                ->leftJoin('dynasty_teams','dynasty_teams.id','=','mock_draft_picks.team_id')
+                ->whereRaw($where_statement)
+                ->orderBy($order_by,'asc')
+                ->get();
         } else {
-            $order_by = "prospects.ovr_rank";
+            $prospects = DB::table('prospects')
+                ->select(DB::raw('
+                    prospects.*, 
+                    cfb_team_logos.dark_logo as cfb_team_logo, 
+                    nfl_logos.logo as nfl_team_logo, 
+                    dynasty_picks.id as pick_id, 
+                    dynasty_teams.logo as ff_logo, 
+                    dynasty_picks.round, 
+                    dynasty_picks.pick
+                '))
+                ->leftJoin('cfb_team_logos','cfb_team_logos.team_api_id','=','prospects.school_id')
+                ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
+                ->leftJoin('dynasty_picks','dynasty_picks.prospect_id','=','prospects.id')
+                ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_picks.team_id')
+                ->whereRaw($where_statement)
+                ->orderBy($order_by,'asc')
+                ->get();
         }
-
-        $prospects = DB::table('prospects')
-            ->select(DB::raw('prospects.*, cfb_team_logos.dark_logo as cfb_team_logo, nfl_logos.logo as nfl_team_logo, mock_draft_picks.id as pick_id, dynasty_teams.logo as ff_logo, dynasty_picks.round, dynasty_picks.pick'))
-            ->leftJoin('cfb_team_logos','cfb_team_logos.team_api_id','=','prospects.school_id')
-            ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
-            ->leftJoin('mock_draft_picks', function($join) use($mock_draft_id){
-                $join->on('mock_draft_picks.prospect_id','=','prospects.id');
-                $join->where('mock_draft_picks.mock_draft_id','=',$mock_draft_id);
-            })
-            ->leftJoin('dynasty_picks','dynasty_picks.id','=','mock_draft_picks.dynasty_pick_id')
-            ->leftJoin('dynasty_teams','dynasty_teams.id','=','mock_draft_picks.team_id')
-            ->whereRaw($where_statement)
-            ->orderBy($order_by,'asc')
-            ->get();
 
         $today = strtotime(date('Y-m-d'));
         foreach($prospects as $prospect){
+            // Get prospect age to the first decimal
             $bday = strtotime($prospect->birthday);
             $age = round(($today-$bday) / (365*60*60*24),1);
             $prospect->age = $age;
 
-            // Setting signficant stats and headers
+            // Setting signficant stats and headers by position
             $prospect->headers = [];
             $prospect->stat_stats = [];
             if ($prospect->pos == "WR" || $prospect->pos == "TE"){
@@ -138,7 +112,14 @@ class DraftController extends Controller
         $league_id = $input['league_id'];
 
         $draft_picks = DB::table('dynasty_picks')
-            ->select(DB::raw('dynasty_picks.id, prospects.name as prospect_name, prospects.pos as position, dynasty_teams.team_name as team_name, dynasty_picks.round, dynasty_picks.pick, cfb_teams.school'))
+            ->select(DB::raw('
+                dynasty_picks.id, 
+                prospects.name as prospect_name, 
+                prospects.pos as position, 
+                dynasty_teams.team_name as team_name, 
+                dynasty_picks.round, 
+                dynasty_picks.pick, 
+                cfb_teams.school'))
             ->leftJoin('prospects','prospects.id','=','dynasty_picks.prospect_id')
             ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_picks.team_id')
             ->leftJoin('cfb_teams','cfb_teams.api_id','=','prospects.school_id')
@@ -148,23 +129,8 @@ class DraftController extends Controller
             ->orderBy('dynasty_picks.pick','ASC')
             ->get();
 
-        $all_draft_picks = DB::table('dynasty_picks')
-            ->select(DB::raw('dynasty_picks.id, prospects.name as prospect_name, prospects.pos as position, dynasty_teams.team_name as team_name, dynasty_picks.round, dynasty_picks.pick, cfb_teams.school, dynasty_teams.logo, prospects.image as prospect_image, cfb_team_logos.dark_logo as cfb_team_logo, nfl_logos.logo as nfl_team_logo'))
-            ->leftJoin('prospects','prospects.id','=','dynasty_picks.prospect_id')
-            ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_picks.team_id')
-            ->leftJoin('cfb_teams','cfb_teams.api_id','=','prospects.school_id')
-            ->leftJoin('cfb_team_logos','cfb_team_logos.team_api_id','=','prospects.school_id')
-            ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
-            ->where('dynasty_picks.league_id','=',$league_id)
-            ->orderBy('dynasty_picks.round','ASC')
-            ->orderBy('dynasty_picks.pick','ASC')
-            ->get();
-
-        $otc_pick = DynastyPick::find_otc_pick($league_id);
-
         $response = array();
         $response['draft_picks'] = $draft_picks;
-        $response['otc_pick'] = $otc_pick;
         return $response;
     }
 
@@ -172,19 +138,17 @@ class DraftController extends Controller
         $input = $request->all();
 
         $mock_draft_id = null;
-        Log::info($input);
         if (!empty($input) && !empty($input['mock_draft_id'])){
             $mock_draft_id = $input['mock_draft_id'];
         }
+
         $league_id = $input['league_id'];
+        $where = 'dynasty_picks.league_id = ' . $league_id;
+
         if (!empty($input['filter_team_id'])){
-            if ($input['filter_team_id'] == 'all'){
-                $where = 'dynasty_picks.league_id = ' . $league_id;
-            } else {
-                $where = 'dynasty_picks.league_id = ' . $league_id . ' and dynasty_picks.team_id = ' . $input['filter_team_id'];
+            if ($input['filter_team_id'] != 'all'){
+                $where = $where . ' and dynasty_picks.team_id = ' . $input['filter_team_id'];
             }
-        } else {
-            $where = 'dynasty_picks.league_id = ' . $league_id;
         }
 
         if (!empty($mock_draft_id)){

@@ -25,7 +25,6 @@ Route::get('/draft', function () {
 });
 Route::get('/draft/{id}', [DraftController::class, 'index']);
 Route::get('/get_prospects', [DraftController::class, 'get_prospects']);
-Route::get('/get_mock_prospects', [DraftController::class, 'get_mock_prospects']);
 Route::get('/get_draft_picks', [DraftController::class, 'get_draft_picks']);
 Route::get('/get_all_draft_picks', [DraftController::class, 'get_all_draft_picks']);
 Route::get('/get_otc_pick', [DraftController::class, 'get_otc_pick']);

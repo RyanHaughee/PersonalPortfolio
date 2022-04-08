@@ -92,25 +92,14 @@ export default {
             console.log("getting prospects");
             var sds = {};
             sds.pos = self.pos;
-            if (!self.mock_draft_id){
-                $.get('/get_prospects', sds, function(response){
-                    if (response){
-                        self.prospects = response.prospects;
-                        self.selected_index = null;
-                        self.selected_prospect = null;
-                    } 
-                })
-            } else {
-                sds.mock_draft_id = self.mock_draft_id;
-                $.get('/get_mock_prospects', sds, function(response){
-                    if (response){
-                        self.prospects = response.prospects;
-                        self.selected_index = null;
-                        self.selected_prospect = null;
-                    } 
-                })
-            }
-
+            sds.mock_draft_id = self.mock_draft_id;
+            $.get('/get_prospects', sds, function(response){
+                if (response){
+                    self.prospects = response.prospects;
+                    self.selected_index = null;
+                    self.selected_prospect = null;
+                } 
+            })
         },
         expand_prospect:function(index){
             var self = this;
@@ -184,7 +173,7 @@ export default {
               <template style="cursor:pointer" v-for="(prospect, index) in prospects">
                       <tr class="player-row sf" @click="expand_prospect(index)" :key="prospect" :style="[prospect.pick_id ? {'color':'#7C7C7B'} : '']">
                           <template v-if="selected_index == index && selected_prospect">
-                              <td colspan="4" style="background-color:#1e2121">
+                              <td colspan="5" style="background-color:#1e2121">
                                   <div style="max-width:100%; margin-bottom:20px">
                                       <div class="row" style="text-align:center;overflow-x: scroll;display: inline-block;max-width:100%">
                                           <div class="col-sm-6">
@@ -281,6 +270,11 @@ export default {
                                           <td style="padding:5px; text-align:center">#{{ prospect.pos_rank }}</td>
                                       </tr>
                                   </table>
+                              </td>
+                              <td>
+                                  <img v-if="!prospect.prev_rank || (prospect.prev_rank > prospect.ovr_rank)" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Green_Arrow_Up.svg/1200px-Green_Arrow_Up.svg.png" style="max-width:25px;width:100%"/>
+                                  <img v-else-if="prospect.prev_rank < prospect.ovr_rank" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Red_Arrow_Down.svg/2048px-Red_Arrow_Down.svg.png" style="max-width:25px;width:100%"/>
+                                  <img v-else-if="prospect.prev_rank == prospect.ovr_rank" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Arrow_Blue_Left_001.svg/768px-Arrow_Blue_Left_001.svg.png" style="max-width:25px;width:100%"/>
                               </td>
                               <td style="margin:auto;">
                                   <div style="text-align:left;">
