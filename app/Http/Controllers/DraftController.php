@@ -19,6 +19,7 @@ class DraftController extends Controller
         } else {
             $league_id = 1;
         }
+        Log::info("test");
         return view('draft_index', ['league_id' => $league_id]);
     }
 
