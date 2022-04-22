@@ -109,7 +109,7 @@ export default {
                             <span v-if="game.team_2">
                                 {{ game.team_2 }} <span v-if="game.team_2_score"> - {{ game.team_2_score}}</span>
                             </span>
-                            <span v-else style="color:#808080"><i>Winner of Game ##{{ game.team_2_origin}}</i></span>
+                            <span v-else style="color:#808080"><i>Winner of Game ##]{{ game.team_2_origin}}</i></span>
                         </div>
                     </div>
                 </div>
