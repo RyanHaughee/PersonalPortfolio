@@ -8,7 +8,72 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/e45fe32dae.js" crossorigin="anonymous"></script>
+
+<style>
+    body{
+        background:#000000;
+        color:#FFFFFF;
+    }
+    .card{
+        color:#000000;
+    }
+    .card:hover{
+        background:#DDDDDD;
+        cursor:pointer;
+    }
+</style>
+<script>
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        var draft_card = document.querySelector("#draft");
+        draft_card.addEventListener("click",function(){
+            window.location = "/draft";
+        })
+
+        var tournament_card = document.querySelector("#tournament");
+        tournament_card.addEventListener("click",function(){
+            window.location = "/scheduler";
+        })
+    });
+
+</script>
+
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    Hello Friends!
+    <body style="background:#000000">
+        <div class="container">
+            <div class="row">
+                <h1>Ryan Haughee</h1>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div id="draft" class="card" style="width: 100%; margin: 10px">
+                        <img class="card-img-top" src="https://i.ibb.co/dL5q3ct/Screen-Shot-2022-04-11-at-3-58-06-PM.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Fantasy Football Draft App</h5>
+                            <p class="card-text">Customizable fantasy football draft room. Capable of hosting both mock and live drafts.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div id="tournament" class="card" style="width: 100%; margin: 10px">
+                        <img class="card-img-top" src="https://i.ibb.co/dL5q3ct/Screen-Shot-2022-04-11-at-3-58-06-PM.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tournament Scheduler</h5>
+                            <p class="card-text">Customizable fantasy football draft room. Capable of hosting both mock and live drafts.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div id="draft" class="card" style="width: 100%; margin: 10px">
+                        <img class="card-img-top" src="https://i.ibb.co/dL5q3ct/Screen-Shot-2022-04-11-at-3-58-06-PM.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Fantasy Football Draft App</h5>
+                            <p class="card-text">Customizable fantasy football draft room. Capable of hosting both mock and live drafts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
  

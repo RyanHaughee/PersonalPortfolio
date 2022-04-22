@@ -12,7 +12,7 @@ use App\Models\MockDraftPick;
 
 class DraftController extends Controller
 {
-    public function index(Request $request, $id){
+    public function index(Request $request, $id=null){
         $input = $request->all();
         if (!empty($id)){
             $league_id = $id;
@@ -25,20 +25,26 @@ class DraftController extends Controller
     public function get_prospects(Request $request){
         $input = $request->all();
 
+        // We want prospects who have been ranked
         $where_statement = "prospects.pos_rank is not null";
 
+        // Check to see if there is a position filter and if so add to the where statement.
         if (!empty($input) && !empty($input['pos']) && $input['pos'] != 'All'){
             $where_statement = $where_statement . " and prospects.pos = '" . $input['pos'] . "'";
         }
 
+        // Check to see if we are in a mock draft. This changes the way we query the prospects.
         $mock_draft_id = null;
         if (!empty($input['mock_draft_id'])){
             $mock_draft_id = intval($input['mock_draft_id']);
         }
 
+        // We always want to organize by overall rank.
         $order_by = "prospects.ovr_rank";
 
         if (!empty($mock_draft_id)){
+            // If mock draft is not empty, we can assume that we are in a mock draft. 
+            // Draft data (pick_id) is gathered from the mock_draft_picks table instead of the dynasty_picks table.
             $prospects = DB::table('prospects')
                 ->select(DB::raw('
                     prospects.*, 
@@ -60,6 +66,7 @@ class DraftController extends Controller
                 ->orderBy($order_by,'asc')
                 ->get();
         } else {
+            // Draft data (pick_id) is gathered from the dynasty_picks table -- there is no mock draft taking place.
             $prospects = DB::table('prospects')
                 ->select(DB::raw('
                     prospects.*, 
@@ -81,7 +88,7 @@ class DraftController extends Controller
 
         $today = strtotime(date('Y-m-d'));
         foreach($prospects as $prospect){
-            // Get prospect age to the first decimal
+            // Finding each prospects age to the first decimal.
             $bday = strtotime($prospect->birthday);
             $age = round(($today-$bday) / (365*60*60*24),1);
             $prospect->age = $age;
