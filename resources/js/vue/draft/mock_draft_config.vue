@@ -34,7 +34,8 @@ export default {
             pick: null,
             mock_draft_id: null,
             unique_id: null,
-            load_draft_id: null
+            load_draft_id: null,
+            error_message:  null
         }
     },
     mounted() {
@@ -73,21 +74,23 @@ export default {
         },
         load_draft(){
             var self = this;
+            self.error_message = null;
             var sds = {};
             sds.league_id = self.league_id;
             sds.unique_id = self.load_draft_id;
             $.get('/load_mock', sds, function(response){
                 if (response && response.success){
                     self.mock_draft_id = response.mock_draft_id;
-                    self.unique_id = response.unique_id
-                } 
-                console.log(self.unique_id);
-                var event = {
-                    'mock_draft_id': self.mock_draft_id,
-                    'team_id': response.selected_team_id,
-                    'unique_id': self.unique_id
+                    self.unique_id = response.unique_id;
+                     var event = {
+                        'mock_draft_id': self.mock_draft_id,
+                        'team_id': response.selected_team_id,
+                        'unique_id': self.unique_id
+                    }
+                    self.$emit('beginmock',event);
+                } else {
+                    self.error_message = "Invalid code.";
                 }
-                self.$emit('beginmock',event);
             })
 
         }
@@ -106,6 +109,7 @@ export default {
         <div v-if="mock_mode && mock_draft_config" style="text-align:center">
             <div style="font-weight:700;margin-top:10px;">Load Draft:</div>
             <input type="text" style="max-width:100%; color:black" v-model="load_draft_id"/>
+            <span v-if="error_message" class="badge badge-danger">{{ error_message }}</span>
             <button v-if="load_draft_id && load_draft_id.length > 8" type="button" class="btn btn-sm btn-success" style="margin-top:10px; margin-bottom:10px" @click="load_draft()">Load Draft</button>
             <div style="font-weight:700;margin-top:20px;margin-bottom:20px;">--- OR ---</div>
             <div style="font-weight:700;margin-top:10px;">Select Team:</div>

@@ -19625,7 +19625,8 @@ __webpack_require__.r(__webpack_exports__);
       pick: null,
       mock_draft_id: null,
       unique_id: null,
-      load_draft_id: null
+      load_draft_id: null,
+      error_message: null
     };
   },
   mounted: function mounted() {
@@ -19665,6 +19666,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     load_draft: function load_draft() {
       var self = this;
+      self.error_message = null;
       var sds = {};
       sds.league_id = self.league_id;
       sds.unique_id = self.load_draft_id;
@@ -19672,15 +19674,15 @@ __webpack_require__.r(__webpack_exports__);
         if (response && response.success) {
           self.mock_draft_id = response.mock_draft_id;
           self.unique_id = response.unique_id;
+          var event = {
+            'mock_draft_id': self.mock_draft_id,
+            'team_id': response.selected_team_id,
+            'unique_id': self.unique_id
+          };
+          self.$emit('beginmock', event);
+        } else {
+          self.error_message = "Invalid code.";
         }
-
-        console.log(self.unique_id);
-        var event = {
-          'mock_draft_id': self.mock_draft_id,
-          'team_id': response.selected_team_id,
-          'unique_id': self.unique_id
-        };
-        self.$emit('beginmock', event);
       });
     }
   }
@@ -20819,7 +20821,12 @@ var _hoisted_6 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_7 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_7 = {
+  key: 0,
+  "class": "badge badge-danger"
+};
+
+var _hoisted_8 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
       "font-weight": "700",
@@ -20831,7 +20838,7 @@ var _hoisted_7 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_8 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_9 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
       "font-weight": "700",
@@ -20842,13 +20849,13 @@ var _hoisted_8 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_9 = ["value"];
-var _hoisted_10 = {
-  key: 1
+var _hoisted_10 = ["value"];
+var _hoisted_11 = {
+  key: 2
 };
-var _hoisted_11 = ["src"];
+var _hoisted_12 = ["src"];
 
-var _hoisted_12 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_13 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
   /* HOISTED */
   );
@@ -20873,8 +20880,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.load_draft_id]]), $data.load_draft_id && $data.load_draft_id.length > 8 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.load_draft_id]]), $data.error_message ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error_message), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.load_draft_id && $data.load_draft_id.length > 8 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 1,
     type: "button",
     "class": "btn btn-sm btn-success",
     style: {
@@ -20884,7 +20893,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $options.load_draft();
     })
-  }, "Load Draft")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_7, _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, "Load Draft")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_8, _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "custom-select custom-select-lg mb-3",
     placeholder: "Select Team",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
@@ -20896,12 +20905,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: team
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name), 9
     /* TEXT, PROPS */
-    , _hoisted_9);
+    , _hoisted_10);
   }), 128
   /* KEYED_FRAGMENT */
   ))], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selected_team]]), $data.selected_team && $data.selected_team.logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, [$data.selected_team.logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selected_team]]), $data.selected_team && $data.selected_team.logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_11, [$data.selected_team.logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
     key: 0,
     style: {
       "height": "70px",
@@ -20910,7 +20919,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     src: $data.selected_team.logo
   }, null, 8
   /* PROPS */
-  , _hoisted_11)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  , _hoisted_12)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-sm btn-success",
     style: {
