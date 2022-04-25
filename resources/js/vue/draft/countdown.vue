@@ -1,0 +1,103 @@
+<template>
+  <div>
+    <table style="width:100%">
+      <tr>
+        <th colspan="4" style="text-align:center">
+          Draft Countdown
+        </th>
+      </tr>
+      <tr>
+        <td style="text-align:center">
+          {{day}}
+        </td>
+        <td style="text-align:center">
+          {{hour}}
+        </td>
+        <td style="text-align:center">
+          {{min}}
+        </td>
+        <td style="text-align:center">
+          {{sec}}
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align:center">
+          Days
+        </td>
+        <td style="text-align:center">
+          Hrs
+        </td>
+        <td style="text-align:center">
+          Mins
+        </td>
+        <td style="text-align:center">
+          Secs
+        </td>
+      </tr>
+    </table>
+  </div>
+</template>
+
+<script>
+export default {
+  props : {
+    endDate : {  // pass date object till when you want to run the timer
+      type : Date,
+      default(){
+        return new Date()
+      }
+    },
+    negative : {  // optional, should countdown after 0 to negative
+      type : Boolean,
+      default : false
+    }
+  },
+  data(){
+    return{
+      now : new Date(),
+      timer : null
+    }
+  },
+  computed:{
+    day(){
+      let d = Math.trunc((this.endDate - this.now) / 1000 / 3600 / 24);
+      return d>9?d:'0'+this.day;
+    },
+    hour(){
+      let h = Math.trunc((this.endDate - this.now) / 1000 / 3600) % 24;
+      return h>9?h:'0'+h;
+    },
+    min(){
+      let m = Math.trunc((this.endDate - this.now) / 1000 / 60) % 60;
+      return m>9?m:'0'+m;
+    },
+    sec(){
+      let s = Math.trunc((this.endDate - this.now)/1000) % 60
+      return s>9?s:'0'+s;
+    }
+  },
+  watch : {
+    endDate : {
+      immediate : true,
+      handler(newVal){
+        if(this.timer){
+          clearInterval(this.timer)
+        }
+        this.timer = setInterval(()=>{
+          this.now = new Date()
+          if(this.negative)
+            return
+          if(this.now > newVal){
+            this.now = newVal
+            this.$emit('endTime')
+            clearInterval(this.timer)
+          }
+        }, 1000)
+      }
+    }
+  },
+  beforeDestroy(){
+    clearInterval(this.timer)
+  }
+}
+</script>

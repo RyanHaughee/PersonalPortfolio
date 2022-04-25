@@ -46,12 +46,14 @@ import DraftBoard from './draft_board.vue'
 import OtcPick from './otc_pick.vue'
 import LastPick from './last_pick.vue'
 import MockDraftConfig from './mock_draft_config.vue'
+import Countdown from './countdown.vue'
 export default {
-    components: { Prospects, DraftTicker, DraftBoard, OtcPick, LastPick, MockDraftConfig },
+    components: { Prospects, DraftTicker, DraftBoard, OtcPick, LastPick, MockDraftConfig, Countdown},
     props: ['league_id'],
     mounted() {
         var self = this;
         self.get_teams();
+        self.draft_date = new Date('05/07/2022 20:00:00');
     },
     data() {
         return {
@@ -62,7 +64,8 @@ export default {
             reload_key: 0,
             team_id: null,
             mock_draft_id: null,
-            filter_team_id: 'all'
+            filter_team_id: 'all',
+            draft_date: null
         }
     },
     methods: {
@@ -164,6 +167,7 @@ export default {
                             <option v-for="team in teams" :value="team.id" :key="team">{{ team.team_name }}</option>
                         </select>
                     </span>
+                    <countdown v-if="draft_date && league_id == 1" :endDate="draft_date" style="margin-top:10px;margin-bottom:10px"></countdown>
                     <otc-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" :league_id="league_id" ref="otc_pick"></otc-pick>
                     <last-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" :league_id="league_id" ref="last_pick"></last-pick>
                     <span v-if="!mock_draft_id">
