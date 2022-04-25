@@ -65,7 +65,8 @@ export default {
             team_id: null,
             mock_draft_id: null,
             filter_team_id: 'all',
-            draft_date: null
+            draft_date: null,
+            unique_id:null
         }
     },
     methods: {
@@ -79,6 +80,7 @@ export default {
         begin_mock(event){
             var self = this;
             self.mock_draft_id = event.mock_draft_id;
+            self.unique_id = event.unique_id;
             self.team_id = event.team_id;
         },
         make_next_pick(){
@@ -173,10 +175,14 @@ export default {
                     <span v-if="!mock_draft_id">
                         <mock-draft-config @beginmock="begin_mock" :league_id="league_id"></mock-draft-config>
                     </span>
-                    <span v-else>
+                    <span v-else style="text-align:center">
                         <button type="button" class="btn btn-sm btn-success" style="margin-top:10px" @click="make_next_pick()">Sim Next Pick</button>
                         <button type="button" class="btn btn-sm btn-secondary" style="margin-top:10px" @click="sim_to_next_pick()">Sim To My Pick</button>
                         <button type="button" class="btn btn-sm btn-danger" style="margin-top:10px" @click="end_mock()">End Mock</button>
+                        <div v-if="unique_id">
+                            <div style="font-weight:700;margin-top:10px;">Draft ID:</div>
+                            <input type="text" readonly="readonly" :value="unique_id" style="max-width:100%; color:black"/>
+                        </div>
                     </span>
                 </div>
                 <div class="col-sm-10" v-if="parent_menu_selected == 'players'">

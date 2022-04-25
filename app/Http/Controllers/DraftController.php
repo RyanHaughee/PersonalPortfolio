@@ -390,13 +390,26 @@ class DraftController extends Controller
     public function start_mock(Request $request){
         $input = $request->all();
         $league_id = $input['league_id'];
+        $team_id = $input['selected_team'];
         $answer = array();
+
+        // Generate random string for identifying mock draft in the future
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randstring = '';
+        for ($i = 0; $i < 10; $i++) {
+            $randstring = $randstring.$characters[rand(0, (strlen($characters)-1))];
+        }
+
+
         $mock_draft = new MockDraft;
         $mock_draft->league_id = $league_id;
+        $mock_draft->selected_team_id = $team_id;
+        $mock_draft->unique_id = $randstring;
         $mock_draft->save();
 
         $answer['success'] = true;
         $answer['mock_draft_id'] = $mock_draft->id;
+        $answer['unique_id'] = $mock_draft->unique_id;
         return $answer;
     }
 
@@ -592,5 +605,41 @@ class DraftController extends Controller
         $answer['success'] = true;
         return $answer;
         
+    }
+
+    public function get_mock(Request $request){
+        $input = $request->all();
+        $league_id = $input['league_id'];
+        $unique_id = $input['unique_id'];
+        $answer = array();
+
+        $mock_draft = DB::table('mock_drafts')
+            ->select(DB::raw('mock_drafts.id'))
+            ->where('mock_drafts.unique_id','=',$unique_id)
+            ->where('mock_drafts.league_id','=',$league_id)
+            ->first();
+
+        if (empty($mock_draft) || empty($mock_draft->id)){
+            $answer['success'] = false;
+            $answer['message'] = "No mock draft found for the provided string.";
+            return $answer;
+        }
+
+        $mock_draft_check = MockDraft::find($mock_draft->id);
+
+        if (empty($mock_draft_check)){
+            $answer['success'] = false;
+            $answer['message'] = "No mock draft found for the provided string.";
+            return $answer;
+        } else {
+            $answer['success'] = true;
+            $answer['mock_draft_id'] = $mock_draft_check->id;
+            $answer['unique_id'] = $unique_id;
+            $answer['selected_team_id'] = $mock_draft_check->selected_team_id;
+            return $answer;
+        }
+
+
+
     }
 }

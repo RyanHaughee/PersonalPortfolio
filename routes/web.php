@@ -35,6 +35,7 @@ Route::get('get_teams', [DraftController::class, 'get_teams']);
 Route::post('start_mock', [DraftController::class, 'start_mock']);
 Route::get('mock_next_pick', [DraftController::class, 'mock_next_pick']);
 Route::get('mock_until_next_pick', [DraftController::class, 'mock_until_next_pick']);
+Route::get('load_mock', [DraftController::class, 'get_mock']);
 
 // LEAGUE / TOURNAMENT SCHEDULER
 Route::get('/scheduler', [ScheduleController::class, 'index']);

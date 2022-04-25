@@ -19443,7 +19443,8 @@ __webpack_require__.r(__webpack_exports__);
       team_id: null,
       mock_draft_id: null,
       filter_team_id: 'all',
-      draft_date: null
+      draft_date: null,
+      unique_id: null
     };
   },
   methods: {
@@ -19457,6 +19458,7 @@ __webpack_require__.r(__webpack_exports__);
     begin_mock: function begin_mock(event) {
       var self = this;
       self.mock_draft_id = event.mock_draft_id;
+      self.unique_id = event.unique_id;
       self.team_id = event.team_id;
     },
     make_next_pick: function make_next_pick() {
@@ -19621,7 +19623,9 @@ __webpack_require__.r(__webpack_exports__);
       selected_team: null,
       teams: [],
       pick: null,
-      mock_draft_id: null
+      mock_draft_id: null,
+      unique_id: null,
+      load_draft_id: null
     };
   },
   mounted: function mounted() {
@@ -19644,14 +19648,37 @@ __webpack_require__.r(__webpack_exports__);
       self.mock_draft_config = 0;
       var sds = {};
       sds.league_id = self.league_id;
+      sds.selected_team = self.selected_team.id;
       $.post('/start_mock', sds, function (response) {
         if (response && response.success) {
           self.mock_draft_id = response.mock_draft_id;
+          self.unique_id = response.unique_id;
         }
 
         var event = {
           'mock_draft_id': self.mock_draft_id,
-          'team_id': self.selected_team.id
+          'team_id': self.selected_team.id,
+          'unique_id': self.unique_id
+        };
+        self.$emit('beginmock', event);
+      });
+    },
+    load_draft: function load_draft() {
+      var self = this;
+      var sds = {};
+      sds.league_id = self.league_id;
+      sds.unique_id = self.load_draft_id;
+      $.get('/load_mock', sds, function (response) {
+        if (response && response.success) {
+          self.mock_draft_id = response.mock_draft_id;
+          self.unique_id = response.unique_id;
+        }
+
+        console.log(self.unique_id);
+        var event = {
+          'mock_draft_id': self.mock_draft_id,
+          'team_id': response.selected_team_id,
+          'unique_id': self.unique_id
         };
         self.$emit('beginmock', event);
       });
@@ -20360,13 +20387,30 @@ var _hoisted_21 = {
   key: 3
 };
 var _hoisted_22 = {
-  key: 4
+  key: 4,
+  style: {
+    "text-align": "center"
+  }
 };
 var _hoisted_23 = {
+  key: 0
+};
+
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  style: {
+    "font-weight": "700",
+    "margin-top": "10px"
+  }
+}, "Draft ID:", -1
+/* HOISTED */
+);
+
+var _hoisted_25 = ["value"];
+var _hoisted_26 = {
   key: 0,
   "class": "col-sm-10"
 };
-var _hoisted_24 = {
+var _hoisted_27 = {
   key: 1,
   "class": "col-sm-10"
 };
@@ -20527,7 +20571,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[10] || (_cache[10] = function ($event) {
       return $options.end_mock();
     })
-  }, "End Mock")]))]), $data.parent_menu_selected == 'players' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_prospects, {
+  }, "End Mock"), $data.unique_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    readonly: "readonly",
+    value: $data.unique_id,
+    style: {
+      "max-width": "100%",
+      "color": "black"
+    }
+  }, null, 8
+  /* PROPS */
+  , _hoisted_25)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]))]), $data.parent_menu_selected == 'players' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_prospects, {
     pos: $data.filter.pos,
     onPlayerSelected: _cache[11] || (_cache[11] = function ($event) {
       return $options.reload_components();
@@ -20537,7 +20591,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "prospects"
   }, null, 8
   /* PROPS */
-  , ["pos", "mock_draft_id", "league_id"])])) : $data.parent_menu_selected == 'board' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draft_board, {
+  , ["pos", "mock_draft_id", "league_id"])])) : $data.parent_menu_selected == 'board' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draft_board, {
     mock_draft_id: $data.mock_draft_id,
     pos: $data.filter.pos,
     league_id: $props.league_id,
@@ -20760,18 +20814,41 @@ var _hoisted_6 = /*#__PURE__*/_withScopeId(function () {
       "font-weight": "700",
       "margin-top": "10px"
     }
+  }, "Load Draft:", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_7 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "font-weight": "700",
+      "margin-top": "20px",
+      "margin-bottom": "20px"
+    }
+  }, "--- OR ---", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_8 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "font-weight": "700",
+      "margin-top": "10px"
+    }
   }, "Select Team:", -1
   /* HOISTED */
   );
 });
 
-var _hoisted_7 = ["value"];
-var _hoisted_8 = {
-  key: 0
+var _hoisted_9 = ["value"];
+var _hoisted_10 = {
+  key: 1
 };
-var _hoisted_9 = ["src"];
+var _hoisted_11 = ["src"];
 
-var _hoisted_10 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_12 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
   /* HOISTED */
   );
@@ -20785,10 +20862,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.mock_mode]]), _hoisted_4])]), $data.mock_mode && $data.mock_draft_config ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.mock_mode]]), _hoisted_4])]), $data.mock_mode && $data.mock_draft_config ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    style: {
+      "max-width": "100%",
+      "color": "black"
+    },
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.load_draft_id = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.load_draft_id]]), $data.load_draft_id && $data.load_draft_id.length > 8 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    "class": "btn btn-sm btn-success",
+    style: {
+      "margin-top": "10px",
+      "margin-bottom": "10px"
+    },
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $options.load_draft();
+    })
+  }, "Load Draft")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_7, _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "custom-select custom-select-lg mb-3",
     placeholder: "Select Team",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.selected_team = $event;
     })
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team) {
@@ -20797,12 +20896,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: team
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name), 9
     /* TEXT, PROPS */
-    , _hoisted_7);
+    , _hoisted_9);
   }), 128
   /* KEYED_FRAGMENT */
   ))], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selected_team]]), $data.selected_team && $data.selected_team.logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, [$data.selected_team.logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selected_team]]), $data.selected_team && $data.selected_team.logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, [$data.selected_team.logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
     key: 0,
     style: {
       "height": "70px",
@@ -20811,14 +20910,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     src: $data.selected_team.logo
   }, null, 8
   /* PROPS */
-  , _hoisted_9)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  , _hoisted_11)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-sm btn-success",
     style: {
       "margin-top": "10px",
       "margin-bottom": "10px"
     },
-    onClick: _cache[2] || (_cache[2] = function ($event) {
+    onClick: _cache[4] || (_cache[4] = function ($event) {
       return $options.begin_draft();
     })
   }, "Begin Draft")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
