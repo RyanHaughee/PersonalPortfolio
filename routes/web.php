@@ -44,3 +44,4 @@ Route::get('get_bracket', [ScheduleController::class, 'get_bracket']);
 Route::post('set_teams',[ScheduleController::class, 'set_teams']);
 Route::post('submit_score',[ScheduleController::class, 'submit_score']);
 Route::get('load_bracket_by_code', [ScheduleController::class, 'load_bracket_by_code']);
+Route::get('get_tournament_teams', [ScheduleController::class, 'get_tournament_teams']);

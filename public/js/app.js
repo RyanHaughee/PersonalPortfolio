@@ -19431,7 +19431,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var self = this;
     self.get_teams();
-    self.draft_date = new Date('05/07/2022 20:00:00');
+    self.draft_date = new Date('05/07/2022 18:00:00');
   },
   data: function data() {
     return {
@@ -19961,10 +19961,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      tournament_select: 'single_elim',
+      tournament_select: null,
       tab: null,
       tournament_id: null,
-      tournament_code: null
+      tournament_code: null,
+      schedule_tab: 'bracket'
     };
   },
   methods: {
@@ -19982,7 +19983,10 @@ __webpack_require__.r(__webpack_exports__);
       sds.code = self.tournament_code;
       $.get('load_bracket_by_code', sds, function (response) {
         if (response.success) {
+          self.tournament_id = response.tournament_id;
           self.$refs.bracket_view.get_bracket(response.tournament_id);
+          self.tournament_select = "single_elimination";
+          self.$refs.team_editor.get_teams(self.tournament_id);
         }
       });
     }
@@ -20050,6 +20054,16 @@ __webpack_require__.r(__webpack_exports__);
             'tournament_id': response.tournament_id
           };
           self.$emit('tournamentCreated', event);
+        }
+      });
+    },
+    get_teams: function get_teams(tournament_id) {
+      var self = this;
+      var sds = {};
+      sds.tournament_id = tournament_id;
+      $.get('get_tournament_teams', sds, function (response) {
+        if (response.success) {
+          self.teams = response.tournament_teams;
         }
       });
     }
@@ -21913,7 +21927,7 @@ var _hoisted_4 = {
   }
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Know what you want?", -1
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Create a Tournament", -1
 /* HOISTED */
 );
 
@@ -21941,26 +21955,23 @@ var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 
 var _hoisted_10 = [_hoisted_7, _hoisted_8, _hoisted_9];
 var _hoisted_11 = {
-  key: 0,
+  "class": "col-sm-6"
+};
+
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Load a Tournament", -1
+/* HOISTED */
+);
+
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Enter your tournament's private code below.", -1
+/* HOISTED */
+);
+
+var _hoisted_14 = {
   "class": "container",
   style: {
     "margin-top": "20px"
   }
 };
-var _hoisted_12 = {
-  "class": "row"
-};
-var _hoisted_13 = {
-  "class": "col-sm-12",
-  style: {
-    "text-align": "center"
-  }
-};
-
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Tournament Setup", -1
-/* HOISTED */
-);
-
 var _hoisted_15 = {
   "class": "row"
 };
@@ -21985,6 +21996,9 @@ var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_20 = {
   "class": "col-sm-9"
 };
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"container\" style=\"margin-top:20px;height:auto;\"><div class=\"row\"><div class=\"col-sm-12\"><span class=\"tab-row\" style=\"display:inline-block;\"> Bracket </span><span class=\"tab-row\" style=\"display:inline-block;\"> Schedule </span></div></div></div>", 1);
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_team_editor = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("team-editor");
 
@@ -22002,7 +22016,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Select"
   }, _hoisted_10, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.tournament_select]])])])])]), $data.tournament_select ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.tournament_select]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_12, _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.tournament_code = $event;
@@ -22021,7 +22035,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $options.load_tournament();
     })
-  }, "Load")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Load")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "tab-row",
     onClick: _cache[3] || (_cache[3] = function ($event) {
       return $data.tab = 'teams';
@@ -22039,13 +22053,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[5] || (_cache[5] = function ($event) {
       return $options.generate_bracket();
     })
-  }, "Generate Bracket")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [$data.tab == 'teams' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_team_editor, {
-    key: 0,
+  }, "Generate Bracket")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_team_editor, {
     onTournamentCreated: $options.create_bracket,
     ref: "team_editor"
   }, null, 8
   /* PROPS */
-  , ["onTournamentCreated"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_bracket_view, {
+  , ["onTournamentCreated"])])])]), _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_bracket_view, {
     ref: "bracket_view"
   }, null, 512
   /* NEED_PATCH */
@@ -22139,11 +22152,18 @@ var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_11 = {
   style: {
     "margin-top": "10px"
+  },
+  id: "teams_table"
+};
+
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Seed"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  style: {
+    "width": "200px"
   }
-};
-var _hoisted_12 = {
-  "class": "badge bg-primary team-badge"
-};
+}, "Team Name"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Actions")], -1
+/* HOISTED */
+);
+
 var _hoisted_13 = {
   key: 0
 };
@@ -22193,21 +22213,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $options.add_team();
     })
-  }, _hoisted_9)])]), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: team,
-      style: {
-        "margin-top": "5px"
-      }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, [team.seed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.seed) + " ", 1
+  }, _hoisted_9)])]), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_11, [_hoisted_12, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: team
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [team.seed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.seed), 1
     /* TEXT */
-    )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.name) + " ", 1
+    )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.name), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       onClick: function onClick($event) {
         return $options.edit_team(index);
       },
-      "class": "fa-solid fa-pen-to-square hover-show",
+      "class": "fa-solid fa-pen-to-square",
       style: {
         "cursor": "pointer",
         "margin-left": "10px"
@@ -22218,7 +22235,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.remove_team(index);
       },
-      "class": "fa-solid fa-xmark hover-show",
+      "class": "fa-solid fa-xmark",
       style: {
         "cursor": "pointer"
       }
@@ -22450,7 +22467,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#scheduler_container{\n        color:#ffffff;\n}\n.tab-row{\n        background-color:#30302d;\n        padding:10px;\n        border-radius: 5px;\n        margin-top:5px\n}\n.tab-row:hover{\n        background-color:#4f4f46;\n}\n.bracket-round{\n        max-width:250px; width:250px; display: inline-block; vertical-align:top;\n}\n.matchup{\n        margin-bottom:10px;\n}\n.bracket-team{\n        max-width:200px; width:200px; height:30px; background-color:#30302D;color:#FFFFFF; display: flex; justify-content: center; align-content: center;flex-direction: column; padding-left: 5px;\n}\n.team-top{\n        border-bottom:1px; border-bottom-color: #000000; border-bottom-style:solid; border-top-right-radius: 2px;border-top-left-radius: 2px\n}\n.team-bottom{\n        border-bottom-right-radius: 2px;border-bottom-left-radius: 2px\n}\n.winning-team{\n        border-left: 10px solid; border-right:1px solid; border-top:1px solid; border-bottom:1px solid; border-color: green;\n}\n.losing-team{\n        border-left: 10px solid; border-left-color:gray;\n}\n.add-score{\n        cursor:pointer; float:right; margin-right:5px;\n}\n.hover-show{\n        display:none;\n}\n.team-badge:hover .hover-show{\n        display:inline-block;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#scheduler_container{\n        color:#ffffff;\n}\n.tab-row{\n        background-color:#30302d;\n        padding:10px;\n        border-radius: 5px;\n        margin-top:5px\n}\n.tab-row:hover{\n        background-color:#4f4f46;\n}\n.bracket-round{\n        max-width:250px; width:250px; display: inline-block; vertical-align:top;\n}\n.matchup{\n        margin-bottom:10px;\n}\n.bracket-team{\n        max-width:200px; width:200px; height:30px; background-color:#30302D;color:#FFFFFF; display: flex; justify-content: center; align-content: center;flex-direction: column; padding-left: 5px;\n}\n.team-top{\n        border-bottom:1px; border-bottom-color: #000000; border-bottom-style:solid; border-top-right-radius: 2px;border-top-left-radius: 2px\n}\n.team-bottom{\n        border-bottom-right-radius: 2px;border-bottom-left-radius: 2px\n}\n.winning-team{\n        border-left: 10px solid; border-right:1px solid; border-top:1px solid; border-bottom:1px solid; border-color: green;\n}\n.losing-team{\n        border-left: 10px solid; border-left-color:gray;\n}\n.add-score{\n        cursor:pointer; float:right; margin-right:5px;\n}\n.hover-show{\n        display:none;\n}\n.team-badge:hover .hover-show{\n        display:inline-block;\n}\n#teams_table, td, th{\n        padding: 2px\n}\n#teams_table, th{\n        text-align: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

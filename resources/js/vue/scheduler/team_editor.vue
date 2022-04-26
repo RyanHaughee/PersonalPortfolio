@@ -44,6 +44,16 @@ export default {
                     self.$emit('tournamentCreated',event);
                 }
             })
+        },
+        get_teams(tournament_id){
+            var self = this;
+            var sds = {};
+            sds.tournament_id = tournament_id;
+            $.get('get_tournament_teams', sds, function(response){
+                if (response.success){
+                    self.teams = response.tournament_teams;
+                }
+            })
         }
     }
 }
@@ -66,8 +76,23 @@ export default {
             </div>
         </div>
         <div style="display: block; clear: both;"></div>
-        <div style="margin-top:10px">
-            <div v-for="(team,index) in teams" :key="team" style="margin-top:5px"><span class="badge bg-primary team-badge"><span v-if="team.seed">#{{ team.seed }}&nbsp;</span>{{ team.name }}&nbsp;<i @click="edit_team(index)" class="fa-solid fa-pen-to-square hover-show" style="cursor:pointer; margin-left:10px"></i>&nbsp;<i @click="remove_team(index)" class="fa-solid fa-xmark hover-show" style="cursor:pointer"></i></span></div>
-        </div>
+        <table style="margin-top:10px" id="teams_table">
+            <tr>
+                <th>Seed</th>
+                <th style="width:200px">Team Name</th>
+                <th>Actions</th>
+            </tr>
+            <tr v-for="(team,index) in teams" :key="team">
+                <td>
+                    <span v-if="team.seed">#{{ team.seed }}</span>
+                </td>
+                <td>
+                    {{ team.name }}
+                </td>
+                <td>
+                    <i @click="edit_team(index)" class="fa-solid fa-pen-to-square" style="cursor:pointer; margin-left:10px"></i>&nbsp;<i @click="remove_team(index)" class="fa-solid fa-xmark" style="cursor:pointer"></i>
+                </td>
+            </tr>
+        </table>
     </div>
 </template>

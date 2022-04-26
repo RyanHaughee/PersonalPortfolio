@@ -340,4 +340,18 @@ class ScheduleController extends Controller
         $response['tournament_id'] = $tournament->id;
         return $response;
     }
+
+    public function get_tournament_teams(Request $request){
+        $input = $request->all();
+        $tournament_id = $input['tournament_id'];
+
+        $tournament_teams = DB::table('tournament_teams')
+            ->select(DB::raw('*'))
+            ->where('tournament_teams.tournament_id','=',$tournament_id)
+            ->get();
+
+        $response['success'] = true;
+        $response['tournament_teams'] = $tournament_teams;
+        return $response;
+    }
 }

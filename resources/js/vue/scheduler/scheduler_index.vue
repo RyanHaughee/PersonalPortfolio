@@ -41,6 +41,12 @@
     .team-badge:hover .hover-show{
         display:inline-block;;
     }
+    #teams_table, td, th{
+        padding: 2px
+    }
+    #teams_table, th{
+        text-align: center;
+    }
 </style>
 
 <script>
@@ -53,10 +59,11 @@ export default {
     },
     data() {
         return {
-            tournament_select: 'single_elim',
+            tournament_select: null,
             tab: null,
             tournament_id: null,
-            tournament_code: null
+            tournament_code: null,
+            schedule_tab: 'bracket'
         }
     },
     methods: {
@@ -74,10 +81,13 @@ export default {
             sds.code = self.tournament_code;
             $.get('load_bracket_by_code', sds, function(response){
                 if (response.success){
+                    self.tournament_id = response.tournament_id;
                     self.$refs.bracket_view.get_bracket(response.tournament_id);
+                    self.tournament_select = "single_elimination";
+                    self.$refs.team_editor.get_teams(self.tournament_id);
                 }
             })
-        }
+        },
     }
 }
 </script>
@@ -92,7 +102,7 @@ export default {
         <div class="row">
             <div class="col-sm-6" style="border: 1px; border-right-style: solid; ">
                 <div>
-                    <h3>Know what you want?</h3>
+                    <h3>Create a Tournament</h3>
                     <h4>What style of tournament?</h4>
                     <select class="custom-select" v-model="tournament_select" style="font-size:14px;height:100%" placeholder="Select">
                         <option value="single_elim">Single Elimination Tournament</option>
@@ -101,16 +111,17 @@ export default {
                     </select>
                 </div>
             </div>
-        </div>
-    </div>
-    <div v-if="tournament_select" class="container" style="margin-top:20px">
-        <div class="row">
-            <div class="col-sm-12" style="text-align:center">
-                <h2>Tournament Setup</h2>
-                <input type="text" v-model="tournament_code" style="color:black; display:inline-block"/>
-                <button class="btn btn-sm btn-primary" style="margin-left:10px" @click="load_tournament()">Load</button>
+            <div class="col-sm-6">
+                <div>
+                    <h3>Load a Tournament</h3>
+                    <h4>Enter your tournament's private code below.</h4>
+                    <input type="text" v-model="tournament_code" style="color:black; display:inline-block"/>
+                    <button class="btn btn-sm btn-primary" style="margin-left:10px" @click="load_tournament()">Load</button>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="container" style="margin-top:20px">
         <div class="row">
             <div class="col-sm-3">
                 <h4>Navigation</h4>
@@ -126,11 +137,22 @@ export default {
                 <div>*Required</div>
                 <div>
                     <button class="btn btn-md btn-success" style="margin-top:10px" @click="generate_bracket()">Generate Bracket</button>
-
                 </div>
             </div>
             <div class="col-sm-9">
-                <team-editor v-if="tab == 'teams'" @tournamentCreated="create_bracket" ref="team_editor"></team-editor>
+                <team-editor @tournamentCreated="create_bracket" ref="team_editor"></team-editor>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="margin-top:20px; height:auto">
+        <div class="row">
+            <div class="col-sm-12">
+                <span class="tab-row" style="display: inline-block;">
+                    Bracket
+                </span>
+                <span class="tab-row" style="display: inline-block;">
+                    Schedule
+                </span>
             </div>
         </div>
     </div>
