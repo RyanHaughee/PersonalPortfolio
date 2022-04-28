@@ -61,7 +61,6 @@ export default {
   computed:{
     day(){
       let d = Math.trunc((this.endDate - this.now) / 1000 / 3600 / 24);
-      console.log(d);
       return d>9?d:'0'+d;
     },
     hour(){

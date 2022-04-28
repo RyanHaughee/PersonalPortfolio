@@ -19295,7 +19295,6 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     day: function day() {
       var d = Math.trunc((this.endDate - this.now) / 1000 / 3600 / 24);
-      console.log(d);
       return d > 9 ? d : '0' + d;
     },
     hour: function hour() {
