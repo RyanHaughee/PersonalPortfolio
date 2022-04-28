@@ -5,6 +5,7 @@ export default {
         return {
             new_team: {},
             teams: [],
+            show: 0,
         }
     },
     mounted() {
@@ -36,7 +37,7 @@ export default {
             var self = this;
             var sds = {};
             sds.teams = self.teams;
-            $.post('set_teams', sds, function(response){
+            $.post('/tournamnet/set_teams', sds, function(response){
                 if (response && response.success){
                     var event = {
                         'tournament_id': response.tournament_id
@@ -49,7 +50,7 @@ export default {
             var self = this;
             var sds = {};
             sds.tournament_id = tournament_id;
-            $.get('get_tournament_teams', sds, function(response){
+            $.get('/tournamnet/get_tournament_teams', sds, function(response){
                 if (response.success){
                     self.teams = response.tournament_teams;
                 }
@@ -59,7 +60,7 @@ export default {
 }
 </script>
 <template>
-    <div>
+    <div v-if="show">
         <h4>Add Teams</h4>
         <div>
             <div style="float:left;">

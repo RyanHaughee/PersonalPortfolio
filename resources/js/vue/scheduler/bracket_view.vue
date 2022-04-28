@@ -6,7 +6,8 @@ export default {
             tournament: [],
             show_edit:null,
             edit_score_game_id:null,
-            tournament_id: null
+            tournament_id: null,
+            show: 0
         }
     },
     mounted() {
@@ -18,7 +19,7 @@ export default {
             var sds = {};
             self.tournament_id = tournament_id
             sds.tournament_id = tournament_id;
-            $.get('generate_bracket', sds, function(response){
+            $.get('/tournamnet/generate_bracket', sds, function(response){
                 if (response.success){
                     self.get_bracket(tournament_id);
                 }
@@ -31,7 +32,7 @@ export default {
                 self.tournament_id = tournament_id;
             }
             sds.tournament_id = self.tournament_id;
-            $.get('get_bracket', sds, function(response){
+            $.get('/tournamnet/get_bracket', sds, function(response){
                 if (response.success){
                     self.tournament = response.tournament;
                 }
@@ -49,7 +50,7 @@ export default {
             sds.tournament_id = self.tournament_id;
             sds.team_1_score = game.team_1_score;
             sds.team_2_score = game.team_2_score;
-            $.post('submit_score', sds, function(response){
+            $.post('/tournamnet/submit_score', sds, function(response){
                 if (response.success){
                     self.get_bracket();
                 }
@@ -61,7 +62,7 @@ export default {
 </script>
 <template>
 
-    <div class="container" style="white-space: nowrap;overflow-x:scroll">
+    <div v-if="show" class="container" style="white-space: nowrap;overflow-x:scroll">
         <div class="bracket-round" v-for="(round, index) in tournament" :key="round">
             <span v-for="(game, index2) in round.games" :key="game">
                 <div class="matchup" :style="[index2 == 0 ? {marginTop: round.top_margin+'px'} : {marginTop: round.matchup_margin+'px'}]" @mouseover="show_edit=game.tournament_game_id">

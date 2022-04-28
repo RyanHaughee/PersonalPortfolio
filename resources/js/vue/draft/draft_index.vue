@@ -89,7 +89,7 @@ export default {
             sds.mock_draft_id = self.mock_draft_id;
             sds.team_id = self.team_id;
             sds.league_id = self.league_id;
-            $.get('/mock_next_pick', sds, function(response){
+            $.get('/draft_function/mock_next_pick', sds, function(response){
                 if (response){
                     self.$refs.otc_pick.get_otc_pick();
                     self.$refs.last_pick.get_last_pick();
@@ -107,7 +107,7 @@ export default {
             sds.mock_draft_id = self.mock_draft_id;
             sds.team_id = self.team_id;
             sds.league_id = self.league_id;
-            $.get('/mock_until_next_pick', sds, function(response){
+            $.get('/draft_function/mock_until_next_pick', sds, function(response){
                 self.$refs.otc_pick.get_otc_pick();
                 self.$refs.last_pick.get_last_pick();
                 if (self.parent_menu_selected == 'players'){
@@ -125,7 +125,7 @@ export default {
             var self = this;
             var sds = {};
             sds.league_id = self.league_id;
-            $.get('/get_teams', sds, function(response){
+            $.get('/draft_function/get_teams', sds, function(response){
                 if (response && response.success){
                     self.teams = response.teams;
                 } 

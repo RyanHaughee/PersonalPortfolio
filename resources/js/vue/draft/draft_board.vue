@@ -89,7 +89,7 @@ export default {
             }
             sds.league_id = self.league_id
             sds.filter_team_id = self.filter_team_id
-            $.get('/get_all_draft_picks', sds, function(response){
+            $.get('/draft_function/get_all_draft_picks', sds, function(response){
                 if (response){
                     self.draft_picks = response.all_draft_picks;
                 } 

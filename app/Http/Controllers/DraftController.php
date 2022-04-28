@@ -34,6 +34,7 @@ class DraftController extends Controller
 
     public function get_prospects(Request $request){
         $input = $request->all();
+        Log::info($input);
 
         // We want prospects who have been ranked
         $where_statement = "prospects.pos_rank is not null";

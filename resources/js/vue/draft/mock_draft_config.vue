@@ -47,7 +47,7 @@ export default {
             var self = this;
             var sds = {};
             sds.league_id = self.league_id;
-            $.get('/get_teams', sds, function(response){
+            $.get('/draft_function/get_teams', sds, function(response){
                 if (response && response.success){
                     self.teams = response.teams;
                 } 
@@ -59,7 +59,7 @@ export default {
             var sds = {};
             sds.league_id = self.league_id;
             sds.selected_team = self.selected_team.id;
-            $.post('/start_mock', sds, function(response){
+            $.post('/draft_function/start_mock', sds, function(response){
                 if (response && response.success){
                     self.mock_draft_id = response.mock_draft_id;
                     self.unique_id = response.unique_id
@@ -78,7 +78,7 @@ export default {
             var sds = {};
             sds.league_id = self.league_id;
             sds.unique_id = self.load_draft_id;
-            $.get('/load_mock', sds, function(response){
+            $.get('/draft_function/load_mock', sds, function(response){
                 if (response && response.success){
                     self.mock_draft_id = response.mock_draft_id;
                     self.unique_id = response.unique_id;

@@ -93,7 +93,7 @@ export default {
             var sds = {};
             sds.pos = self.pos;
             sds.mock_draft_id = self.mock_draft_id;
-            $.get('/get_prospects', sds, function(response){
+            $.get('/draft_function/get_prospects', sds, function(response){
                 if (response){
                     self.prospects = response.prospects;
                     self.selected_index = null;
@@ -130,7 +130,7 @@ export default {
             } else {
                 var sds = {};
                 sds.password = self.password;
-                $.post('/password_check', sds, function(response){
+                $.post('/draft_function/password_check', sds, function(response){
                     if (response){
                         if (response.success){
                             self.select_player(prospect_id);
@@ -149,7 +149,7 @@ export default {
             sds.prospect_id = prospect_id;
             sds.mock_draft_id = self.mock_draft_id;
             sds.league_id = self.league_id;
-            $.post('/select_prospect', sds, function(response){
+            $.post('/draft_function/select_prospect', sds, function(response){
                 if (response){
                     if (response.success){
                         self.$emit('playerSelected');

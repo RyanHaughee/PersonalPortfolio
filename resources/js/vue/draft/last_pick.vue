@@ -30,7 +30,7 @@ export default {
                 sds.mock_draft_id = self.mock_draft_id
             }
             sds.league_id = self.league_id;
-            $.get('/get_last_pick', sds, function(response){
+            $.get('/draft_function/get_last_pick', sds, function(response){
                 if (response){
                     self.last_pick = response.last_pick;
                 } 
