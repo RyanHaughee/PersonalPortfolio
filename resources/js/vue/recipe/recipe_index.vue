@@ -65,7 +65,6 @@ export default {
         },
         clear_ingredient_array(){
             var self = this;
-            console.log("test2");
         }
     }
 }
@@ -75,7 +74,7 @@ export default {
     <div>
         <div class="container">
             <div class="row">
-                <div class="col-sm-6" style="text-align:center; margin-top:10px" v-click-outside="clear_ingredient_array()">
+                <div class="col-sm-6" style="text-align:center; margin-top:10px">
                     <h4>Choose Ingredients</h4>
                     <input type="text" v-model="ingredient_search" style="color:#000000; width:300px;border-radius: 10px; padding: 5px 10px;"/>
                     <div style="width:290px; margin:auto" :style="[(ingredient_list.length && show_results) ? { 'border':'solid gray','border-style':'1px' } : '']">

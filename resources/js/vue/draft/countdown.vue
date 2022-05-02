@@ -1,8 +1,8 @@
 <template>
   <div>
-    <table style="width:100%">
+    <table style="width:100%; border:1px solid; border-style:#ffffff">
       <tr>
-        <th colspan="4" style="text-align:center">
+        <th colspan="4" style="text-align:center; background-color:#E18B68">
           Draft Countdown
         </th>
       </tr>
@@ -21,17 +21,17 @@
         </td>
       </tr>
       <tr>
-        <td style="text-align:center">
-          Days
+        <td style="text-align:center; font-size:10px">
+          DAY
         </td>
-        <td style="text-align:center">
-          Hrs
+        <td style="text-align:center; font-size:10px">
+          HR
         </td>
-        <td style="text-align:center">
-          Mins
+        <td style="text-align:center; font-size:10px">
+          MIN
         </td>
-        <td style="text-align:center">
-          Secs
+        <td style="text-align:center; font-size:10px">
+          SEC
         </td>
       </tr>
     </table>

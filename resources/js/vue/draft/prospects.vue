@@ -3,6 +3,9 @@
         .heading{
             font-size:20px
         }
+        .player-row{
+            width:100%
+        }
         .table{
             font-size:14px
         }
@@ -26,6 +29,9 @@
         }
         .mobile-break{
             display:none;
+        }
+        .rank-table{
+            font-size:18px;
         }
     }
     @media (max-width : 480px) {
@@ -52,6 +58,9 @@
         }
         .low-padding{
             padding:3px !important
+        }
+        .rank-table{
+            font-size:10px;
         }
     }
 
@@ -175,7 +184,7 @@ export default {
                           <template v-if="selected_index == index && selected_prospect">
                               <td colspan="5" style="background-color:#1e2121">
                                   <div style="max-width:100%; margin-bottom:20px">
-                                      <div class="row" style="text-align:center;overflow-x: scroll;display: inline-block;max-width:100%">
+                                      <div class="row" style="text-align:center;overflow-x: scroll;display: inline-block;max-width:100%; margin: auto">
                                           <div class="col-sm-6">
                                               <img class="prospect-image" v-if="selected_prospect.image" :src="selected_prospect.image"/>
                                               <img class="prospect-image" v-else src="https://www.playerprofiler.com/wp-content/uploads/2014/05/HeadshotSilhouette3.png"/>
@@ -259,8 +268,8 @@ export default {
                                   <div class="heading"><span :style="[prospect.pick_id ? {'text-decoration':'line-through'} : '']">{{ prospect.name }}, {{ prospect.pos }}</span></div>
                                   <div v-if="prospect.pick_id">Round {{ prospect.round }}, Pick {{ prospect.pick }}</div>
                               </td>
-                              <td style="text-align:center;">
-                                  <table style="text-align:center; font-size:18px">
+                              <td class="rank-table" style="text-align:center;">
+                                  <table style="text-align:center;">
                                       <tr>
                                           <th style="padding:5px; text-align:center">OVR</th>
                                           <td style="padding:5px; text-align:center">#{{ prospect.ovr_rank }}</td>
@@ -287,9 +296,6 @@ export default {
                                       <img v-else class="team-logo-table" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Question_mark_white_icon.svg/1200px-Question_mark_white_icon.svg.png" :style="[prospect.pick_id ? {'opacity':'0.5'} : '']"/>
                                   </div>
                               </td>
-                              <!-- <td>
-                                  <button type="button" class="btn btn-xs btn-primary" @click="expand_prospect(index)"><i class="fa-solid fa-angle-right"></i></button>
-                              </td> -->
                           </template>
                       </tr>
               </template>

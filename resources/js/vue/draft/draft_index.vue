@@ -66,7 +66,8 @@ export default {
             mock_draft_id: null,
             filter_team_id: 'all',
             draft_date: null,
-            unique_id:null
+            unique_id:null,
+            expand_menu_item: null
         }
     },
     methods: {
@@ -130,12 +131,24 @@ export default {
                     self.teams = response.teams;
                 } 
             })
+        },
+        toggle_parent_menu_selected(item){
+            var self = this;
+            if (self.parent_menu_selected != item){
+                self.parent_menu_selected = item;
+            }
+            if (self.expand_menu_item != item){
+                self.expand_menu_item = item;
+            } else {
+                self.expand_menu_item = null;
+            }
+            return;
         }
     }
 }
 </script>
 
-<template>
+<template class="body">
     <div :key="reload_key">
         <div class="container mt-5">
             <div v-if="mock_draft_id" class="alert alert-warning" role="alert">
@@ -152,17 +165,16 @@ export default {
         <div class="container">
             <div class="row">
                 <div class="col-sm-2">
-                    <div style="font-size:18px; font-weight:600; margin-bottom:10px">Menu</div>
-                    <div class="menu-cat" @click="parent_menu_selected='players'"><i v-if="parent_menu_selected == 'players'" class="fa-solid fa-angle-down"></i><i v-else class="fa-solid fa-angle-right"></i> Players</div>
-                    <span v-if="parent_menu_selected == 'players'">
+                    <div class="menu-cat" @click="toggle_parent_menu_selected('players')"> <i class="fa-solid fa-circle-user"></i> Players <i v-if="expand_menu_item == 'players'" class="fa-solid fa-angle-down" style="float:right"></i><i v-else class="fa-solid fa-angle-right" style="float:right"></i></div>
+                    <span v-if="expand_menu_item == 'players'">
                         <div class="sub-menu-cat" :style="[filter.pos == 'All' ? {'background-color':'#1e2121'} : '']" @click="filter.pos='All'">All</div>
                         <div class="sub-menu-cat" :style="[filter.pos == 'QB' ? {'background-color':'#1e2121'} : '']" @click="filter.pos='QB'">QB</div>
                         <div class="sub-menu-cat" :style="[filter.pos == 'RB' ? {'background-color':'#1e2121'} : '']" @click="filter.pos='RB'">RB</div>
                         <div class="sub-menu-cat" :style="[filter.pos == 'WR' ? {'background-color':'#1e2121'} : '']" @click="filter.pos='WR'">WR</div>
                         <div class="sub-menu-cat" :style="[filter.pos == 'TE' ? {'background-color':'#1e2121'} : '']" @click="filter.pos='TE'">TE</div>
                     </span>
-                    <div class="menu-cat" v-on:click="parent_menu_selected='board'"><i v-if="parent_menu_selected == 'board'" class="fa-solid fa-angle-down"></i><i v-else class="fa-solid fa-angle-right"></i> Board</div>
-                    <span v-if="parent_menu_selected == 'board'">
+                    <div class="menu-cat" @click="toggle_parent_menu_selected('board')"><i class="fa-solid fa-list-ol"></i> Board <i v-if="expand_menu_item == 'board'" class="fa-solid fa-angle-down" style="float:right"></i><i v-else class="fa-solid fa-angle-right" style="float:right"></i></div>
+                    <span v-if="expand_menu_item == 'board'" style="margin-left:10px">
                         Filter:
                         <select class="custom-select custom-select-lg mb-3" placeholder="Filter Team" v-model="filter_team_id">
                             <option value="all" selected>All</option>
