@@ -53,7 +53,7 @@ export default {
     mounted() {
         var self = this;
         self.get_teams();
-        self.draft_date = new Date('05/07/2022 18:00:00');
+        self.draft_date = new Date('05/07/2022 12:00:00');
     },
     data() {
         return {

@@ -58,4 +58,5 @@ Route::prefix('tournament')->group(function () {
 Route::get('/recipes', [RecipeController::class, 'index']);
 Route::prefix('recipe')->group(function () {
     Route::get('/get_random_meal', [RecipeController::class, 'get_random_meal']);
+    Route::get('/search_ingredients', [RecipeController::class, 'search_ingredients']);
 });
