@@ -9,6 +9,7 @@ use App\Models\DynastyPick;
 use App\Models\TeamNeed;
 use App\Models\MockDraft;
 use App\Models\MockDraftPick;
+use App\Models\DynastyTrade;
 
 class DraftController extends Controller
 {
@@ -34,7 +35,6 @@ class DraftController extends Controller
 
     public function get_prospects(Request $request){
         $input = $request->all();
-        Log::info($input);
 
         // We want prospects who have been ranked
         $where_statement = "prospects.pos_rank is not null";
@@ -641,6 +641,133 @@ class DraftController extends Controller
         }
 
 
+
+    }
+
+    public function get_tradeable_draft_picks(Request $request){
+        $input = $request->all();
+        $league_id = $input['league_id'];
+
+        $where = "dynasty_picks.prospect_id IS NULL and dynasty_picks.league_id = ". $league_id;
+
+        if (!empty($input['team_id'])){
+            $team_id = $input['team_id'];
+            $where = " dynasty_picks.team_id = ".$team_id;
+        }
+
+        $picks = DB::table('dynasty_picks')
+            ->select(DB::raw('dynasty_picks.id, dynasty_picks.overall, dynasty_picks.round, dynasty_picks.pick, dynasty_teams.team_name, dynasty_teams.id as team_id'))
+            ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_picks.team_id')
+            ->whereRaw($where)
+            ->get();
+
+        $answer = array();
+        $answer['success'] = true;
+        $answer['picks'] = $picks;
+        return $answer;
+
+    }
+
+    public function initiate_trade(Request $request){
+        $input = $request->all();
+        $answer = array();
+
+        // Initialize pick array to be a string. This is how it is saved in the database, so we want to format it the same.
+        $team_1_picks = null;
+        if (!empty($input['team_1_picks_sent'])){
+            foreach($input['team_1_picks_sent'] as $pick){
+                $team_1_picks = $team_1_picks.$pick['id']." ";
+            } 
+        }
+
+        // Initialize pick array to be a string. This is how it is saved in the database, so we want to format it the same.
+        $team_2_picks = null;
+        if (!empty($input['team_2_picks_sent'])){
+            foreach($input['team_2_picks_sent'] as $pick){
+                $team_2_picks = $team_2_picks.$pick['id']." ";
+            }
+        }
+
+        $team_1_id = $input['team_1_id'];
+        $team_2_id = $input['team_2_id'];
+
+        // We are reversing the teams because we want to see if a trade like this has already been created.
+        $pending_trade_check = DB::table('dynasty_trades')
+            ->select(DB::raw('dynasty_trades.*'))
+            ->where('team_1_id','=',$team_2_id)
+            ->where('team_2_id','=',$team_1_id)
+            ->where('team_1_receives','=',$team_2_picks)
+            ->where('team_2_receives','=',$team_1_picks)
+            ->where('verified','!=', 1)
+            ->first();
+
+        if (!empty($pending_trade_check)){
+            $pending_trade = DynastyTrade::find($pending_trade_check->id);
+
+            // team_1_picks now belong to team 2
+            if (!empty($team_1_picks)){
+                $t1_picks_array = explode(" ",$team_1_picks);
+                foreach($t1_picks_array as $pick_id){
+                    if (!empty($pick_id)){
+                        $pick = DynastyPick::find($pick_id);
+                        $pick->team_id = $team_2_id;
+                        $pick->save();
+                    }
+                }
+            }
+
+            // team_2_picks now belong to team 1
+            if (!empty($team_2_picks)){
+                $t2_picks_array = explode(" ",$team_2_picks);
+                foreach($t2_picks_array as $pick_id){
+                    if (!empty($pick_id)){
+                        $pick = DynastyPick::find($pick_id);
+                        $pick->team_id = $team_1_id;
+                        $pick->save();
+                    }
+                }
+            }
+
+            $pending_trade->verified = 1;
+            $pending_trade->save();
+
+            $rtn_message = "Trade has been processed.";
+
+        } else {
+            $trade = new DynastyTrade;
+            $trade->league_id = $input['league_id'];
+            $trade->team_1_id = $team_1_id;
+            $trade->team_2_id = $team_2_id;
+            $trade->team_1_receives = $team_1_picks;
+            $trade->team_2_receives = $team_2_picks;
+            $trade->verified = 0;
+            $trade->save();
+
+            $rtn_message = "Trade created. Waiting on accept.";
+        }
+
+        $answer['success'] = true;
+        $answer['message'] = $rtn_message;
+        return $answer;
+    }
+
+    public function team_password_check(Request $request){
+        $input = $request->all();
+        $answer = array();
+
+        $team = DB::table('dynasty_teams')
+            ->select(DB::raw("*"))
+            ->where('dynasty_teams.id','=',$input['team_id'])
+            ->first();
+
+        if ($team->password == $input['password']){
+            $answer['success'] = true;
+            $answer['verified'] = 1;
+        } else {
+            $answer['success'] = true;
+            $answer['verified'] = 0;
+        }
+        return $answer;
 
     }
 }

@@ -57,8 +57,8 @@
                             Wilmington, NC <span>&#183;</span> <a href="mailto:ryan.haughee@gmail.com">ryan.haughee@gmail.com</a>
                         </div>
                         <div style="margin-top:20px;font-size:20px; color:#7C7C7C">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png" style="width:auto; height:40px"/> <span>&#183;</span> 
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png" style="width:auto; height:40px"/>
+                            <a href="https://www.linkedin.com/in/ryan-haughee-b00802128/" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png" style="width:auto; height:40px"/></a> <span style="margin-right:5px; margin-left:5px">&#9679;</span>
+                            <a href="https://github.com/RyanHaughee/" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png" style="width:auto; height:40px"/></a>
                         </div>
                     </div>
                     <div style="font-size:40px">
@@ -66,6 +66,15 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
+                            <div style="font-size:20px; color:#7C7C7C">
+                                Experience With:
+                            </div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1200px-Laravel.svg.png" style="width:auto; height:40px;"/> <span style="margin-right:5px; margin-left:5px">&#9679;</span> 
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/1200px-PHP-logo.svg.png" style="width:auto; height:40px"/> <span style="margin-right:5px; margin-left:5px">&#9679;</span> 
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png" style="width:auto; height:40px"/> <span style="margin-right:5px; margin-left:5px">&#9679;</span> 
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" style="width:auto; height:40px"/> <span style="margin-right:5px; margin-left:5px">&#9679;</span>  
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1184px-Vue.js_Logo_2.svg.png" style="width:auto; height:40px"/> <span style="margin-right:5px; margin-left:5px">&#9679;</span>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png" style="width:auto; height:40px"/> <span style="margin-right:5px; margin-left:5px">&#9679;</span>
                         </div>
                     </div>
 

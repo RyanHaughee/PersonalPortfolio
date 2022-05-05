@@ -47,8 +47,9 @@ import OtcPick from './otc_pick.vue'
 import LastPick from './last_pick.vue'
 import MockDraftConfig from './mock_draft_config.vue'
 import Countdown from './countdown.vue'
+import TradeCenter from './trade_center.vue'
 export default {
-    components: { Prospects, DraftTicker, DraftBoard, OtcPick, LastPick, MockDraftConfig, Countdown},
+    components: { Prospects, DraftTicker, DraftBoard, OtcPick, LastPick, MockDraftConfig, Countdown, TradeCenter},
     props: ['league_id'],
     mounted() {
         var self = this;
@@ -181,6 +182,7 @@ export default {
                             <option v-for="team in teams" :value="team.id" :key="team">{{ team.team_name }}</option>
                         </select>
                     </span>
+                    <div class="menu-cat" @click="toggle_parent_menu_selected('trade')"><i class="fa-solid fa-arrow-right-arrow-left"></i> Trade <i v-if="expand_menu_item == 'trade'" class="fa-solid fa-angle-down" style="float:right"></i><i v-else class="fa-solid fa-angle-right" style="float:right"></i></div>
                     <countdown v-if="draft_date && league_id == 1" :endDate="draft_date" style="margin-top:10px;margin-bottom:10px"></countdown>
                     <otc-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" :league_id="league_id" ref="otc_pick"></otc-pick>
                     <last-pick style="margin-top:5px" :mock_draft_id="mock_draft_id" :league_id="league_id" ref="last_pick"></last-pick>
@@ -202,6 +204,9 @@ export default {
                 </div>
                 <div class="col-sm-10" v-else-if="parent_menu_selected == 'board'">
                     <draft-board :mock_draft_id="mock_draft_id" :pos="filter.pos" :league_id="league_id" :filter_team_id="filter_team_id" ref="draft_board"></draft-board>
+                </div>
+                <div class="col-sm-10" v-else-if="parent_menu_selected == 'trade'">
+                    <trade-center :league_id="league_id" ref="trade_center"></trade-center>
                 </div>
             </div>
         </div>

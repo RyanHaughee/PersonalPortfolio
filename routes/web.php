@@ -42,6 +42,9 @@ Route::prefix('draft_function')->group(function () {
     Route::get('/mock_next_pick', [DraftController::class, 'mock_next_pick']);
     Route::get('/mock_until_next_pick', [DraftController::class, 'mock_until_next_pick']);
     Route::get('/load_mock', [DraftController::class, 'get_mock']);
+    Route::get('/get_tradeable_draft_picks', [DraftController::class, 'get_tradeable_draft_picks']);
+    Route::post('/initiate_trade', [DraftController::class, 'initiate_trade']);
+    Route::get('/team_password_check', [DraftController::class, 'team_password_check']);
 });
 
 // LEAGUE / TOURNAMENT SCHEDULER

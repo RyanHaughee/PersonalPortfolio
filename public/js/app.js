@@ -19410,6 +19410,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _last_pick_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./last_pick.vue */ "./resources/js/vue/draft/last_pick.vue");
 /* harmony import */ var _mock_draft_config_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./mock_draft_config.vue */ "./resources/js/vue/draft/mock_draft_config.vue");
 /* harmony import */ var _countdown_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./countdown.vue */ "./resources/js/vue/draft/countdown.vue");
+/* harmony import */ var _trade_center_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./trade_center.vue */ "./resources/js/vue/draft/trade_center.vue");
+
 
 
 
@@ -19425,7 +19427,8 @@ __webpack_require__.r(__webpack_exports__);
     OtcPick: _otc_pick_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     LastPick: _last_pick_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     MockDraftConfig: _mock_draft_config_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    Countdown: _countdown_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    Countdown: _countdown_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    TradeCenter: _trade_center_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
   props: ['league_id'],
   mounted: function mounted() {
@@ -19870,6 +19873,154 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
       self.password_submit_loading = 0;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/draft/trade_center.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/draft/trade_center.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['league_id'],
+  watch: {
+    sending_team_id: function sending_team_id() {
+      var self = this;
+
+      if (self.sending_team_id) {
+        var sds = {};
+        sds.league_id = self.league_id;
+        sds.team_id = self.sending_team_id;
+        $.get('/draft_function/get_tradeable_draft_picks', sds, function (response) {
+          if (response) {
+            self.sending_picks = response.picks;
+          }
+        });
+      }
+    },
+    receiving_team_id: function receiving_team_id() {
+      var self = this;
+
+      if (self.receiving_team_id) {
+        var sds = {};
+        sds.league_id = self.league_id;
+        sds.team_id = self.receiving_team_id;
+        $.get('/draft_function/get_tradeable_draft_picks', sds, function (response) {
+          if (response) {
+            self.receiving_picks = response.picks;
+          }
+        });
+      }
+    }
+  },
+  data: function data() {
+    return {
+      sending_picks: [],
+      receiving_picks: [],
+      pick_index_to_send: null,
+      picks_to_send: [],
+      pick_index_to_receive: null,
+      picks_to_receive: [],
+      sending_team_id: null,
+      receiving_team_id: null,
+      password: null,
+      message: null,
+      teams: []
+    };
+  },
+  mounted: function mounted() {
+    var self = this;
+    self.get_league_teams();
+  },
+  methods: {
+    get_tradeable_draft_picks: function get_tradeable_draft_picks() {
+      var self = this;
+      var sds = {};
+      sds.league_id = self.league_id;
+      $.get('/draft_function/get_tradeable_draft_picks', sds, function (response) {
+        if (response) {
+          self.sending_picks = response.picks;
+          self.receiving_picks = response.picks;
+        }
+      });
+    },
+    get_league_teams: function get_league_teams() {
+      var self = this;
+      var sds = {};
+      sds.league_id = self.league_id;
+      $.get('/draft_function/get_teams', sds, function (response) {
+        if (response && response.success) {
+          self.teams = response.teams;
+        }
+      });
+    },
+    send_pick: function send_pick() {
+      var self = this;
+      self.picks_to_send.push(self.sending_picks[self.pick_index_to_send]);
+      self.pick_index_to_send = null;
+    },
+    receive_pick: function receive_pick(index) {
+      var self = this;
+      self.picks_to_receive.push(self.receiving_picks[self.pick_index_to_receive]);
+      self.pick_index_to_receive = null;
+    },
+    initiate_trade: function initiate_trade() {
+      var self = this;
+      var sds = {};
+      self.message = null;
+
+      if (self.sending_team_id) {
+        sds.team_1_id = self.sending_team_id;
+      } else {
+        self.message = "Please select your team.";
+      }
+
+      if (self.receiving_team_id) {
+        sds.team_2_id = self.receiving_team_id;
+      } else {
+        self.message = "Please select their team.";
+      }
+
+      if (!self.picks_to_send.length && !self.picks_to_receive.length) {
+        self.message = "Please select at least one pick to trade.";
+      } else {
+        sds.team_1_picks_sent = self.picks_to_send;
+        sds.team_2_picks_sent = self.picks_to_receive;
+      }
+
+      sds.league_id = self.league_id;
+      $.post('/draft_function/initiate_trade', sds, function (response) {
+        if (response) {
+          self.message = response.message;
+        }
+      });
+    },
+    check_team_password: function check_team_password() {
+      var self = this;
+      var sds = {};
+      self.message = null;
+      sds.team_id = self.sending_team_id;
+      sds.password = self.password;
+      $.get('/draft_function/team_password_check', sds, function (response) {
+        if (response) {
+          if (response.verified) {
+            self.initiate_trade();
+          } else {
+            self.message = "Invalid password.";
+          }
+        } else {
+          self.message = "Error while checking password.";
+        }
+      });
     }
   }
 });
@@ -20553,20 +20704,43 @@ var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_21 = ["value"];
-var _hoisted_22 = {
+
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fa-solid fa-arrow-right-arrow-left"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Trade ");
+
+var _hoisted_24 = {
+  key: 0,
+  "class": "fa-solid fa-angle-down",
+  style: {
+    "float": "right"
+  }
+};
+var _hoisted_25 = {
+  key: 1,
+  "class": "fa-solid fa-angle-right",
+  style: {
+    "float": "right"
+  }
+};
+var _hoisted_26 = {
   key: 3
 };
-var _hoisted_23 = {
+var _hoisted_27 = {
   key: 4,
   style: {
     "text-align": "center"
   }
 };
-var _hoisted_24 = {
+var _hoisted_28 = {
   key: 0
 };
 
-var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   style: {
     "font-weight": "700",
     "margin-top": "10px"
@@ -20575,13 +20749,17 @@ var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_26 = ["value"];
-var _hoisted_27 = {
+var _hoisted_30 = ["value"];
+var _hoisted_31 = {
   key: 0,
   "class": "col-sm-10"
 };
-var _hoisted_28 = {
+var _hoisted_32 = {
   key: 1,
+  "class": "col-sm-10"
+};
+var _hoisted_33 = {
+  key: 2,
   "class": "col-sm-10"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -20598,6 +20776,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_prospects = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("prospects");
 
   var _component_draft_board = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("draft-board");
+
+  var _component_trade_center = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("trade-center");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: $data.reload_key
@@ -20682,7 +20862,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* KEYED_FRAGMENT */
   ))], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.filter_team_id]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.draft_date && $props.league_id == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_countdown, {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.filter_team_id]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "menu-cat",
+    onClick: _cache[8] || (_cache[8] = function ($event) {
+      return $options.toggle_parent_menu_selected('trade');
+    })
+  }, [_hoisted_22, _hoisted_23, $data.expand_menu_item == 'trade' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_24)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_25))]), $data.draft_date && $props.league_id == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_countdown, {
     key: 2,
     endDate: $data.draft_date,
     style: {
@@ -20709,18 +20894,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "last_pick"
   }, null, 8
   /* PROPS */
-  , ["mock_draft_id", "league_id"]), !$data.mock_draft_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mock_draft_config, {
+  , ["mock_draft_id", "league_id"]), !$data.mock_draft_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_mock_draft_config, {
     onBeginmock: $options.begin_mock,
     league_id: $props.league_id
   }, null, 8
   /* PROPS */
-  , ["onBeginmock", "league_id"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  , ["onBeginmock", "league_id"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-sm btn-success",
     style: {
       "margin-top": "10px"
     },
-    onClick: _cache[8] || (_cache[8] = function ($event) {
+    onClick: _cache[9] || (_cache[9] = function ($event) {
       return $options.make_next_pick();
     })
   }, "Sim Next Pick"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -20729,7 +20914,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "margin-top": "10px"
     },
-    onClick: _cache[9] || (_cache[9] = function ($event) {
+    onClick: _cache[10] || (_cache[10] = function ($event) {
       return $options.sim_to_next_pick();
     })
   }, "Sim To My Pick"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -20738,10 +20923,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "margin-top": "10px"
     },
-    onClick: _cache[10] || (_cache[10] = function ($event) {
+    onClick: _cache[11] || (_cache[11] = function ($event) {
       return $options.end_mock();
     })
-  }, "End Mock"), $data.unique_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "End Mock"), $data.unique_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     readonly: "readonly",
     value: $data.unique_id,
@@ -20751,9 +20936,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, null, 8
   /* PROPS */
-  , _hoisted_26)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]))]), $data.parent_menu_selected == 'players' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_prospects, {
+  , _hoisted_30)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]))]), $data.parent_menu_selected == 'players' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_prospects, {
     pos: $data.filter.pos,
-    onPlayerSelected: _cache[11] || (_cache[11] = function ($event) {
+    onPlayerSelected: _cache[12] || (_cache[12] = function ($event) {
       return $options.reload_components();
     }),
     mock_draft_id: $data.mock_draft_id,
@@ -20761,7 +20946,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "prospects"
   }, null, 8
   /* PROPS */
-  , ["pos", "mock_draft_id", "league_id"])])) : $data.parent_menu_selected == 'board' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draft_board, {
+  , ["pos", "mock_draft_id", "league_id"])])) : $data.parent_menu_selected == 'board' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_draft_board, {
     mock_draft_id: $data.mock_draft_id,
     pos: $data.filter.pos,
     league_id: $props.league_id,
@@ -20769,7 +20954,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "draft_board"
   }, null, 8
   /* PROPS */
-  , ["mock_draft_id", "pos", "league_id", "filter_team_id"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  , ["mock_draft_id", "pos", "league_id", "filter_team_id"])])) : $data.parent_menu_selected == 'trade' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_trade_center, {
+    league_id: $props.league_id,
+    ref: "trade_center"
+  }, null, 8
+  /* PROPS */
+  , ["league_id"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
 }
 
 /***/ }),
@@ -21788,6 +21978,266 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 256
   /* UNKEYED_FRAGMENT */
   ))])])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/draft/trade_center.vue?vue&type=template&id=8670ee36":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/draft/trade_center.vue?vue&type=template&id=8670ee36 ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  style: {
+    "max-height": "100vh",
+    "overflow-y": "scroll",
+    "display": "inline-block",
+    "width": "100%",
+    "box-sizing": "border-box"
+  }
+};
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-sm-12"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  style: {
+    "text-align": "center"
+  }
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Trade Center"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "*** WILL NOT WORK IN A MOCK DRAFT ***"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Since there is no login system, here is where picks will be traded."), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Select the picks you are sending and receiving. You will then be asked to enter your password. Once both teams have submitted identical trades, the site will update and reflect the new pick owners.")])], -1
+/* HOISTED */
+);
+
+var _hoisted_3 = {
+  "class": "col-sm-6"
+};
+var _hoisted_4 = {
+  style: {
+    "text-align": "center"
+  }
+};
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  style: {
+    "margin-bottom": "10px"
+  }
+}, "Select your team.", -1
+/* HOISTED */
+);
+
+var _hoisted_6 = ["value"];
+var _hoisted_7 = {
+  key: 0,
+  style: {
+    "margin-bottom": "10px"
+  }
+};
+var _hoisted_8 = ["value"];
+var _hoisted_9 = {
+  key: 3
+};
+var _hoisted_10 = {
+  "class": "col-sm-6"
+};
+var _hoisted_11 = {
+  style: {
+    "text-align": "center"
+  }
+};
+
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  style: {
+    "margin-bottom": "10px"
+  }
+}, "Select their team.", -1
+/* HOISTED */
+);
+
+var _hoisted_13 = ["value"];
+var _hoisted_14 = {
+  key: 0,
+  style: {
+    "margin-bottom": "10px"
+  }
+};
+var _hoisted_15 = ["value"];
+var _hoisted_16 = {
+  key: 3
+};
+var _hoisted_17 = {
+  key: 0,
+  "class": "col-sm-12",
+  style: {
+    "text-align": "center",
+    "margin-top": "40px"
+  }
+};
+var _hoisted_18 = {
+  "class": "form-group mx-auto",
+  style: {
+    "width": "200px"
+  }
+};
+var _hoisted_19 = ["disabled"];
+var _hoisted_20 = {
+  "class": "alert alert-danger"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-control",
+    style: {
+      "margin-bottom": "10px"
+    },
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.sending_team_id = $event;
+    })
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: team,
+      value: team.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.owner), 9
+    /* TEXT, PROPS */
+    , _hoisted_6);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sending_team_id]]), $data.sending_picks.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, "Add picks to send")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.sending_picks.length ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    key: 1,
+    "class": "form-control",
+    style: {
+      "margin-bottom": "10px"
+    },
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.pick_index_to_send = $event;
+    })
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.sending_picks, function (pick, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: pick,
+      value: index
+    }, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.overall) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.round) + "." + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.pick) + ") - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.team_name), 9
+    /* TEXT, PROPS */
+    , _hoisted_8);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))], 512
+  /* NEED_PATCH */
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.pick_index_to_send]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.pick_index_to_send != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 2,
+    "class": "btn btn-info",
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $options.send_pick();
+    }),
+    style: {
+      "margin-bottom": "20px"
+    }
+  }, "Add")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.picks_to_send.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_9, "Sending:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.picks_to_send, function (sent_pick) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: sent_pick
+    }, " #" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(sent_pick.overall) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(sent_pick.round) + "." + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(sent_pick.pick) + ") - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(sent_pick.team_name), 1
+    /* TEXT */
+    );
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-control",
+    style: {
+      "margin-bottom": "10px"
+    },
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.receiving_team_id = $event;
+    })
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: team,
+      value: team.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.owner), 9
+    /* TEXT, PROPS */
+    , _hoisted_13);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.receiving_team_id]]), $data.receiving_picks.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, "Add picks to receive")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.receiving_picks.length ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    key: 1,
+    "class": "form-control",
+    style: {
+      "margin-bottom": "10px"
+    },
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.pick_index_to_receive = $event;
+    })
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.receiving_picks, function (pick, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: pick,
+      value: index
+    }, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.overall) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.round) + "." + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.pick) + ") - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.team_name), 9
+    /* TEXT, PROPS */
+    , _hoisted_15);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))], 512
+  /* NEED_PATCH */
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.pick_index_to_receive]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.pick_index_to_receive != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 2,
+    "class": "btn btn-info",
+    onClick: _cache[5] || (_cache[5] = function ($event) {
+      return $options.receive_pick();
+    }),
+    style: {
+      "margin-bottom": "20px"
+    }
+  }, "Add")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.picks_to_receive.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_16, "Receiving:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.picks_to_receive, function (received_pick) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: received_pick
+    }, " #" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(received_pick.overall) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(received_pick.round) + "." + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(received_pick.pick) + ") - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(received_pick.team_name), 1
+    /* TEXT */
+    );
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])]), $data.picks_to_send.length || $data.picks_to_receive.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    id: "inputPassword2",
+    placeholder: "Password",
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return $data.password = $event;
+    }),
+    onClick: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-success",
+    onClick: _cache[8] || (_cache[8] = function ($event) {
+      return $options.check_team_password();
+    }),
+    style: {
+      "margin-bottom": "20px"
+    },
+    disabled: !$data.password
+  }, "Submit Trade", 8
+  /* PROPS */
+  , _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fa fa-close",
+    style: {
+      "float": "right",
+      "cursor": "pointer"
+    },
+    onClick: _cache[9] || (_cache[9] = function ($event) {
+      return $data.message = null;
+    })
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.message), 1
+  /* TEXT */
+  )], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.message]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -41191,6 +41641,34 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/vue/draft/trade_center.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/vue/draft/trade_center.vue ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _trade_center_vue_vue_type_template_id_8670ee36__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./trade_center.vue?vue&type=template&id=8670ee36 */ "./resources/js/vue/draft/trade_center.vue?vue&type=template&id=8670ee36");
+/* harmony import */ var _trade_center_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./trade_center.vue?vue&type=script&lang=js */ "./resources/js/vue/draft/trade_center.vue?vue&type=script&lang=js");
+/* harmony import */ var _Users_rhaughee_Desktop_personal_projects_ryanhaughee_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,_Users_rhaughee_Desktop_personal_projects_ryanhaughee_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_trade_center_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_trade_center_vue_vue_type_template_id_8670ee36__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/vue/draft/trade_center.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/vue/recipe/recipe_index.vue":
 /*!**************************************************!*\
   !*** ./resources/js/vue/recipe/recipe_index.vue ***!
@@ -41465,6 +41943,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/vue/draft/trade_center.vue?vue&type=script&lang=js":
+/*!*************************************************************************!*\
+  !*** ./resources/js/vue/draft/trade_center.vue?vue&type=script&lang=js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_trade_center_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_trade_center_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./trade_center.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/draft/trade_center.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/vue/recipe/recipe_index.vue?vue&type=script&lang=js":
 /*!**************************************************************************!*\
   !*** ./resources/js/vue/recipe/recipe_index.vue?vue&type=script&lang=js ***!
@@ -41669,6 +42163,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_prospects_vue_vue_type_template_id_541d6c3c__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_prospects_vue_vue_type_template_id_541d6c3c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./prospects.vue?vue&type=template&id=541d6c3c */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/draft/prospects.vue?vue&type=template&id=541d6c3c");
+
+
+/***/ }),
+
+/***/ "./resources/js/vue/draft/trade_center.vue?vue&type=template&id=8670ee36":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/vue/draft/trade_center.vue?vue&type=template&id=8670ee36 ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_trade_center_vue_vue_type_template_id_8670ee36__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_trade_center_vue_vue_type_template_id_8670ee36__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./trade_center.vue?vue&type=template&id=8670ee36 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/draft/trade_center.vue?vue&type=template&id=8670ee36");
 
 
 /***/ }),
