@@ -19536,6 +19536,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(response.otc_time.replace(/-/g, "/"));
         var new_otc_date = new Date(response.otc_time.replace(/-/g, "/"));
         self.draft_date = new_otc_date;
+        console.log(self.draft_date);
         self.current_pick_id = response.pick_id;
       });
       setInterval(function () {
