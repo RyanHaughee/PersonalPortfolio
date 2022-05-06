@@ -804,10 +804,11 @@ class DraftController extends Controller
         $league_id = $input['league_id'];
 
         $otc_pick = DynastyPick::find_otc_pick($league_id);
-        $otc_time = $otc_pick->otc_time;
+        $otc_time = $otc_pick->otc_time; 
 
         $answer['success'] = true;
         $answer['otc_time'] = $otc_time;
+        $answer['pick_id'] = $otc_pick->id;
         return $answer;
     }
 }

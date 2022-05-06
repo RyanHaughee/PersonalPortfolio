@@ -68,7 +68,8 @@ export default {
             filter_team_id: 'all',
             draft_date: null,
             unique_id:null,
-            expand_menu_item: null
+            expand_menu_item: null,
+            current_pick_id: null
         }
     },
     methods: {
@@ -109,7 +110,7 @@ export default {
             var sds = {};
             sds.mock_draft_id = self.mock_draft_id;
             sds.team_id = self.team_id;
-            sds.league_id = self.league_id;
+            sds.league_id = self.league_id
             $.get('/draft_function/mock_until_next_pick', sds, function(response){
                 self.$refs.otc_pick.get_otc_pick();
                 self.$refs.last_pick.get_last_pick();
@@ -153,11 +154,12 @@ export default {
             $.get('/draft_function/get_otc_date', sds, function(response){
                 var new_otc_date = new Date(response.otc_time);
                 self.draft_date = new_otc_date;
+                self.current_pick_id = response.pick_id
             })
             setInterval(() => {
                 $.get('/draft_function/get_otc_date', sds, function(response){
                     var new_otc_date = new Date(response.otc_time);
-                    if (self.draft_date.getTime() !== new_otc_date.getTime()){
+                    if (self.current_pick_id !== response.pick_id){
                         console.log("getting here");
                         self.reload_components();
                     } else {

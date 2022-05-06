@@ -19444,7 +19444,8 @@ __webpack_require__.r(__webpack_exports__);
       filter_team_id: 'all',
       draft_date: null,
       unique_id: null,
-      expand_menu_item: null
+      expand_menu_item: null,
+      current_pick_id: null
     };
   },
   methods: {
@@ -19534,12 +19535,13 @@ __webpack_require__.r(__webpack_exports__);
       $.get('/draft_function/get_otc_date', sds, function (response) {
         var new_otc_date = new Date(response.otc_time);
         self.draft_date = new_otc_date;
+        self.current_pick_id = response.pick_id;
       });
       setInterval(function () {
         $.get('/draft_function/get_otc_date', sds, function (response) {
           var new_otc_date = new Date(response.otc_time);
 
-          if (self.draft_date.getTime() !== new_otc_date.getTime()) {
+          if (self.current_pick_id !== response.pick_id) {
             console.log("getting here");
             self.reload_components();
           } else {
