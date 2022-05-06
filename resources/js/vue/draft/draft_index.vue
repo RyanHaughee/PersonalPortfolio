@@ -54,7 +54,7 @@ export default {
     mounted() {
         var self = this;
         self.get_teams();
-        self.draft_date = new Date('05/07/2022 12:00:00');
+        self.get_otc_date();
     },
     data() {
         return {
@@ -78,6 +78,7 @@ export default {
         reload_components(){
             var self = this;
             self.reload_key = (self.reload_key+1);
+            self.get_otc_date();
         },
         begin_mock(event){
             var self = this;
@@ -144,6 +145,26 @@ export default {
                 self.expand_menu_item = null;
             }
             return;
+        },
+        get_otc_date(){
+            var self = this;
+            var sds = {};
+            sds.league_id = self.league_id;
+            $.get('/draft_function/get_otc_date', sds, function(response){
+                var new_otc_date = new Date(response.otc_time);
+                self.draft_date = new_otc_date;
+            })
+            setInterval(() => {
+                $.get('/draft_function/get_otc_date', sds, function(response){
+                    var new_otc_date = new Date(response.otc_time);
+                    if (self.draft_date.getTime() !== new_otc_date.getTime()){
+                        console.log("getting here");
+                        self.reload_components();
+                    } else {
+                        console.log("getting here2");
+                    }
+                })
+            }, 5000);
         }
     }
 }

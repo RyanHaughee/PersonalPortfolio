@@ -29,7 +29,7 @@ $.ajaxSetup({
     </head>
     <body>
         <div id="draft_app">
-            <draft-index :league_id="{{ $league_id }}"></draft-index>
+            <draft-index :league_id="{{ $league_id }}" :otc_date="'{{ $otc_date }}'"></draft-index>
         </div>
     </body>
     <script src="{{ mix('js/app.js') }}"></script>

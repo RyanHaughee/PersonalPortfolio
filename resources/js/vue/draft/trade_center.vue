@@ -41,12 +41,15 @@ export default {
             receiving_team_id: null,
             password:null,
             message: null,
-            teams:[]
+            teams:[],
+            pending_trades: [],
+            pending_password_open: null
         }
     },
     mounted() {
         var self = this;
         self.get_league_teams();
+        self.get_pending_trades();
     },
     methods: {
         get_tradeable_draft_picks(){
@@ -108,11 +111,11 @@ export default {
                 }
             })
         },
-        check_team_password(){
+        check_team_password(team_id){
             var self = this;
             var sds = {};
             self.message = null;
-            sds.team_id = self.sending_team_id;
+            sds.team_id = team_id;
             sds.password = self.password;
             $.get('/draft_function/team_password_check', sds, function(response){
                 if (response){
@@ -125,6 +128,20 @@ export default {
                     self.message="Error while checking password.";
                 }
             })
+        },
+        get_pending_trades(){
+            var self = this;
+            var sds = {};
+            sds.league_id = self.league_id;
+            $.get('/draft_function/get_pending_trades', sds, function(response){
+                if (response){
+                    self.pending_trades = response.pending_trades;
+                }
+            })
+        },
+        accept_trade(){
+            var self = this;
+            
         }
 
         
@@ -138,7 +155,7 @@ export default {
                 <h1>Trade Center</h1>
                 <h5>*** WILL NOT WORK IN A MOCK DRAFT ***</h5>
                 <h5>Since there is no login system, here is where picks will be traded.</h5>
-                <h5>Select the picks you are sending and receiving. You will then be asked to enter your password. Once both teams have submitted identical trades, the site will update and reflect the new pick owners.</h5>
+                <h5>Select the picks you are sending and receiving. You will then be asked to enter your password.</h5>
             </div>
         </div>
         <div class="col-sm-6">
@@ -179,8 +196,56 @@ export default {
             <div class="form-group mx-auto" style="width:200px">
                 <input type="text" class="form-control" id="inputPassword2" placeholder="Password" v-model="password" v-on:click.stop>
             </div>
-            <button class="btn btn-success" @click="check_team_password()" style="margin-bottom:20px" :disabled="!password">Submit Trade</button>
+            <button class="btn btn-success" @click="check_team_password(sending_team_id)" style="margin-bottom:20px" :disabled="!password">Submit Trade</button>
             <div class="alert alert-danger" v-show="message" v-cloak> <i class="fa fa-close" style="float:right; cursor:pointer" @click="message=null"></i> {{message}}</div>
+        </div>
+        <div class="col-sm-12">
+            <hr>
+        </div>
+        <div class="col-sm-12">
+            <div style="text-align:center">
+                <h1>Pending Trades</h1>
+            </div>
+            <div style="overflow-x:scroll">
+                <table style="text-align:center; width:100%; max-width:100%;">
+                    <tr>
+                        <th colspan="2">Team To Accept</th>
+                        <th>Receives</th>
+                        <th>Sends</th>
+                        <th>Sent By</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr v-for="(trade, index2) in pending_trades" :key="trade" style="border:1px solid; border-style:#FFFFFF; padding:2px">
+                        <td>
+                            <img class="team-logo-board" :src="trade.team_to_accept_logo"/>
+                        </td>
+                        <td>
+                            <h4>{{ trade.team_to_accept_team_name}}</h4>
+                        </td>
+                        <td>
+                            {{ trade.team_1_receives }}
+                        </td>
+                        <td>
+                            {{ trade.team_2_receives }}
+                        </td>
+                        <td>
+                            {{ trade.team_sent_team_name}}
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <div class="form-group mx-auto" style="width:200px; margin:auto">
+                                <input type="text" class="form-control" id="inputPassword2" placeholder="Password" v-model="password" v-on:click.stop>
+                            </div>
+                            <div style="margin-top:5px;">
+                                <button class="btn btn-xs btn-success"><i class="fa-solid fa-check" @click="accept_trade(trade.id)"></i> Accept</button>
+                                &nbsp;
+                                <button class="btn btn-xs btn-danger"><i class="fa-solid fa-x" @click="decline_trade(trade.id)"></i> Decline</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </template>

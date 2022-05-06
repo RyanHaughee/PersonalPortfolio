@@ -45,6 +45,8 @@ Route::prefix('draft_function')->group(function () {
     Route::get('/get_tradeable_draft_picks', [DraftController::class, 'get_tradeable_draft_picks']);
     Route::post('/initiate_trade', [DraftController::class, 'initiate_trade']);
     Route::get('/team_password_check', [DraftController::class, 'team_password_check']);
+    Route::get('/get_pending_trades', [DraftController::class, 'get_pending_trades']);
+    Route::get('/get_otc_date', [DraftController::class, 'get_otc_date']);
 });
 
 // LEAGUE / TOURNAMENT SCHEDULER

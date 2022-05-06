@@ -20,7 +20,8 @@ class DraftController extends Controller
         } else {
             $league_id = 1;
         }
-        return view('draft_index', ['league_id' => $league_id]);
+        $otc_pick = DynastyPick::find_otc_pick($league_id);
+        return view('draft_index', ['league_id' => $league_id, 'otc_date' => $otc_pick->otc_time]);
     }
 
     public function league_index(Request $request, $id=null){
@@ -250,12 +251,13 @@ class DraftController extends Controller
 
     public function password_check(Request $request){
         $input = $request->all();
+        $league_id = $input['league_id'];
 
         if (!empty($input) && !empty($input['password'])){
             $password_submitted = $input['password'];
         }
         
-        $otc_pick = DynastyPick::find_otc_pick();
+        $otc_pick = DynastyPick::find_otc_pick($league_id);
 
         if ($password_submitted == $otc_pick->password){
             $response = array();
@@ -295,6 +297,13 @@ class DraftController extends Controller
             $pick = DynastyPick::find($otc_pick->id);
             $pick->prospect_id = $input['prospect_id'];
             $pick->save();
+
+            date_default_timezone_set('US/Eastern');
+            $six_hrs = date("Y-m-d H:i:s", strtotime('+6 hours')); 
+            $new_otc_pick = DynastyPick::find_otc_pick($league_id);
+            $edited_pick = DynastyPick::find($new_otc_pick->id);
+            $edited_pick->otc_time = $six_hrs; 
+            $edited_pick->save();
         }
 
         $response = array();
@@ -769,5 +778,36 @@ class DraftController extends Controller
         }
         return $answer;
 
+    }
+
+    public function get_pending_trades(Request $request){
+        $input = $request->all();
+        $answer = array();
+        $league_id = $input['league_id'];
+
+        $pending_trades = DB::table('dynasty_trades')
+            ->select(DB::raw("team_sent.team_name as team_sent_team_name, team_to_accept.team_name as team_to_accept_team_name, team_sent.logo as team_sent_logo, team_to_accept.logo as team_to_accept_logo, dynasty_trades.*"))
+            ->join('dynasty_teams as team_sent','team_sent.id','=','dynasty_trades.team_1_id')
+            ->join('dynasty_teams as team_to_accept','team_to_accept.id','=','dynasty_trades.team_2_id')
+            ->where('dynasty_trades.league_id','=',$league_id)
+            ->where('dynasty_trades.verified','!=',1)
+            ->get();
+
+        $answer['success'] = true;
+        $answer['pending_trades'] = $pending_trades;
+        return $answer;
+    }
+
+    public function get_otc_date(Request $request){
+        $input = $request->all();
+        $answer = array();
+        $league_id = $input['league_id'];
+
+        $otc_pick = DynastyPick::find_otc_pick($league_id);
+        $otc_time = $otc_pick->otc_time;
+
+        $answer['success'] = true;
+        $answer['otc_time'] = $otc_time;
+        return $answer;
     }
 }

@@ -98,7 +98,6 @@ export default {
     methods: {
         get_prospects:function(){
             var self = this;
-            console.log("getting prospects");
             var sds = {};
             sds.pos = self.pos;
             sds.mock_draft_id = self.mock_draft_id;
@@ -139,6 +138,7 @@ export default {
             } else {
                 var sds = {};
                 sds.password = self.password;
+                sds.league_id = self.league_id;
                 $.post('/draft_function/password_check', sds, function(response){
                     if (response){
                         if (response.success){

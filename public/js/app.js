@@ -19293,12 +19293,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    day: function day() {
-      var d = Math.trunc((this.endDate - this.now) / 1000 / 3600 / 24);
-      return d > 9 ? d : '0' + d;
-    },
     hour: function hour() {
-      var h = Math.trunc((this.endDate - this.now) / 1000 / 3600) % 24;
+      var h = Math.trunc((this.endDate - this.now) / 1000 / 3600);
       return h > 9 ? h : '0' + h;
     },
     min: function min() {
@@ -19434,7 +19430,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var self = this;
     self.get_teams();
-    self.draft_date = new Date('05/07/2022 12:00:00');
+    self.get_otc_date();
   },
   data: function data() {
     return {
@@ -19458,6 +19454,7 @@ __webpack_require__.r(__webpack_exports__);
     reload_components: function reload_components() {
       var self = this;
       self.reload_key = self.reload_key + 1;
+      self.get_otc_date();
     },
     begin_mock: function begin_mock(event) {
       var self = this;
@@ -19529,6 +19526,27 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return;
+    },
+    get_otc_date: function get_otc_date() {
+      var self = this;
+      var sds = {};
+      sds.league_id = self.league_id;
+      $.get('/draft_function/get_otc_date', sds, function (response) {
+        var new_otc_date = new Date(response.otc_time);
+        self.draft_date = new_otc_date;
+      });
+      setInterval(function () {
+        $.get('/draft_function/get_otc_date', sds, function (response) {
+          var new_otc_date = new Date(response.otc_time);
+
+          if (self.draft_date.getTime() !== new_otc_date.getTime()) {
+            console.log("getting here");
+            self.reload_components();
+          } else {
+            console.log("getting here2");
+          }
+        });
+      }, 5000);
     }
   }
 });
@@ -19800,7 +19818,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     get_prospects: function get_prospects() {
       var self = this;
-      console.log("getting prospects");
       var sds = {};
       sds.pos = self.pos;
       sds.mock_draft_id = self.mock_draft_id;
@@ -19843,6 +19860,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         var sds = {};
         sds.password = self.password;
+        sds.league_id = self.league_id;
         $.post('/draft_function/password_check', sds, function (response) {
           if (response) {
             if (response.success) {
@@ -19934,12 +19952,15 @@ __webpack_require__.r(__webpack_exports__);
       receiving_team_id: null,
       password: null,
       message: null,
-      teams: []
+      teams: [],
+      pending_trades: [],
+      pending_password_open: null
     };
   },
   mounted: function mounted() {
     var self = this;
     self.get_league_teams();
+    self.get_pending_trades();
   },
   methods: {
     get_tradeable_draft_picks: function get_tradeable_draft_picks() {
@@ -20004,11 +20025,11 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    check_team_password: function check_team_password() {
+    check_team_password: function check_team_password(team_id) {
       var self = this;
       var sds = {};
       self.message = null;
-      sds.team_id = self.sending_team_id;
+      sds.team_id = team_id;
       sds.password = self.password;
       $.get('/draft_function/team_password_check', sds, function (response) {
         if (response) {
@@ -20021,6 +20042,19 @@ __webpack_require__.r(__webpack_exports__);
           self.message = "Error while checking password.";
         }
       });
+    },
+    get_pending_trades: function get_pending_trades() {
+      var self = this;
+      var sds = {};
+      sds.league_id = self.league_id;
+      $.get('/draft_function/get_pending_trades', sds, function (response) {
+        if (response) {
+          self.pending_trades = response.pending_trades;
+        }
+      });
+    },
+    accept_trade: function accept_trade() {
+      var self = this;
     }
   }
 });
@@ -20381,7 +20415,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
     "text-align": "center",
     "background-color": "#E18B68"
   }
-}, " Draft Countdown ")], -1
+}, " Time Left To Pick ")], -1
 /* HOISTED */
 );
 
@@ -20400,46 +20434,34 @@ var _hoisted_5 = {
     "text-align": "center"
   }
 };
-var _hoisted_6 = {
-  style: {
-    "text-align": "center"
-  }
-};
 
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
   style: {
     "text-align": "center",
-    "font-size": "10px"
-  }
-}, " DAY "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  style: {
-    "text-align": "center",
-    "font-size": "10px"
+    "font-size": "12px"
   }
 }, " HR "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
   style: {
     "text-align": "center",
-    "font-size": "10px"
+    "font-size": "12px"
   }
 }, " MIN "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
   style: {
     "text-align": "center",
-    "font-size": "10px"
+    "font-size": "12px"
   }
 }, " SEC ")], -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.day), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hour), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hour), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.min), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.min), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.sec), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.sec), 1
-  /* TEXT */
-  )]), _hoisted_7])]);
+  )]), _hoisted_6])]);
 }
 
 /***/ }),
@@ -22011,7 +22033,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   style: {
     "text-align": "center"
   }
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Trade Center"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "*** WILL NOT WORK IN A MOCK DRAFT ***"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Since there is no login system, here is where picks will be traded."), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Select the picks you are sending and receiving. You will then be asked to enter your password. Once both teams have submitted identical trades, the site will update and reflect the new pick owners.")])], -1
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Trade Center"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "*** WILL NOT WORK IN A MOCK DRAFT ***"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Since there is no login system, here is where picks will be traded."), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Select the picks you are sending and receiving. You will then be asked to enter your password.")])], -1
 /* HOISTED */
 );
 
@@ -22089,6 +22111,78 @@ var _hoisted_19 = ["disabled"];
 var _hoisted_20 = {
   "class": "alert alert-danger"
 };
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-sm-12"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr")], -1
+/* HOISTED */
+);
+
+var _hoisted_22 = {
+  "class": "col-sm-12"
+};
+
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  style: {
+    "text-align": "center"
+  }
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Pending Trades")], -1
+/* HOISTED */
+);
+
+var _hoisted_24 = {
+  style: {
+    "overflow-x": "scroll"
+  }
+};
+var _hoisted_25 = {
+  style: {
+    "text-align": "center",
+    "width": "100%",
+    "max-width": "100%"
+  }
+};
+
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  colspan: "2"
+}, "Team To Accept"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Receives"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sends"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sent By"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Actions")], -1
+/* HOISTED */
+);
+
+var _hoisted_27 = ["src"];
+
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_29 = {
+  "class": "form-group mx-auto",
+  style: {
+    "width": "200px",
+    "margin": "auto"
+  }
+};
+var _hoisted_30 = {
+  style: {
+    "margin-top": "5px"
+  }
+};
+var _hoisted_31 = {
+  "class": "btn btn-xs btn-success"
+};
+var _hoisted_32 = ["onClick"];
+
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Accept");
+
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("   ");
+
+var _hoisted_35 = {
+  "class": "btn btn-xs btn-danger"
+};
+var _hoisted_36 = ["onClick"];
+
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Decline");
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-control",
@@ -22216,7 +22310,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-success",
     onClick: _cache[8] || (_cache[8] = function ($event) {
-      return $options.check_team_password();
+      return $options.check_team_password($data.sending_team_id);
     }),
     style: {
       "margin-bottom": "20px"
@@ -22237,7 +22331,56 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.message]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.message]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_25, [_hoisted_26, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.pending_trades, function (trade, index2) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: trade,
+      style: {
+        "border": "1px solid",
+        "border-style": "#FFFFFF",
+        "padding": "2px"
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      "class": "team-logo-board",
+      src: trade.team_to_accept_logo
+    }, null, 8
+    /* PROPS */
+    , _hoisted_27)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trade.team_to_accept_team_name), 1
+    /* TEXT */
+    )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trade.team_1_receives), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trade.team_2_receives), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trade.team_sent_team_name), 1
+    /* TEXT */
+    ), _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "text",
+      "class": "form-control",
+      id: "inputPassword2",
+      placeholder: "Password",
+      "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+        return $data.password = $event;
+      }),
+      onClick: _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
+    }, null, 512
+    /* NEED_PATCH */
+    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fa-solid fa-check",
+      onClick: function onClick($event) {
+        return $options.accept_trade(trade.id);
+      }
+    }, null, 8
+    /* PROPS */
+    , _hoisted_32), _hoisted_33]), _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fa-solid fa-x",
+      onClick: function onClick($event) {
+        return _ctx.decline_trade(trade.id);
+      }
+    }, null, 8
+    /* PROPS */
+    , _hoisted_36), _hoisted_37])])])]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])])])]);
 }
 
 /***/ }),
@@ -22258,198 +22401,54 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "container"
 };
-var _hoisted_2 = {
-  "class": "row"
-};
-var _hoisted_3 = {
-  "class": "col-sm-6",
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row\" style=\"margin:10px;text-align:center;\"><div class=\"col-sm-12\"></div></div><div class=\"row\" style=\"margin:10px;text-align:center;\"><div class=\"col-sm-4\" style=\"text-align:center;\"><button class=\"btn btn-lg btn-light\" style=\"width:80%;\"><i class=\"fa-solid fa-3x fa-carrot\"></i><h4>Find Meals by Ingredients</h4></button></div><div class=\"col-sm-8\" style=\"margin:auto;text-align:left;\"><h2>Already have ingredients?</h2><h5>Filter a large database of meals to find meals to make with the ingredients you have on hand.</h5></div></div><div class=\"row\" style=\"margin:10px;\"><div class=\"col-sm-4\" style=\"text-align:center;\"><button class=\"btn btn-lg btn-light\" style=\"width:80%;margin-top:20px;\"><i class=\"fa-solid fa-3x fa-cart-shopping\"></i><h4>Create a Shopping Cart</h4></button></div><div class=\"col-sm-8\" style=\"margin:auto;text-align:left;\"><h2>Have meals in mind?</h2><h5>We&#39;ll help you create a shopping cart by telling you what (and how much) to buy.</h5></div></div>", 3);
+
+var _hoisted_5 = {
+  "class": "row",
   style: {
-    "text-align": "center",
-    "margin-top": "10px"
+    "margin": "10px",
+    "text-align": "center"
+  }
+};
+var _hoisted_6 = {
+  "class": "col-sm-4",
+  style: {
+    "text-align": "center"
   }
 };
 
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Choose Ingredients", -1
-/* HOISTED */
-);
-
-var _hoisted_5 = ["onClick"];
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "fa-solid fa-utensils",
-  style: {
-    "margin-right": "5px"
-  }
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "fa-solid fa-3x fa-shuffle"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_7 = {
-  "class": "col-sm-6",
-  style: {
-    "text-align": "center",
-    "margin-top": "10px"
-  }
-};
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Selected Ingredients", -1
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Generate Random Meal", -1
 /* HOISTED */
 );
 
-var _hoisted_9 = {
-  "class": "badge badge-success"
-};
-var _hoisted_10 = ["onClick"];
+var _hoisted_9 = [_hoisted_7, _hoisted_8];
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_12 = {
-  "class": "row",
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-sm-8",
   style: {
-    "margin-top": "20px"
-  }
-};
-var _hoisted_13 = {
-  "class": "col-sm-12",
-  style: {
-    "text-align": "center"
-  }
-};
-var _hoisted_14 = {
-  key: 0,
-  "class": "container"
-};
-var _hoisted_15 = {
-  "class": "row"
-};
-var _hoisted_16 = {
-  "class": "col-sm-12",
-  style: {
-    "text-align": "center"
-  }
-};
-var _hoisted_17 = {
-  style: {
-    "text-transform": "capitalize"
-  }
-};
-var _hoisted_18 = ["src"];
-var _hoisted_19 = {
-  "class": "row"
-};
-var _hoisted_20 = {
-  "class": "col-sm-6"
-};
-
-var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Instructions", -1
-/* HOISTED */
-);
-
-var _hoisted_22 = {
-  "class": "col-sm-6"
-};
-
-var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Ingredients", -1
-/* HOISTED */
-);
-
-var _hoisted_24 = {
-  style: {
+    "margin": "auto",
     "text-align": "left"
   }
-};
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Just want ideas?"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Our random meal generator has you covered. Optional filter by meal type.")], -1
+/* HOISTED */
+);
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "text",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.ingredient_search = $event;
-    }),
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-lg btn-light",
     style: {
-      "color": "#000000",
-      "width": "300px",
-      "border-radius": "10px",
-      "padding": "5px 10px"
-    }
-  }, null, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.ingredient_search]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
-      "width": "290px",
-      "margin": "auto"
-    }, [$data.ingredient_list.length && $data.show_results ? {
-      'border': 'solid gray',
-      'border-style': '1px'
-    } : '']])
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ingredient_list, function (ingredient, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: ingredient,
-      "class": "hover-gray",
-      style: {
-        "text-align": "left",
-        "padding": "5px"
-      },
-      onClick: function onClick($event) {
-        return $options.add_ingredient(index);
-      }
-    }, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ingredient.name), 1
-    /* TEXT */
-    )], 8
-    /* PROPS */
-    , _hoisted_5);
-  }), 128
-  /* KEYED_FRAGMENT */
-  ))], 4
-  /* STYLE */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_8, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ingredients_selected, function (selected_ingredient, index2) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-      key: selected_ingredient
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(selected_ingredient.name) + "   ", 1
-    /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "fa-solid fa-xmark",
-      onClick: function onClick($event) {
-        return $options.remove_ingredient(index2);
-      },
-      style: {
-        "cursor": "pointer"
-      }
-    }, null, 8
-    /* PROPS */
-    , _hoisted_10)]), _hoisted_11]);
-  }), 128
-  /* KEYED_FRAGMENT */
-  ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-success",
-    onClick: _cache[1] || (_cache[1] = function ($event) {
-      return $options.get_random_meal();
-    })
-  }, "Generate Random Meal")])])]), $data.meal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.meal.strMeal), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: $data.meal.strMealThumb,
-    style: {
-      "max-height": "200px",
-      "width": "auto"
-    }
-  }, null, 8
-  /* PROPS */
-  , _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.meal.strCategory), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.meal.strTags), 1
-  /* TEXT */
-  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.meal.strInstructions), 1
-  /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_24, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.meal.ingredients, function (ingredient) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: ingredient
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ingredient.measurement) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ingredient.name), 1
-    /* TEXT */
-    );
-  }), 128
-  /* KEYED_FRAGMENT */
-  ))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+      "width": "80%",
+      "margin-top": "20px"
+    },
+    onClick: _cache[0] || (_cache[0] = function () {})
+  }, _hoisted_9)]), _hoisted_10])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm-4\" style=\"text-align:center; margin-top:10px\">\n                    <h4>Ingredient Search</h4>\n                    <input type=\"text\" v-model=\"ingredient_search\" style=\"color:#000000; width:300px;border-radius: 10px; padding: 5px 10px;\"/>\n                    <div style=\"width:290px; margin:auto; display:block\" :style=\"[(ingredient_list.length && show_results) ? { 'border':'solid gray','border-style':'1px' } : '']\">\n                        <div v-for=\"(ingredient, index) in ingredient_list\" :key=\"ingredient\" class=\"hover-gray\" style=\"text-align:left; padding:5px\" @click=\"add_ingredient(index)\"> \n                            <i class=\"fa-solid fa-utensils\" style=\"margin-right:5px\"></i> {{ ingredient.name }}\n                        </div>\n                    </div>\n                </div>\n                <div class=\"col-sm-4\">\n                    <div style=\"margin-top:20px\">\n                        <span v-for=\"(selected_ingredient, index2) in ingredients_selected\" :key=\"selected_ingredient\"><span class=\"badge badge-success\">{{ selected_ingredient.name }} &nbsp; <i class=\"fa-solid fa-xmark\" @click=\"remove_ingredient(index2)\" style=\"cursor:pointer\"></i></span><br/></span>\n                    </div>\n                </div>\n                <div class=\"col-sm-4\" style=\"margin:auto\">\n                    <button class=\"btn btn-success\" @click=\"get_random_meal()\">Generate Random Meal</button>\n                </div>\n            </div>\n            <div class=\"row\">\n                <div class=\"col-sm-12\" style=\"text-align:center; margin-top:10px\">\n                    <div v-if=\"meal\" class=\"container\" style=\"max-width:100%\">\n                        <div class=\"row\">\n                            <div class=\"col-sm-12\" style=\"text-align:center\">\n                                <h2 style=\"text-transform:capitalize\">{{ meal.strMeal }}</h2>\n                                <img :src=\"meal.strMealThumb\" style=\"max-height:200px; width:auto\"/>\n                                <h4>{{ meal.strCategory }}</h4>\n                                <h5>{{ meal.strTags }}</h5>\n                            </div>\n                        </div>\n                        <div class=\"row\">\n                            <div class=\"col-sm-8\">\n                                <h3>Instructions</h3>\n                                {{ meal.strInstructions }}\n                            </div>\n                            <div class=\"col-sm-4\">\n                                <h3>Ingredients</h3>\n                                <ul style=\"text-align:left\">\n                                    <li v-for=\"ingredient in meal.ingredients\" :key=\"ingredient\">{{ ingredient.measurement }} {{ ingredient.name }}</li>\n                                </ul>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div> ")]);
 }
 
 /***/ }),

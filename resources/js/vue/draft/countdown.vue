@@ -3,13 +3,10 @@
     <table style="width:100%; border:1px solid; border-style:#ffffff">
       <tr>
         <th colspan="4" style="text-align:center; background-color:#E18B68">
-          Draft Countdown
+          Time Left To Pick
         </th>
       </tr>
       <tr>
-        <td style="text-align:center">
-          {{day}}
-        </td>
         <td style="text-align:center">
           {{hour}}
         </td>
@@ -21,16 +18,13 @@
         </td>
       </tr>
       <tr>
-        <td style="text-align:center; font-size:10px">
-          DAY
-        </td>
-        <td style="text-align:center; font-size:10px">
+        <td style="text-align:center; font-size:12px">
           HR
         </td>
-        <td style="text-align:center; font-size:10px">
+        <td style="text-align:center; font-size:12px">
           MIN
         </td>
-        <td style="text-align:center; font-size:10px">
+        <td style="text-align:center; font-size:12px">
           SEC
         </td>
       </tr>
@@ -59,12 +53,8 @@ export default {
     }
   },
   computed:{
-    day(){
-      let d = Math.trunc((this.endDate - this.now) / 1000 / 3600 / 24);
-      return d>9?d:'0'+d;
-    },
     hour(){
-      let h = Math.trunc((this.endDate - this.now) / 1000 / 3600) % 24;
+      let h = Math.trunc((this.endDate - this.now) / 1000 / 3600);
       return h>9?h:'0'+h;
     },
     min(){
