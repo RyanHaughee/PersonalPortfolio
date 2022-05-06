@@ -19533,10 +19533,8 @@ __webpack_require__.r(__webpack_exports__);
       var sds = {};
       sds.league_id = self.league_id;
       $.get('/draft_function/get_otc_date', sds, function (response) {
-        console.log(response.otc_time.replace(/-/g, "/"));
         var new_otc_date = new Date(response.otc_time.replace(/-/g, "/"));
         self.draft_date = new_otc_date;
-        console.log(self.draft_date);
         self.current_pick_id = response.pick_id;
       });
       setInterval(function () {
@@ -20417,7 +20415,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
     "text-align": "center",
     "background-color": "#E18B68"
   }
-}, " Time Left To Pick ")], -1
+}, " Draft Start ")], -1
 /* HOISTED */
 );
 

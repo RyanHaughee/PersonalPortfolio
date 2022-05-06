@@ -3,7 +3,7 @@
     <table style="width:100%; border:1px solid; border-style:#ffffff">
       <tr>
         <th colspan="4" style="text-align:center; background-color:#E18B68">
-          Time Left To Pick
+          Draft Start
         </th>
       </tr>
       <tr>
