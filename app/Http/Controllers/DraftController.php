@@ -10,6 +10,7 @@ use App\Models\TeamNeed;
 use App\Models\MockDraft;
 use App\Models\MockDraftPick;
 use App\Models\DynastyTrade;
+use App\Models\DynastyTeam;
 
 class DraftController extends Controller
 {
