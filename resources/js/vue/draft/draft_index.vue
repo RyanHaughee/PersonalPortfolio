@@ -159,10 +159,7 @@ export default {
             setInterval(() => {
                 $.get('/draft_function/get_otc_date', sds, function(response){
                     if (self.current_pick_id !== response.pick_id){
-                        console.log("getting here");
                         self.reload_components();
-                    } else {
-                        console.log("getting here2");
                     }
                 })
             }, 5000);
