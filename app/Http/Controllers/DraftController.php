@@ -31,7 +31,8 @@ class DraftController extends Controller
         } else {
             $league_id = 1;
         }
-        return view('draft_index', ['league_id' => $league_id]);
+        $otc_pick = DynastyPick::find_otc_pick($league_id);
+        return view('draft_index', ['league_id' => $league_id, 'otc_date' => $otc_pick->otc_time]);
     }
 
     public function get_prospects(Request $request){
@@ -729,7 +730,9 @@ class DraftController extends Controller
                 foreach($t1_picks_array as $pick_id){
                     if (!empty($pick_id)){
                         $pick = DynastyPick::find($pick_id);
+                        $team = DynastyTeam::find($team_2_id);
                         $pick->team_id = $team_2_id;
+                        $pick->password = $team->password;
                         $pick->save();
                     }
                 }
@@ -741,7 +744,9 @@ class DraftController extends Controller
                 foreach($t2_picks_array as $pick_id){
                     if (!empty($pick_id)){
                         $pick = DynastyPick::find($pick_id);
+                        $team = DynastyTeam::find($team_1_id);
                         $pick->team_id = $team_1_id;
+                        $pick->password = $team->password;
                         $pick->save();
                     }
                 }

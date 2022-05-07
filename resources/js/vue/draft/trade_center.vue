@@ -202,7 +202,7 @@ export default {
         <div class="col-sm-12">
             <hr>
         </div>
-        <div class="col-sm-12">
+        <!-- <div class="col-sm-12">
             <div style="text-align:center">
                 <h1>Pending Trades</h1>
             </div>
@@ -246,6 +246,6 @@ export default {
                     </tr>
                 </table>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>

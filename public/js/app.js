@@ -22115,71 +22115,6 @@ var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_22 = {
-  "class": "col-sm-12"
-};
-
-var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  style: {
-    "text-align": "center"
-  }
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Pending Trades")], -1
-/* HOISTED */
-);
-
-var _hoisted_24 = {
-  style: {
-    "overflow-x": "scroll"
-  }
-};
-var _hoisted_25 = {
-  style: {
-    "text-align": "center",
-    "width": "100%",
-    "max-width": "100%"
-  }
-};
-
-var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "2"
-}, "Team To Accept"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Receives"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sends"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sent By"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Actions")], -1
-/* HOISTED */
-);
-
-var _hoisted_27 = ["src"];
-
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_29 = {
-  "class": "form-group mx-auto",
-  style: {
-    "width": "200px",
-    "margin": "auto"
-  }
-};
-var _hoisted_30 = {
-  style: {
-    "margin-top": "5px"
-  }
-};
-var _hoisted_31 = {
-  "class": "btn btn-xs btn-success"
-};
-var _hoisted_32 = ["onClick"];
-
-var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Accept");
-
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("   ");
-
-var _hoisted_35 = {
-  "class": "btn btn-xs btn-danger"
-};
-var _hoisted_36 = ["onClick"];
-
-var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Decline");
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-control",
@@ -22328,56 +22263,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.message]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_25, [_hoisted_26, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.pending_trades, function (trade, index2) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
-      key: trade,
-      style: {
-        "border": "1px solid",
-        "border-style": "#FFFFFF",
-        "padding": "2px"
-      }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-      "class": "team-logo-board",
-      src: trade.team_to_accept_logo
-    }, null, 8
-    /* PROPS */
-    , _hoisted_27)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trade.team_to_accept_team_name), 1
-    /* TEXT */
-    )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trade.team_1_receives), 1
-    /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trade.team_2_receives), 1
-    /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trade.team_sent_team_name), 1
-    /* TEXT */
-    ), _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      type: "text",
-      "class": "form-control",
-      id: "inputPassword2",
-      placeholder: "Password",
-      "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
-        return $data.password = $event;
-      }),
-      onClick: _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
-    }, null, 512
-    /* NEED_PATCH */
-    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "fa-solid fa-check",
-      onClick: function onClick($event) {
-        return $options.accept_trade(trade.id);
-      }
-    }, null, 8
-    /* PROPS */
-    , _hoisted_32), _hoisted_33]), _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "fa-solid fa-x",
-      onClick: function onClick($event) {
-        return _ctx.decline_trade(trade.id);
-      }
-    }, null, 8
-    /* PROPS */
-    , _hoisted_36), _hoisted_37])])])]);
-  }), 128
-  /* KEYED_FRAGMENT */
-  ))])])])]);
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.message]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-sm-12\">\n            <div style=\"text-align:center\">\n                <h1>Pending Trades</h1>\n            </div>\n            <div style=\"overflow-x:scroll\">\n                <table style=\"text-align:center; width:100%; max-width:100%;\">\n                    <tr>\n                        <th colspan=\"2\">Team To Accept</th>\n                        <th>Receives</th>\n                        <th>Sends</th>\n                        <th>Sent By</th>\n                        <th>Actions</th>\n                    </tr>\n                    <tr v-for=\"(trade, index2) in pending_trades\" :key=\"trade\" style=\"border:1px solid; border-style:#FFFFFF; padding:2px\">\n                        <td>\n                            <img class=\"team-logo-board\" :src=\"trade.team_to_accept_logo\"/>\n                        </td>\n                        <td>\n                            <h4>{{ trade.team_to_accept_team_name}}</h4>\n                        </td>\n                        <td>\n                            {{ trade.team_1_receives }}\n                        </td>\n                        <td>\n                            {{ trade.team_2_receives }}\n                        </td>\n                        <td>\n                            {{ trade.team_sent_team_name}}\n                        </td>\n                        <td>\n                        </td>\n                        <td>\n                            <div class=\"form-group mx-auto\" style=\"width:200px; margin:auto\">\n                                <input type=\"text\" class=\"form-control\" id=\"inputPassword2\" placeholder=\"Password\" v-model=\"password\" v-on:click.stop>\n                            </div>\n                            <div style=\"margin-top:5px;\">\n                                <button class=\"btn btn-xs btn-success\"><i class=\"fa-solid fa-check\" @click=\"accept_trade(trade.id)\"></i> Accept</button>\n                                &nbsp;\n                                <button class=\"btn btn-xs btn-danger\"><i class=\"fa-solid fa-x\" @click=\"decline_trade(trade.id)\"></i> Decline</button>\n                            </div>\n                        </td>\n                    </tr>\n                </table>\n            </div>\n        </div> ")]);
 }
 
 /***/ }),
