@@ -20415,7 +20415,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
     "text-align": "center",
     "background-color": "#E18B68"
   }
-}, " Draft Start ")], -1
+}, " Time To Pick ")], -1
 /* HOISTED */
 );
 

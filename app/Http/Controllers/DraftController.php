@@ -298,12 +298,22 @@ class DraftController extends Controller
             $pick->prospect_id = $input['prospect_id'];
             $pick->save();
 
+            // Set date
             date_default_timezone_set('US/Eastern');
-            $six_hrs = date("Y-m-d H:i:s", strtotime('+6 hours')); 
-            $new_otc_pick = DynastyPick::find_otc_pick($league_id);
-            $edited_pick = DynastyPick::find($new_otc_pick->id);
-            $edited_pick->otc_time = $six_hrs; 
-            $edited_pick->save();
+            if (date("H", strtotime('+6 hours')) >= 0 && date("H", strtotime('+6 hours')) < 8){
+                $fourteen_hrs = date("Y-m-d H:i:s", strtotime('+14 hours')); 
+                $new_otc_pick = DynastyPick::find_otc_pick($league_id);
+                $edited_pick = DynastyPick::find($new_otc_pick->id);
+                $edited_pick->otc_time = $fourteen_hrs; 
+                $edited_pick->save();
+
+            } else {
+                $six_hrs = date("Y-m-d H:i:s", strtotime('+6 hours')); 
+                $new_otc_pick = DynastyPick::find_otc_pick($league_id);
+                $edited_pick = DynastyPick::find($new_otc_pick->id);
+                $edited_pick->otc_time = $six_hrs; 
+                $edited_pick->save();
+            }
         }
 
         $response = array();
