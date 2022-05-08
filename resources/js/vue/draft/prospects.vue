@@ -101,6 +101,7 @@ export default {
             var sds = {};
             sds.pos = self.pos;
             sds.mock_draft_id = self.mock_draft_id;
+            sds.league_id = self.league_id;
             $.get('/draft_function/get_prospects', sds, function(response){
                 if (response){
                     self.prospects = response.prospects;
