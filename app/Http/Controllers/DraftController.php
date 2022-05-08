@@ -75,10 +75,7 @@ class DraftController extends Controller
                     $join->on('mock_draft_picks.prospect_id','=','prospects.id');
                     $join->where('mock_draft_picks.mock_draft_id','=',$mock_draft_id);
                 })
-                ->leftJoin('dynasty_picks', function($join) use($league_id){
-                    $join->on('dynasty_picks.id','=','mock_draft_picks.dynasty_pick_id');
-                    $join->where('dynasty_picks.league_id','=',$league_id);
-                })
+                ->leftJoin('dynasty_picks','dynasty_picks.id','=','mock_draft_picks.dynasty_pick_id')
                 ->leftJoin('dynasty_teams','dynasty_teams.id','=','mock_draft_picks.team_id')
                 ->whereRaw($where_statement)
                 ->orderBy($order_by,'asc')
@@ -97,7 +94,10 @@ class DraftController extends Controller
                 '))
                 ->leftJoin('cfb_team_logos','cfb_team_logos.team_api_id','=','prospects.school_id')
                 ->leftJoin('nfl_logos','nfl_logos.id','=','prospects.team_id')
-                ->leftJoin('dynasty_picks','dynasty_picks.prospect_id','=','prospects.id')
+                ->leftJoin('dynasty_picks',function($join) use($league_id){
+                    $join->on('dynasty_picks.prospect_id','=','prospects.id');
+                    $join->where('dynasty_picks.league_id','=',$league_id);
+                })
                 ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_picks.team_id')
                 ->whereRaw($where_statement)
                 ->orderBy($order_by,'asc')
