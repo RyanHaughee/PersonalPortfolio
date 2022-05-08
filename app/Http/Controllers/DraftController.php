@@ -824,11 +824,17 @@ class DraftController extends Controller
         $league_id = $input['league_id'];
 
         $otc_pick = DynastyPick::find_otc_pick($league_id);
-        $otc_time = $otc_pick->otc_time; 
+        if (empty($otc_pick)){
+            $otc_time = null;
+            $otc_id = null;
+        } else {
+            $otc_time = $otc_pick->otc_time; 
+            $otc_id = $otc_pick->id;
+        }
 
         $answer['success'] = true;
         $answer['otc_time'] = $otc_time;
-        $answer['pick_id'] = $otc_pick->id;
+        $answer['pick_id'] = $otc_id;
         return $answer;
     }
 }
