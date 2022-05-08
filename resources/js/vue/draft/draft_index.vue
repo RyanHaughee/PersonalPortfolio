@@ -152,13 +152,19 @@ export default {
             var sds = {};
             sds.league_id = self.league_id;
             $.get('/draft_function/get_otc_date', sds, function(response){
-                var new_otc_date = new Date(response.otc_time.replace(/-/g, "/"));
+                if (response.otc_time){
+                    var new_otc_date = new Date(response.otc_time.replace(/-/g, "/"));
+                } else {
+                    var new_otc_date = null;
+                }
                 self.draft_date = new_otc_date;
                 self.current_pick_id = response.pick_id
             })
             setInterval(() => {
                 $.get('/draft_function/get_otc_date', sds, function(response){
                     if (self.current_pick_id !== response.pick_id){
+                        console.log(self.current_pick_id);
+                        console.log(response.pick_id);
                         self.reload_components();
                     }
                 })

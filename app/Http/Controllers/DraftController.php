@@ -22,7 +22,12 @@ class DraftController extends Controller
             $league_id = 1;
         }
         $otc_pick = DynastyPick::find_otc_pick($league_id);
-        return view('draft_index', ['league_id' => $league_id, 'otc_date' => $otc_pick->otc_time]);
+        if (!empty($otc_pick)){
+            $otc_time = $otc_pick->otc_time;
+        } else {
+            $otc_time = null;
+        }
+        return view('draft_index', ['league_id' => $league_id, 'otc_date' => $otc_time]);
     }
 
     public function league_index(Request $request, $id=null){
@@ -33,7 +38,12 @@ class DraftController extends Controller
             $league_id = 1;
         }
         $otc_pick = DynastyPick::find_otc_pick($league_id);
-        return view('draft_index', ['league_id' => $league_id, 'otc_date' => $otc_pick->otc_time]);
+        if (!empty($otc_pick)){
+            $otc_time = $otc_pick->otc_time;
+        } else {
+            $otc_time = null;
+        }
+        return view('draft_index', ['league_id' => $league_id, 'otc_date' => $otc_time]);
     }
 
     public function get_prospects(Request $request){
@@ -826,7 +836,7 @@ class DraftController extends Controller
         $otc_pick = DynastyPick::find_otc_pick($league_id);
         if (empty($otc_pick)){
             $otc_time = null;
-            $otc_id = 0;
+            $otc_id = null;
         } else {
             $otc_time = $otc_pick->otc_time; 
             $otc_id = $otc_pick->id;
