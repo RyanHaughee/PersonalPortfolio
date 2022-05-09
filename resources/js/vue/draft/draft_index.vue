@@ -160,15 +160,15 @@ export default {
                 self.draft_date = new_otc_date;
                 self.current_pick_id = response.pick_id
             })
-            setInterval(() => {
-                $.get('/draft_function/get_otc_date', sds, function(response){
-                    if (self.current_pick_id !== response.pick_id){
-                        console.log(self.current_pick_id);
-                        console.log(response.pick_id);
-                        self.reload_components();
-                    }
-                })
-            }, 5000);
+            // setInterval(() => {
+            //     $.get('/draft_function/get_otc_date', sds, function(response){
+            //         if (self.current_pick_id !== response.pick_id){
+            //             console.log(self.current_pick_id);
+            //             console.log(response.pick_id);
+            //             self.reload_components();
+            //         }
+            //     })
+            // }, 5000);
         }
     }
 }
