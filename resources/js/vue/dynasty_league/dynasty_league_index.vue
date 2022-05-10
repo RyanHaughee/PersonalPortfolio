@@ -186,7 +186,7 @@ export default {
                                                 <tr v-if="!team.cornerstone_players.length">
                                                     <td colspan="4">None</td>
                                                 </tr>
-                                                <tr v-for="player in team.cornerstone_players" :key="player" style="height:30px">
+                                                <tr v-for="player in team.cornerstone_players" :key="player" style="height:30px; border-right:1px solid">
                                                     <td colspan="2">
                                                         <img :src="player.team_logo" style="width:30px; max-height:30px; height:auto"/>
                                                     </td>
@@ -213,7 +213,7 @@ export default {
                                                 <tr v-if="!team.trophy_row_array.length">
                                                     <td colspan="2">None</td>
                                                 </tr>
-                                                <tr v-for="row in team.trophy_row_array" :key="row" style="border:1px solid">
+                                                <tr v-for="row in team.trophy_row_array" :key="row" style="border-right:1px solid">
                                                     <td v-for="trophy in row" :key="trophy" style="width:100px;padding:2px">
                                                         <div style="margin:auto; text-align:center">
                                                             <i :class="trophy.fa_class" :style="trophy.fa_style" style="margin:auto; font-size:1.7em"></i>
