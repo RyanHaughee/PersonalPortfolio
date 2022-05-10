@@ -22354,7 +22354,7 @@ var _hoisted_6 = {
   "class": "col-sm-9",
   style: {
     "margin": "auto",
-    "overflow": "auto"
+    "overflow": "visible !important"
   }
 };
 var _hoisted_7 = ["src"];
@@ -22366,9 +22366,7 @@ var _hoisted_8 = {
   }
 };
 var _hoisted_9 = {
-  style: {
-    "font-size": "20px"
-  }
+  "class": "dynasty-team-h1"
 };
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
@@ -22376,9 +22374,7 @@ var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_11 = {
-  style: {
-    "font-size": "16px"
-  }
+  "class": "dynasty-team-h2"
 };
 
 var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
@@ -22730,10 +22726,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.toggle_index(index);
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      "class": "dynasty-team-logo",
       src: team.logo,
       style: {
-        "height": "75px",
-        "width": "75px",
         "float": "left"
       }
     }, null, 8
@@ -23891,7 +23886,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#body-style{\n        background-color:#FFFFFF;\n        color:#000000;\n        min-height:100vh;\n        height:100%;\n}\n.team-row:hover{\n        background-color:#faf5f5;\n        cursor:pointer\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#body-style{\n        background-color:#FFFFFF;\n        color:#000000;\n        min-height:100vh;\n        height:100%;\n}\n.team-row:hover{\n        background-color:#faf5f5;\n        cursor:pointer\n}\ntable{\n        margin-top:10px\n}\n@media (min-width : 480px) {\n.dynasty-team-logo{\n            height:75px;\n            width:75px;\n}\n.dynasty-team-h1{\n            font-size:20px\n}\n.dynasty-team-h2{\n            font-size:16px\n}\n}\n@media (max-width : 480px) {\n.dynasty-team-logo{\n            height:50px;\n            width:50px;\n}\n.dynasty-team-h1{\n            font-size:16px\n}\n.dynasty-team-h2{\n            font-size:12px\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

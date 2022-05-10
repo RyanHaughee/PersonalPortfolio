@@ -9,6 +9,33 @@
         background-color:#faf5f5;
         cursor:pointer
     }
+    table{
+        margin-top:10px
+    }
+    @media (min-width : 480px) {
+        .dynasty-team-logo{
+            height:75px;
+            width:75px;
+        }
+        .dynasty-team-h1{
+            font-size:20px
+        }
+        .dynasty-team-h2{
+            font-size:16px
+        }
+    }
+    @media (max-width : 480px) {
+        .dynasty-team-logo{
+            height:50px;
+            width:50px;
+        }
+        .dynasty-team-h1{
+            font-size:16px
+        }
+        .dynasty-team-h2{
+            font-size:12px
+        }
+    }
 </style>
 
 <script>
@@ -54,11 +81,11 @@ export default {
                     <div class="col-sm-12">
                         <div class="container" style="max-width:100%">
                             <div class="row" @click="toggle_index(index)">
-                                <div class="col-sm-9" style="margin:auto; overflow:auto">
-                                    <img :src="team.logo" style="height:75px; width:75px; float:left"/>
+                                <div class="col-sm-9" style="margin:auto; overflow:visible !important">
+                                    <img class="dynasty-team-logo" :src="team.logo" style="float:left"/>
                                     <div style="float:left; margin:auto; margin-left:10px">
-                                        <span style="font-size:20px">{{ team.team_name }}</span><br>
-                                        <span style="font-size:16px">{{ team.owner }}</span><br/>
+                                        <span class="dynasty-team-h1">{{ team.team_name }}</span><br>
+                                        <span class="dynasty-team-h2">{{ team.owner }}</span><br/>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">

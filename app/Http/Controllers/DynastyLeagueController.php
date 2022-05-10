@@ -23,6 +23,7 @@ class DynastyLeagueController extends Controller
         $teams = DB::table('dynasty_teams')
             ->select(DB::raw('dynasty_teams.id, dynasty_teams.team_name, dynasty_teams.owner, dynasty_teams.logo'))
             ->where('dynasty_teams.league_id','=',1)
+            ->orderBy('owner','asc')
             ->get();
 
         $team_values = array();
