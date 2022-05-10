@@ -213,7 +213,7 @@ export default {
                                                 <tr v-if="!team.trophy_row_array.length">
                                                     <td colspan="2">None</td>
                                                 </tr>
-                                                <tr v-for="row in team.trophy_row_array" :key="row">
+                                                <tr v-for="row in team.trophy_row_array" :key="row" style="border:1px solid">
                                                     <td v-for="trophy in row" :key="trophy" style="width:100px;padding:2px">
                                                         <div style="margin:auto; text-align:center">
                                                             <i :class="trophy.fa_class" :style="trophy.fa_style" style="margin:auto; font-size:1.7em"></i>
