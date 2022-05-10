@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DraftController;
+use App\Http\Controllers\DynastyLeagueController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\RecipeController;
 
@@ -64,4 +65,9 @@ Route::get('/recipes', [RecipeController::class, 'index']);
 Route::prefix('recipe')->group(function () {
     Route::get('/get_random_meal', [RecipeController::class, 'get_random_meal']);
     Route::get('/search_ingredients', [RecipeController::class, 'search_ingredients']);
+});
+
+Route::get('/dynasty', [DynastyLeagueController::class, 'index']);
+Route::prefix('dynasty_function')->group(function () {
+    Route::get('/get_teams', [DynastyLeagueController::class, 'get_teams']);
 });

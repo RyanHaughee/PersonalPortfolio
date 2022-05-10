@@ -41,7 +41,7 @@
     .team-badge:hover .hover-show{
         display:inline-block;;
     }
-    #teams_table, td, th{
+    #teams_table, #teams_table td, #teams_table th{
         padding: 2px
     }
     #teams_table, th{
