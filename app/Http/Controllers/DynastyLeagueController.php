@@ -263,8 +263,8 @@ class DynastyLeagueController extends Controller
                         $value->dc24 += ($pick->estimated_pick_value*0.33);
                         $value->dc += ($pick->estimated_pick_value*0.33);
                     } else if ($dc24_count <= 5){
-                        $value->dc24 += ($pick->estimated_pick_value*0.67*((6-$dc24_count)/3));
-                        $value->dc += ($pick->estimated_pick_value*0.67*((6-$dc24_count)/3));
+                        $value->dc24 += ($pick->estimated_pick_value*0.33*((6-$dc24_count)/3));
+                        $value->dc += ($pick->estimated_pick_value*0.33*((6-$dc24_count)/3));
                     }
 
                 }
