@@ -566,10 +566,10 @@ class DynastyLeagueController extends Controller
 
             // OVR
             if ($team->value->ovr >= $ovr_median){
-                $background_opacity = number_format((($team->value->ovr-$ovr_median)/($max_obj->ovr-$ovr_median)),2)/2;
+                $background_opacity = number_format((($team->value->ovr-$ovr_median)/($max_obj->ovr-$ovr_median)),2);
                 $teams[$index]->ovr_rating_background = "rgb(5,165,81,".$background_opacity.")";
             } else {
-                $background_opacity = number_format((($ovr_median-$team->value->ovr)/($ovr_median-$min_obj->ovr)),2)/2;
+                $background_opacity = number_format((($ovr_median-$team->value->ovr)/($ovr_median-$min_obj->ovr)),2);
                 $teams[$index]->ovr_rating_background = "rgb(204,36,35,".$background_opacity.")";
             }
             $team->value->ovr = number_format(($team->value->ovr/$max_obj->ovr)*100,0);
