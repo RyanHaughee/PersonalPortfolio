@@ -54,41 +54,15 @@ export default {
                     <div class="col-sm-12">
                         <div class="container" style="max-width:100%">
                             <div class="row" @click="toggle_index(index)">
-                                <div class="col-sm-8" style="margin:auto; overflow:auto">
+                                <div class="col-sm-9" style="margin:auto; overflow:auto">
                                     <img :src="team.logo" style="height:75px; width:75px; float:left"/>
                                     <div style="float:left; margin:auto; margin-left:10px">
                                         <span style="font-size:20px">{{ team.team_name }}</span><br>
                                         <span style="font-size:16px">{{ team.owner }}</span><br/>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <table style="border:1px solid; text-align:center; float:right">
-                                        <tr>
-                                            <td style="height:25px; width:50px">
-                                                <span style="font-size:12px">DC</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="height:50px; width:50px" :style="{'background-color': team.dc_rating_background }">
-                                                <div style="font-size:16px">{{ team.value.dc }}</div>
-                                                <div style="font-size:10px">(#{{ team.value.dc_rank }})</div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <table style="border:1px solid; text-align:center; float:right">
-                                        <tr>
-                                            <td style="height:25px; width:50px">
-                                                <span style="font-size:12px">Roster</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="height:50px; width:50px" :style="{'background-color': team.total_rating_background }">
-                                                <div style="font-size:16px">{{ team.value.total }}</div>
-                                                <div style="font-size:10px">(#{{ team.value.total_rank }})</div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <table style="border:1px solid; text-align:center; float:right">
+                                <div class="col-sm-3">
+                                    <table style="border:1px solid; text-align:center; float:left">
                                         <tr>
                                             <td style="height:25px; width:100px">
                                                 <span style="font-size:14px; font-weight:600">OVERALL</span>
@@ -101,12 +75,38 @@ export default {
                                             </td>
                                         </tr>
                                     </table>
+                                    <table style="border:1px solid; text-align:center; float:left">
+                                        <tr>
+                                            <td style="height:25px; width:50px">
+                                                <span style="font-size:12px">Roster</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="height:50px; width:50px" :style="{'background-color': team.total_rating_background }">
+                                                <div style="font-size:16px">{{ team.value.total }}</div>
+                                                <div style="font-size:10px">(#{{ team.value.total_rank }})</div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table style="border:1px solid; text-align:center; float:left">
+                                        <tr>
+                                            <td style="height:25px; width:50px">
+                                                <span style="font-size:12px">DC</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="height:50px; width:50px" :style="{'background-color': team.dc_rating_background }">
+                                                <div style="font-size:16px">{{ team.value.dc }}</div>
+                                                <div style="font-size:10px">(#{{ team.value.dc_rank }})</div>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                             <template v-if="index == selected_index">
                                 <div class="row" style="margin-top:10px">
-                                    <div class="col-sm-12">
-                                        <div style="float:left; width:23%; margin-right:2%">
+                                    <div class="col-sm-3">
+                                        <div style="float:left; width:100%;">
                                             <table style="border:1px solid; text-align:center;width:100%;">
                                                 <tr style="height:34px">
                                                     <th colspan="8" style="margin:auto; padding:0px">ROSTER STRENGTH</th>
@@ -144,7 +144,9 @@ export default {
                                                 </tr>
                                             </table>
                                         </div>
-                                        <div style="float:left; width:25%">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div style="float:left; width:100%">
                                             <table style="border:1px solid; text-align:center;width:100%;">
                                                 <tr style="height:34px">
                                                     <th colspan="8" style="margin:auto; padding:0px;">CORNERSTONE PLAYERS</th>
@@ -170,7 +172,11 @@ export default {
                                                 </tr>
                                             </table>
                                         </div>
-                                        <div style="float:right">
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div style="float:left">
                                             <table style="border:1px solid; text-align:center;">
                                                 <tr>
                                                     <th style="height:25px; width:200px; border: 1px solid #000000" colspan="4">

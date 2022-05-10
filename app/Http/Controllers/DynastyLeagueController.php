@@ -551,8 +551,6 @@ class DynastyLeagueController extends Controller
             $array_search = 6;
             $amount_to_add = 3;
             while (empty($team->value->ovr_rank)){
-                Log::info($team->value->ovr);
-                Log::info($ovr_values[$array_search]);
                 if ($team->value->ovr == $ovr_values[$array_search]){
                     $team->value->ovr_rank = $array_search+1;
                     break;
