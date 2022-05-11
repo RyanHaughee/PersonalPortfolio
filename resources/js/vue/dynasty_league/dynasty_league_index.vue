@@ -1,40 +1,23 @@
 <style>
-    #body-style{
-        background-color:#FFFFFF;
-        color:#000000;
-        min-height:100vh;
-        height:100%;
-    }
-    .team-row:hover{
-        background-color:#faf5f5;
-        cursor:pointer
-    }
-    table{
-        margin-top:10px
-    }
+    #body-style{background-color:#FFFFFF; color:#000000; min-height:100vh; height:100% }
+    .team-row{ padding:10px; }
+    .team-row:hover{ background-color:#faf5f5; cursor:pointer}
+    table{ margin-top:10px }
+    .float-l { float:left }
+    .rating-table { border:1px solid; text-align:center;}
+    .pos-rating-header { width:25% }
+    .border-l { border-left:1px solid #000000 }
+    .border-r { border-right:1px solid #000000 }
+    .border-a { border: 1px solid #000000 }
     @media (min-width : 480px) {
-        .dynasty-team-logo{
-            height:75px;
-            width:75px;
-        }
-        .dynasty-team-h1{
-            font-size:20px
-        }
-        .dynasty-team-h2{
-            font-size:16px
-        }
+        .dynasty-team-logo{  height:75px; width:75px; }
+        .dynasty-team-h1{ font-size:20px }
+        .dynasty-team-h2{ font-size:16px }
     }
     @media (max-width : 480px) {
-        .dynasty-team-logo{
-            height:50px;
-            width:50px;
-        }
-        .dynasty-team-h1{
-            font-size:16px
-        }
-        .dynasty-team-h2{
-            font-size:12px
-        }
+        .dynasty-team-logo{ height:50px; width:50px; }
+        .dynasty-team-h1{ font-size:16px }
+        .dynasty-team-h2{ font-size:12px }
     }
 </style>
 
@@ -77,52 +60,52 @@ export default {
     <div id="body-style">
         <div>
             <div class="container">
-                <div class="row team-row"  v-for="(team, index) in teams" :key="team" style="border: 1px solid #000000; padding:10px;">
+                <div class="row team-row border-a"  v-for="(team, index) in teams" :key="team">
                     <div class="col-sm-12">
                         <div class="container" style="max-width:100%">
                             <div class="row" @click="toggle_index(index)">
-                                <div class="col-sm-9" style="margin:auto; overflow:visible !important">
-                                    <img class="dynasty-team-logo" :src="team.logo" style="float:left"/>
+                                <div class="col-sm-9" style="margin:auto;">
+                                    <img class="float-l dynasty-team-logo" :src="team.logo"/>
                                     <div style="float:left; margin:auto; margin-left:10px">
                                         <span class="dynasty-team-h1">{{ team.team_name }}</span><br>
                                         <span class="dynasty-team-h2">{{ team.owner }}</span><br/>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <table style="border:1px solid; text-align:center; float:left">
+                                    <table class="rating-table float-l">
                                         <tr>
-                                            <td style="height:25px; width:100px">
+                                            <td class="border-a" style="height:25px; width:100px">
                                                 <span style="font-size:14px; font-weight:600">OVERALL</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="height:50px; width:100px" :style="{'background-color': team.ovr_rating_background }">
+                                            <td style="height:50px; width:100px" :style="{'background-color': team.background.ovr_rating }">
                                                 <div style="font-size:20px">{{ team.value.ovr }}</div>
                                                 <div style="font-size:12px">(#{{ team.value.ovr_rank }})</div>
                                             </td>
                                         </tr>
                                     </table>
-                                    <table style="border:1px solid; text-align:center; float:left">
+                                    <table class="rating-table float-l">
                                         <tr>
-                                            <td style="height:25px; width:50px">
+                                            <td class="border-a" style="height:25px; width:50px">
                                                 <span style="font-size:12px">Roster</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="height:50px; width:50px" :style="{'background-color': team.total_rating_background }">
+                                            <td style="height:50px; width:50px" :style="{'background-color': team.background.total_rating }">
                                                 <div style="font-size:16px">{{ team.value.total }}</div>
                                                 <div style="font-size:10px">(#{{ team.value.total_rank }})</div>
                                             </td>
                                         </tr>
                                     </table>
-                                    <table style="border:1px solid; text-align:center; float:left">
+                                    <table class="rating-table float-l">
                                         <tr>
-                                            <td style="height:25px; width:50px">
+                                            <td class="border-a" style="height:25px; width:50px">
                                                 <span style="font-size:12px">DC</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="height:50px; width:50px" :style="{'background-color': team.dc_rating_background }">
+                                            <td style="height:50px; width:50px" :style="{'background-color': team.background.dc_rating }">
                                                 <div style="font-size:16px">{{ team.value.dc }}</div>
                                                 <div style="font-size:10px">(#{{ team.value.dc_rank }})</div>
                                             </td>
@@ -139,20 +122,20 @@ export default {
                                                     <th colspan="8" style="margin:auto; padding:0px">ROSTER STRENGTH</th>
                                                 </tr>
                                                 <tr>
-                                                    <th colspan="2" style="border: 1px solid #000000; width:25%">QB</th>
-                                                    <th colspan="2" style="border: 1px solid #000000; width:25%">RB</th>
-                                                    <th colspan="2" style="border: 1px solid #000000; width:25%">WR</th>
-                                                    <th colspan="2" style="border: 1px solid #000000; width:25%">TE</th>
+                                                    <th colspan="2" class="pos-rating-header border-a">QB</th>
+                                                    <th colspan="2" class="pos-rating-header border-a">RB</th>
+                                                    <th colspan="2" class="pos-rating-header border-a">WR</th>
+                                                    <th colspan="2" class="pos-rating-header border-a">TE</th>
                                                 </tr>
                                                 <tr>
-                                                    <td style="border-left:1px solid #000000" :style="{'background-color': team.qb_rating_background }">{{ team.value.qb }}</td>
-                                                    <td style="border-right:1px solid #000000" :style="{'background-color': team.qb_rating_background }">#{{ team.value.qb_rank }}</td>
-                                                    <td style="border-left:1px solid #000000" :style="{'background-color': team.rb_rating_background }">{{ team.value.rb }}</td>
-                                                    <td style="border-right:1px solid #000000" :style="{'background-color': team.rb_rating_background }">#{{ team.value.rb_rank }}</td>
-                                                    <td style="border-left:1px solid #000000" :style="{'background-color': team.wr_rating_background }">{{ team.value.wr }}</td>
-                                                    <td style="border-right:1px solid #000000" :style="{'background-color': team.wr_rating_background }">#{{ team.value.wr_rank }}</td>
-                                                    <td style="border-left:1px solid #000000" :style="{'background-color': team.te_rating_background }">{{ team.value.te }}</td>
-                                                    <td style="border-right:1px solid #000000" :style="{'background-color': team.te_rating_background }">#{{ team.value.te_rank }}</td>
+                                                    <td class="border-l" :style="{'background-color': team.background.qb_rating }">{{ team.value.qb }}</td>
+                                                    <td class="border-r" :style="{'background-color': team.background.qb_rating }">#{{ team.value.qb_rank }}</td>
+                                                    <td class="border-l" :style="{'background-color': team.background.rb_rating }">{{ team.value.rb }}</td>
+                                                    <td class="border-r" :style="{'background-color': team.background.rb_rating }">#{{ team.value.rb_rank }}</td>
+                                                    <td class="border-l" :style="{'background-color': team.background.wr_rating }">{{ team.value.wr }}</td>
+                                                    <td class="border-r" :style="{'background-color': team.background.wr_rating }">#{{ team.value.wr_rank }}</td>
+                                                    <td class="border-l" :style="{'background-color': team.background.te_rating }">{{ team.value.te }}</td>
+                                                    <td class="border-r" :style="{'background-color': team.background.te_rating }">#{{ team.value.te_rank }}</td>
                                                 </tr>
                                             </table>
                                             <table style="border:1px solid; text-align:center;width:50%; margin-top:10px">
@@ -160,28 +143,28 @@ export default {
                                                     <th colspan="4" style="margin:auto; padding:0px; border:1px solid #000000;">DRAFT CAPITAL</th>
                                                 </tr>
                                                 <tr>
-                                                    <th colspan="2" style="border: 1px solid #000000; width:25%">2023</th>
-                                                    <th colspan="2" style="border: 1px solid #000000; width:25%">2024</th>
+                                                    <th colspan="2" class="pos-rating-header border-a">2023</th>
+                                                    <th colspan="2" class="pos-rating-header border-a">2024</th>
                                                 </tr>
                                                 <tr>
-                                                    <td style="border-left:1px solid #000000" :style="{'background-color': team.dc23_rating_background }">{{ team.value.dc23 }}</td>
-                                                    <td style="border-right:1px solid #000000" :style="{'background-color': team.dc23_rating_background }">#{{ team.value.dc23_rank }}</td>
-                                                    <td style="border-left:1px solid #000000" :style="{'background-color': team.dc24_rating_background }">{{ team.value.dc24 }}</td>
-                                                    <td style="border-right:1px solid #000000" :style="{'background-color': team.dc24_rating_background }">#{{ team.value.dc24_rank }}</td>
+                                                    <td class="border-l" :style="{'background-color': team.background.dc23_rating }">{{ team.value.dc23 }}</td>
+                                                    <td class="border-r" :style="{'background-color': team.background.dc23_rating }">#{{ team.value.dc23_rank }}</td>
+                                                    <td class="border-l" :style="{'background-color': team.background.dc24_rating }">{{ team.value.dc24 }}</td>
+                                                    <td class="border-r" :style="{'background-color': team.background.dc24_rating }">#{{ team.value.dc24_rank }}</td>
                                                 </tr>
                                             </table>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div style="float:left; width:100%">
-                                            <table style="border:1px solid; text-align:center;width:100%;">
+                                            <table style="border:1px solid; text-align:center; width:100%;">
                                                 <tr style="height:34px">
                                                     <th colspan="8" style="margin:auto; padding:0px;">CORNERSTONE PLAYERS</th>
                                                 </tr>
                                                 <tr>
-                                                    <th colspan="2" style="border: 1px solid #000000">Team</th>
-                                                    <th style="border: 1px solid #000000">Pos</th>
-                                                    <th colspan="5" style="border: 1px solid #000000">Name</th>
+                                                    <th colspan="2" class="border-a">Team</th>
+                                                    <th class="border-a">Pos</th>
+                                                    <th colspan="5" class="border-a">Name</th>
                                                 </tr>
                                                 <tr v-if="!team.cornerstone_players.length">
                                                     <td colspan="4">None</td>
