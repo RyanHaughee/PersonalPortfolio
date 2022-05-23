@@ -77,4 +77,24 @@ class DynastyTeam extends Model
 
         return $trophy_row_array;
     }
+
+    public static function get_previous_team_ranks($team_id){
+        
+        $raw_value = DB::table('dynasty_team_value_histories')
+            ->select(DB::raw('*'))
+            ->where('dynasty_team_value_histories.dynasty_team_id','=',$team_id)
+            ->orderBy('dynasty_team_value_histories.created_at','desc')
+            ->skip(1)
+            ->first();
+
+        if (!empty($raw_value)){
+            $past_value = new \stdClass;
+            $past_value->value = json_decode($raw_value->value);
+            $past_value->background = json_decode($raw_value->background);
+        } else {
+            $past_value = null;
+        }
+
+        return $past_value;
+    }
 }

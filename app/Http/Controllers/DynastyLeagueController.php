@@ -35,6 +35,10 @@ class DynastyLeagueController extends Controller
                 ->select(DB::raw('*'))
                 ->where('dynasty_future_picks.current_owner_id','=',$team->id)
                 ->get();
+
+            $previous_ranks = DynastyTeam::get_previous_team_ranks($team->id);
+
+            $team->previous = $previous_ranks;
         }
 
         $answer['success'] = true;

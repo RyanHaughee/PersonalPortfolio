@@ -81,7 +81,7 @@ export default {
                                         <tr>
                                             <td style="height:50px; width:100px" :style="{'background-color': team.background.ovr_rating }">
                                                 <div style="font-size:20px">{{ team.value.ovr }}</div>
-                                                <div style="font-size:12px">(#{{ team.value.ovr_rank }})</div>
+                                                <div style="font-size:12px">#{{ team.value.ovr_rank }} | <span v-if="team.previous">({{ team.value.ovr - team.previous.value.ovr }})</span></div>
                                             </td>
                                         </tr>
                                     </table>
@@ -94,7 +94,7 @@ export default {
                                         <tr>
                                             <td style="height:50px; width:50px" :style="{'background-color': team.background.total_rating }">
                                                 <div style="font-size:16px">{{ team.value.total }}</div>
-                                                <div style="font-size:10px">(#{{ team.value.total_rank }})</div>
+                                                <div style="font-size:10px">#{{ team.value.total_rank }} | <span v-if="team.previous">({{ team.value.total - team.previous.value.total }})</span></div>
                                             </td>
                                         </tr>
                                     </table>
@@ -107,7 +107,7 @@ export default {
                                         <tr>
                                             <td style="height:50px; width:50px" :style="{'background-color': team.background.dc_rating }">
                                                 <div style="font-size:16px">{{ team.value.dc }}</div>
-                                                <div style="font-size:10px">(#{{ team.value.dc_rank }})</div>
+                                                <div style="font-size:10px">#{{ team.value.dc_rank }} | <span v-if="team.previous">({{ team.value.dc - team.previous.value.dc }})</span></div>
                                             </td>
                                         </tr>
                                     </table>

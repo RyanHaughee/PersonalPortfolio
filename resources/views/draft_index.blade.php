@@ -28,7 +28,7 @@ $.ajaxSetup({
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     </head>
     <body>
-        <div id="draft_app">
+        <div id="app">
             <draft-index :league_id="{{ $league_id }}" :otc_date="'{{ $otc_date }}'"></draft-index>
         </div>
     </body>
