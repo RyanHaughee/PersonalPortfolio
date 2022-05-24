@@ -187,33 +187,70 @@ class store_league_info extends Command
             $draft_picks = DB::table('dynasty_future_picks')
                 ->select(DB::raw('*'))
                 ->where('dynasty_future_picks.current_owner_id','=',$team->id)
+                ->orderBy('dynasty_future_picks.current_pick_value','asc')
                 ->get();
+
+            $players = DynastyTeam::get_team_players($team->id, false);
+
+            $dc_to_add = 0;
 
             $dc23_count = 0;
             $dc24_count = 0;
 
-            foreach($draft_picks as $pick){
-                if ($pick->year == '2023'){
-                    $dc23_count++;
-                    if ($dc23_count <= 3){
-                        $value->dc23 += ($pick->estimated_pick_value*0.67);
-                        $value->dc += ($pick->estimated_pick_value*0.67);
-                    } else if ($dc23_count <= 5){
-                        $value->dc23 += ($pick->estimated_pick_value*0.67*((6-$dc23_count)/3));
-                        $value->dc += ($pick->estimated_pick_value*0.67*((6-$dc23_count)/3));
+
+            $dp_index = 0;
+            $p_index = 0;
+            $pick_to_add = null;
+
+            while ($dp_index < sizeof($draft_picks)){
+                
+
+
+                if ($draft_picks[$dp_index]->current_pick_value > $players[$p_index]->player_value){
+                    if (empty($pick_to_add)){
+                        $pick_to_add = $draft_picks[$dp_index];
+
+                        if ($draft_picks[$dp_index]->year == 2023){
+                            if ($dc23_count < 6){
+                                $value->dc23 += $draft_picks[$dp_index]->current_pick_value * (1.5-($dc23_count*0.25));
+                            }
+                            $dc23_count++;
+                        } else {
+                            if ($dc24_count < 6){
+                                $value->dc24 += $draft_picks[$dp_index]->current_pick_value * (1.5-($dc24_count*0.25));
+                            }
+                            $dc24_count++;
+                        }
+
+                        $dp_index++;
+                        $p_index++;
+                    } else {
+                        $dc_to_add += $pick_to_add->current_pick_value-$players[$p_index]->player_value;
+                        $pick_to_add = null;
                     }
-                } else if ($pick->year == '2024'){
-                    $dc24_count++;
-                    if ($dc24_count <= 3){
-                        $value->dc24 += ($pick->estimated_pick_value*0.33);
-                        $value->dc += ($pick->estimated_pick_value*0.33);
-                    } else if ($dc24_count <= 5){
-                        $value->dc24 += ($pick->estimated_pick_value*0.33*((6-$dc24_count)/3));
-                        $value->dc += ($pick->estimated_pick_value*0.33*((6-$dc24_count)/3));
+                } else {
+                    if ($draft_picks[$dp_index]->year == 2023){
+                        if ($dc23_count < 6){
+                            $value->dc23 += $draft_picks[$dp_index]->current_pick_value * (1.5-($dc23_count*0.25));
+                        }
+                        $dc23_count++;
+                    } else {
+                        if ($dc24_count < 6){
+                            $value->dc24 += $draft_picks[$dp_index]->current_pick_value * (1.5-($dc24_count*0.25));
+                        }
+                        $dc24_count++;
                     }
 
-                }
+                    $dp_index++;
+                } 
             }
+
+            if (!empty($pick_to_add)){
+                $dc_to_add += $pick_to_add->current_pick_value-$players[$p_index]->player_value;
+                $pick_to_add = null;
+            }
+
+            $value->dc = $value->dc23 + $value->dc24;
 
             if ($value->dc > $max_obj->dc){
                 $max_obj->dc = $value->dc;
@@ -242,7 +279,7 @@ class store_league_info extends Command
             $team->draft_picks = $draft_picks;
 
             // OVERALL 
-            $value->ovr = $value->total + $value->dc;
+            $value->ovr = $value->total + $dc_to_add;
 
             if ($value->ovr > $max_obj->ovr){
                 $max_obj->ovr = $value->ovr;

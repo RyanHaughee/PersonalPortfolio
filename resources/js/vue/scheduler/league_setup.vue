@@ -29,6 +29,10 @@ export default {
                 }
             })
         },
+        start_tournament_creation(){
+            var self = this;
+            self.$emit('startCreateTournament');
+        }
     }
 }
 </script>
@@ -38,11 +42,12 @@ export default {
             <div>
                 <h4>Create a Tournament</h4>
                 <h5>What style of tournament?</h5>
-                <select class="custom-select" v-model="tournament_select" style="font-size:14px;height:100%" placeholder="Select">
+                <select class="custom-select" v-model="tournament_select" style="font-size:14px;height:100%; display:inline-block; width:85%" placeholder="Select">
                     <option value="single_elim">Single Elimination Tournament</option>
                     <option disabled>Option 2</option>
                     <option disabled>Option 3</option>
                 </select>
+                <button class="btn btn-sm btn-success" style="margin-left:10px" @click="start_tournament_creation()">Create</button>
             </div>
         </div>
         <div class="col-sm-6">

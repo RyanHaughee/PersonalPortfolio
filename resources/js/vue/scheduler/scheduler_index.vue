@@ -57,11 +57,12 @@ export default {
     components: { TeamEditor, BracketView, LeagueSetup },
     mounted() {
         var self = this;
+        self.$refs.league_setup.show = 1;
     },
     data() {
         return {
             tournament_id: null,
-            schedule_tab: 'bracket'
+            show_setup:1
         }
     },
     methods: {
@@ -84,50 +85,31 @@ export default {
 </script>
 
 <template>
-    <div id="scheduler_container" class="container">
+    <div v-if="show_setup" id="scheduler_container" class="container">
         <div class="row">
             <div style="width:100%; margin-bottom:10px">
                 <h1 style="text-align:center">League / Tournament Scheduler</h1>
             </div>
         </div>
-    </div>
-    <div class="container" style="margin-top:20px">
         <div class="row">
-            <div class="col-sm-3">
-                <h4>Navigation</h4>
-                <div class="tab-row" @click="$refs.league_setup.show = 1">
-                    Tournaments
-                </div>
-                <div class="tab-row" @click="$refs.team_editor.show = 1">
-                    Teams*
-                </div>
-                <div class="tab-row" @click="$refs.bracket_view.show = 1">
-                    Bracket
-                </div>
-                <div class="tab-row">
-                    Advanced
-                </div>
-                <div>*Required</div>
-                <div>
-                    <button class="btn btn-md btn-success" style="margin-top:10px" @click="generate_bracket()">Generate Bracket</button>
-                </div>
-            </div>
-            <div class="col-sm-9">
-                <team-editor @tournamentCreated="create_bracket" ref="team_editor"></team-editor>
-                <league-setup @tournamentLoaded="load_bracket" ref="league_setup"></league-setup>
-                <bracket-view ref="bracket_view"></bracket-view>
+            <div class="col-sm-12">
+                <league-setup @tournamentLoaded="load_bracket" @startCreateTournament="show_setup = 0" ref="league_setup"></league-setup>
             </div>
         </div>
     </div>
-    <div class="container" style="margin-top:20px; height:auto">
+    <div v-else class="container" style="margin-top:20px; height:auto">
         <div class="row">
             <div class="col-sm-12">
-                <span class="tab-row" style="display: inline-block;">
+                <span class="tab-row" style="display: inline-block;" @click="$refs.bracket_view.show = 1">
                     Bracket
                 </span>
-                <span class="tab-row" style="display: inline-block;">
-                    Schedule
+                <span class="tab-row" style="display: inline-block;" @click="$refs.team_editor.show = 1">
+                    Teams
                 </span>
+            </div>
+            <div class="col-sm-12">
+                <team-editor @tournamentCreated="create_bracket" ref="team_editor"></team-editor>
+                <bracket-view ref="bracket_view"></bracket-view>
             </div>
         </div>
     </div>

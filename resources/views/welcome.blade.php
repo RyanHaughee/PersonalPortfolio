@@ -74,11 +74,11 @@
                             <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png" style="width:auto; height:40px"/> <span style="margin-right:5px; margin-left:5px">&#9679;</span> 
                             <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" style="width:auto; height:40px"/> <span style="margin-right:5px; margin-left:5px">&#9679;</span>  
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1184px-Vue.js_Logo_2.svg.png" style="width:auto; height:40px"/> <span style="margin-right:5px; margin-left:5px">&#9679;</span>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png" style="width:auto; height:40px"/> <span style="margin-right:5px; margin-left:5px">&#9679;</span>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png" style="width:auto; height:40px"/> <span style="margin-right:5px; margin-left:5px">
                         </div>
                     </div>
 
-                    <div style="font-size:40px; margin-top:200px">
+                    <!-- <div style="font-size:40px; margin-top:200px">
                         <strong>WORK <span style="color:#E18B69">EXPERIENCE</span></strong>
                     </div>
                     <div class="row">
@@ -91,7 +91,7 @@
                                 <strong>Junior Developer</strong> (August 1st, 2019 - August 1st, 2020)
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div style="font-size:40px; margin-top:100px">
                         <strong>PERSONAL <span style="color:#E18B69">PROJECTS</span></strong>
                     </div>

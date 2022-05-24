@@ -11,7 +11,12 @@ class DynastyTeam extends Model
 {
     use HasFactory;
 
-    public static function get_team_players($team_id){
+    public static function get_team_players($team_id, $desc=true){
+        if ($desc == true){
+            $sort_by = 'desc';
+        } else {
+            $sort_by = 'asc';
+        }
         
         $players = DB::table('dynasty_player_teams')
             ->select(DB::raw('dynasty_players.name, dynasty_players.pos, dynasty_players.team_abr, dynasty_player_values.player_value, nfl_logos.logo as team_logo'))
@@ -19,7 +24,7 @@ class DynastyTeam extends Model
             ->leftJoin('dynasty_player_values','dynasty_player_values.dynasty_player_id','=','dynasty_players.id')
             ->join('nfl_logos','nfl_logos.id','=','dynasty_players.team_id')
             ->where('dynasty_player_teams.dynasty_team_id','=',$team_id)
-            ->orderBy('dynasty_player_values.player_value','desc')
+            ->orderBy('dynasty_player_values.player_value',$sort_by)
             ->get();
 
         return $players;
