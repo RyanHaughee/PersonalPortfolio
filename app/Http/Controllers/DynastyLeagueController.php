@@ -32,9 +32,16 @@ class DynastyLeagueController extends Controller
 
             // Draft Capital
             $draft_picks = DB::table('dynasty_future_picks')
-                ->select(DB::raw('*'))
+                ->select(DB::raw('dynasty_future_picks.*, dynasty_teams.owner as original_team'))
+                ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_future_picks.original_owner_id')
                 ->where('dynasty_future_picks.current_owner_id','=',$team->id)
+                ->orderby('dynasty_future_picks.current_pick_value','desc')
+                ->orderby('dynasty_future_picks.round','asc')
+                ->orderby('dynasty_future_picks.year','asc')
+                ->take(5)
                 ->get();
+
+            $team->draft_picks = $draft_picks;
 
             $previous_ranks = DynastyTeam::get_previous_team_ranks($team->id);
 

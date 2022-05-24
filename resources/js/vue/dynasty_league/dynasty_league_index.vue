@@ -184,6 +184,32 @@ export default {
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
+                                        <div style="float:left; width:100%">
+                                            <table style="border:1px solid; text-align:center; width:100%;">
+                                                <tr style="height:34px">
+                                                    <th colspan="8" style="margin:auto; padding:0px;">FUTURE PICKS</th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2" class="border-a">Yr</th>
+                                                    <th class="border-a">Rd</th>
+                                                    <th colspan="5" class="border-a">Originally</th>
+                                                </tr>
+                                                <tr v-if="!team.draft_picks.length">
+                                                    <td colspan="4">None</td>
+                                                </tr>
+                                                <tr v-for="pick in team.draft_picks" :key="pick" style="height:30px; border-right:1px solid">
+                                                    <td colspan="2">
+                                                        {{ pick.year }}
+                                                    </td>
+                                                    <td>
+                                                        {{ pick.round }}
+                                                    </td>
+                                                    <td colspan="5">
+                                                        {{ pick.original_team }}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div style="float:left">
