@@ -84,12 +84,14 @@ class DynastyTeam extends Model
     }
 
     public static function get_previous_team_ranks($team_id){
+
+        $yesterday = date("Y-m-d ", strtotime( '-1 days' ));
         
         $raw_value = DB::table('dynasty_team_value_histories')
             ->select(DB::raw('*'))
             ->where('dynasty_team_value_histories.dynasty_team_id','=',$team_id)
+            ->where('dynasty_team_value_histories.created_at','<',$yesterday)
             ->orderBy('dynasty_team_value_histories.created_at','desc')
-            ->skip(1)
             ->first();
 
         if (!empty($raw_value)){
