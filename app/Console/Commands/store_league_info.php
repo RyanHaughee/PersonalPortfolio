@@ -197,15 +197,12 @@ class store_league_info extends Command
             $dc23_count = 0;
             $dc24_count = 0;
 
-
+            $p_index_to_subtract_from = 0;
             $dp_index = 0;
             $p_index = 0;
             $pick_to_add = null;
 
             while ($dp_index < sizeof($draft_picks)){
-                
-
-
                 if ($draft_picks[$dp_index]->current_pick_value > $players[$p_index]->player_value){
                     if (empty($pick_to_add)){
                         $pick_to_add = $draft_picks[$dp_index];
@@ -225,7 +222,8 @@ class store_league_info extends Command
                         $dp_index++;
                         $p_index++;
                     } else {
-                        $dc_to_add += $pick_to_add->current_pick_value-$players[$p_index]->player_value;
+                        $dc_to_add += $pick_to_add->current_pick_value-$players[$p_index_to_subtract_from]->player_value;
+                        $p_index_to_subtract_from++;
                         $pick_to_add = null;
                     }
                 } else {
@@ -246,7 +244,8 @@ class store_league_info extends Command
             }
 
             if (!empty($pick_to_add)){
-                $dc_to_add += $pick_to_add->current_pick_value-$players[$p_index]->player_value;
+                $dc_to_add += $pick_to_add->current_pick_value-$players[$p_index_to_subtract_from]->player_value;
+                $p_index_to_subtract_from++;
                 $pick_to_add = null;
             }
 
