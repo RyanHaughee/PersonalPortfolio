@@ -201,24 +201,25 @@ class store_league_info extends Command
             $dp_index = 0;
             $p_index = 0;
             $pick_to_add = null;
+            $roster_player_num = sizeOf($players);
+
+            if ($roster_player_num > 22){
+                $extra_players = $roster_player_num - 22;
+                $p_index = $p_index+$extra_players;
+                $p_index_to_subtract_from = $p_index_to_subtract_from+$extra_players;
+            } else if ($roster_player_num < 22){
+                $roster_spots = 22-$roster_player_num;
+                while ($roster_spots > 0){
+                    $dc_to_add += $draft_picks[$dp_index]->current_pick_value;
+                    $dp_index++;
+                    $roster_spots--;
+                }
+            }
 
             while ($dp_index < sizeof($draft_picks)){
                 if ($draft_picks[$dp_index]->current_pick_value > $players[$p_index]->player_value){
                     if (empty($pick_to_add)){
                         $pick_to_add = $draft_picks[$dp_index];
-
-                        if ($draft_picks[$dp_index]->year == 2023){
-                            if ($dc23_count < 6){
-                                $value->dc23 += $draft_picks[$dp_index]->current_pick_value * (1.5-($dc23_count*0.25));
-                            }
-                            $dc23_count++;
-                        } else {
-                            if ($dc24_count < 6){
-                                $value->dc24 += $draft_picks[$dp_index]->current_pick_value * (1.5-($dc24_count*0.25));
-                            }
-                            $dc24_count++;
-                        }
-
                         $dp_index++;
                         $p_index++;
                     } else {
@@ -227,18 +228,6 @@ class store_league_info extends Command
                         $pick_to_add = null;
                     }
                 } else {
-                    if ($draft_picks[$dp_index]->year == 2023){
-                        if ($dc23_count < 6){
-                            $value->dc23 += $draft_picks[$dp_index]->current_pick_value * (1.5-($dc23_count*0.25));
-                        }
-                        $dc23_count++;
-                    } else {
-                        if ($dc24_count < 6){
-                            $value->dc24 += $draft_picks[$dp_index]->current_pick_value * (1.5-($dc24_count*0.25));
-                        }
-                        $dc24_count++;
-                    }
-
                     $dp_index++;
                 } 
             }
@@ -247,6 +236,23 @@ class store_league_info extends Command
                 $dc_to_add += $pick_to_add->current_pick_value-$players[$p_index_to_subtract_from]->player_value;
                 $p_index_to_subtract_from++;
                 $pick_to_add = null;
+            }
+
+            $reverse_dp_index = sizeof($draft_picks) - 1;
+
+            while($reverse_dp_index >= 0){
+                if ($draft_picks[$reverse_dp_index]->year == 2023){
+                    if ($dc23_count < 6){
+                        $value->dc23 += $draft_picks[$reverse_dp_index]->current_pick_value * (1.5-($dc23_count*0.25));
+                    }
+                    $dc23_count++;
+                } else {
+                    if ($dc24_count < 6){
+                        $value->dc24 += $draft_picks[$reverse_dp_index]->current_pick_value * (1.5-($dc24_count*0.25));
+                    }
+                    $dc24_count++;
+                }
+                $reverse_dp_index--;
             }
 
             $value->dc = $value->dc23 + $value->dc24;
@@ -558,7 +564,14 @@ class store_league_info extends Command
             $historical_record->dynasty_team_id = $team->id;
             $historical_record->value = json_encode($team->value);
             $historical_record->background = json_encode($team->background);
-            $historical_record->save();
+            // $historical_record->save();
         }
+
+        $historical_record = new DynastyTeamValueHistory;
+        $historical_record->dynasty_team_id = null;
+        $historical_record->value = json_encode($max_obj);
+        $historical_record->background = null;
+        $historical_record->max_obj = 1;
+        // $historical_record->save();
     }
 }
