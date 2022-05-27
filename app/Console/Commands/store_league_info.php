@@ -203,12 +203,12 @@ class store_league_info extends Command
             $pick_to_add = null;
             $roster_player_num = sizeOf($players);
 
-            if ($roster_player_num > 22){
-                $extra_players = $roster_player_num - 22;
+            if ($roster_player_num > 20){
+                $extra_players = $roster_player_num - 20;
                 $p_index = $p_index+$extra_players;
                 $p_index_to_subtract_from = $p_index_to_subtract_from+$extra_players;
-            } else if ($roster_player_num < 22){
-                $roster_spots = 22-$roster_player_num;
+            } else if ($roster_player_num < 20){
+                $roster_spots = 20-$roster_player_num;
                 while ($roster_spots > 0){
                     $dc_to_add += $draft_picks[$dp_index]->current_pick_value;
                     $dp_index++;
@@ -256,9 +256,6 @@ class store_league_info extends Command
             }
 
             $value->dc = $value->dc23 + $value->dc24;
-            Log::info($team->owner." TOTAL: ".$value->dc);
-            Log::info($team->owner." 23: ".$value->dc23);
-            Log::info($team->owner." 24: ".$value->dc24);
 
             if ($value->dc > $max_obj->dc){
                 $max_obj->dc = $value->dc;
