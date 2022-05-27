@@ -564,7 +564,7 @@ class store_league_info extends Command
             $historical_record->dynasty_team_id = $team->id;
             $historical_record->value = json_encode($team->value);
             $historical_record->background = json_encode($team->background);
-            // $historical_record->save();
+            $historical_record->save();
         }
 
         $historical_record = new DynastyTeamValueHistory;
