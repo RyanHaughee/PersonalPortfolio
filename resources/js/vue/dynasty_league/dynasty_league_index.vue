@@ -190,12 +190,14 @@ export default {
                 <div class="row">
                     <div class="col-sm-2">
                         <h4>Menu</h4>
-                        <div class="dynasty-tab" @click="tab = 'league'">Rankings</div>
+                        <div class="dynasty-tab" @click="tab = 'league'">Team List</div>
+                        <div class="dynasty-tab" @click="tab = 'power_rankings'">Power Rankings</div>
                         <div class="dynasty-tab coming-soon">League History</div>
                         <div class="dynasty-tab" @click="tab = 'draft_history'">Draft History</div>
                         <div class="dynasty-tab coming-soon">Trade Calculator</div>
+                        <div class="dynasty-tab coming-soon">Articles</div>
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-10" style="max-height:100vh; overflow-y:scroll">
                        <dynasty-team-info v-if="tab == 'league'"></dynasty-team-info>
                        <div v-if="tab == 'trade'">
                             <div class="container" style="max-width:100%">
@@ -332,6 +334,9 @@ export default {
                                     </td>
                                 </tr>
                             </table>
+                       </div>
+                       <div v-if="tab == 'power_rankings'" style="text-align:center">
+                           <h3>Power rankings will be available during the season.</h3>
                        </div>
                     </div>
                 </div>
