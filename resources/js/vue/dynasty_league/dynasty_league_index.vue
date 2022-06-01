@@ -319,7 +319,7 @@ export default {
                                         {{ pick.pick_num }}
                                     </td>
                                     <td>
-                                        <img :src="pick.logo" style="width:30px; max-height:30px; height:auto"/>
+                                        <img :src="pick.logo" style="width:50px; max-height:50px; height:auto"/>
                                     </td>
                                     <td colspan="3">
                                         {{ pick.team_name }}
