@@ -70,4 +70,6 @@ Route::prefix('recipe')->group(function () {
 Route::get('/dynasty', [DynastyLeagueController::class, 'index']);
 Route::prefix('dynasty_function')->group(function () {
     Route::get('/get_teams', [DynastyLeagueController::class, 'get_teams']);
+    Route::get('/get_team_assets', [DynastyLeagueController::class, 'get_team_assets']);
+    Route::get('/compute_rankings_change', [DynastyLeagueController::class, 'compute_rankings_change']);
 });

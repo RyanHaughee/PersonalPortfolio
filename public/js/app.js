@@ -20076,8 +20076,157 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _dynasty_team_info_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dynasty_team_info.vue */ "./resources/js/vue/dynasty_league/dynasty_team_info.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {},
+  components: {
+    DynastyTeamInfo: _dynasty_team_info_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  mounted: function mounted() {
+    var self = this;
+    self.get_trade_calc_teams();
+  },
+  data: function data() {
+    return {
+      tab: 'league',
+      teams: null,
+      trade: {},
+      changes: null
+    };
+  },
+  watch: {
+    'trade.team_1.id': function tradeTeam_1Id() {
+      var self = this;
+
+      if (self.trade.team_1.id) {
+        var self = this;
+        var sds = {};
+        sds.team_id = self.trade.team_1.id;
+        $.get('/dynasty_function/get_team_assets', sds, function (response) {
+          if (response && response.success) {
+            self.trade.team_1.players = response.players;
+            self.trade.team_1.picks = response.picks;
+            self.trade.team_1.players_sent = [];
+            self.trade.team_1.picks_sent = [];
+          }
+        });
+      }
+    },
+    'trade.team_2.id': function tradeTeam_2Id() {
+      var self = this;
+
+      if (self.trade.team_2.id) {
+        var self = this;
+        var sds = {};
+        sds.team_id = self.trade.team_2.id;
+        $.get('/dynasty_function/get_team_assets', sds, function (response) {
+          if (response && response.success) {
+            self.trade.team_2.players = response.players;
+            self.trade.team_2.picks = response.picks;
+            self.trade.team_2.players_sent = [];
+            self.trade.team_2.picks_sent = [];
+          }
+        });
+      }
+    }
+  },
+  methods: {
+    get_trade_calc_teams: function get_trade_calc_teams() {
+      var self = this;
+      $.get('/dynasty_function/get_teams', function (response) {
+        if (response && response.success) {
+          self.teams = response.teams;
+        }
+      });
+    },
+    ordinal_suffix_of: function ordinal_suffix_of(i) {
+      var j = i % 10,
+          k = i % 100;
+
+      if (j == 1 && k != 11) {
+        return i + "st";
+      }
+
+      if (j == 2 && k != 12) {
+        return i + "nd";
+      }
+
+      if (j == 3 && k != 13) {
+        return i + "rd";
+      }
+
+      return i + "th";
+    },
+    toggle_player_selection_t1: function toggle_player_selection_t1(index) {
+      var self = this;
+      self.trade.team_1.players_sent.push(self.trade.team_1.players[index].id);
+
+      if (self.trade.team_1.players[index].selected) {
+        self.trade.team_1.players[index].selected = 0;
+      } else {
+        self.trade.team_1.players[index].selected = 1;
+      }
+    },
+    toggle_pick_selection_t1: function toggle_pick_selection_t1(index) {
+      var self = this;
+
+      if (self.trade.team_1.picks[index].selected) {
+        self.trade.team_1.picks[index].selected = 0;
+      } else {
+        self.trade.team_1.picks[index].selected = 1;
+        self.trade.team_1.picks_sent.push(self.trade.team_1.picks[index].id);
+      }
+    },
+    toggle_player_selection_t2: function toggle_player_selection_t2(index) {
+      var self = this;
+      self.trade.team_2.players_sent.push(self.trade.team_2.players[index].id);
+
+      if (self.trade.team_2.players[index].selected) {
+        self.trade.team_2.players[index].selected = 0;
+      } else {
+        self.trade.team_2.players[index].selected = 1;
+      }
+    },
+    toggle_pick_selection_t2: function toggle_pick_selection_t2(index) {
+      var self = this;
+      self.trade.team_2.picks_sent.push(self.trade.team_2.picks[index].id);
+
+      if (self.trade.team_2.picks[index].selected) {
+        self.trade.team_2.picks[index].selected = 0;
+      } else {
+        self.trade.team_2.picks[index].selected = 1;
+      }
+    },
+    calculate_trade_value: function calculate_trade_value() {
+      var self = this;
+      var sds = {};
+      sds.team_1_id = self.trade.team_1.id;
+      sds.team_2_id = self.trade.team_2.id;
+      sds.team_1_players_sent = self.trade.team_1.players_sent;
+      sds.team_2_players_sent = self.trade.team_2.players_sent;
+      sds.team_1_picks_sent = self.trade.team_1.picks_sent;
+      sds.team_2_picks_sent = self.trade.team_2.picks_sent;
+      $.get('/dynasty_function/compute_rankings_change', sds, function (response) {
+        self.changes = response.change_array;
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=script&lang=js":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     var self = this;
     self.get_teams();
@@ -22352,160 +22501,152 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "container"
 };
-var _hoisted_3 = {
-  "class": "col-sm-12"
-};
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "row",
+  style: {
+    "margin-bottom": "20px"
+  }
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-sm-2"
+}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-sm-10"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  style: {
+    "width": "100%",
+    "text-align": "center"
+  }
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Dynasty League Central")])])], -1
+/* HOISTED */
+);
+
 var _hoisted_4 = {
+  "class": "row"
+};
+var _hoisted_5 = {
+  "class": "col-sm-2"
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Menu", -1
+/* HOISTED */
+);
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "dynasty-tab coming-soon"
+}, "League History", -1
+/* HOISTED */
+);
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "dynasty-tab coming-soon"
+}, "Draft History", -1
+/* HOISTED */
+);
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "dynasty-tab coming-soon"
+}, "Trade Calculator", -1
+/* HOISTED */
+);
+
+var _hoisted_10 = {
+  "class": "col-sm-10"
+};
+var _hoisted_11 = {
+  key: 1
+};
+var _hoisted_12 = {
   "class": "container",
   style: {
     "max-width": "100%"
   }
 };
-var _hoisted_5 = ["onClick"];
-var _hoisted_6 = {
-  "class": "col-sm-9",
-  style: {
-    "margin": "auto"
-  }
-};
-var _hoisted_7 = ["src"];
-var _hoisted_8 = {
-  style: {
-    "float": "left",
-    "margin": "auto",
-    "margin-left": "10px"
-  }
-};
-var _hoisted_9 = {
-  "class": "dynasty-team-h1"
-};
-
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
-/* HOISTED */
-);
-
-var _hoisted_11 = {
-  "class": "dynasty-team-h2"
-};
-
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
-/* HOISTED */
-);
-
 var _hoisted_13 = {
-  "class": "col-sm-3"
+  "class": "row"
 };
 var _hoisted_14 = {
-  "class": "rating-table float-l"
+  "class": "col-sm-6"
 };
 
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  "class": "border-a",
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
   style: {
-    "height": "25px",
-    "width": "100px"
+    "text-align": "center"
   }
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  style: {
-    "font-size": "14px",
-    "font-weight": "600"
-  }
-}, "OVERALL")])], -1
+}, "Team 1", -1
 /* HOISTED */
 );
 
-var _hoisted_16 = {
-  style: {
-    "font-size": "20px"
-  }
-};
-var _hoisted_17 = {
-  style: {
-    "font-size": "12px"
-  }
-};
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  selected: "",
+  disabled: ""
+}, "Select", -1
+/* HOISTED */
+);
+
+var _hoisted_17 = ["value"];
 var _hoisted_18 = {
-  key: 0
-};
-var _hoisted_19 = {
-  "class": "rating-table float-l"
-};
-
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  "class": "border-a",
-  style: {
-    "height": "25px",
-    "width": "50px"
-  }
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  style: {
-    "font-size": "12px"
-  }
-}, "Roster")])], -1
-/* HOISTED */
-);
-
-var _hoisted_21 = {
-  style: {
-    "font-size": "16px"
-  }
-};
-var _hoisted_22 = {
-  style: {
-    "font-size": "10px"
-  }
-};
-var _hoisted_23 = {
-  key: 0
-};
-var _hoisted_24 = {
-  "class": "rating-table float-l"
-};
-
-var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  "class": "border-a",
-  style: {
-    "height": "25px",
-    "width": "50px"
-  }
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  style: {
-    "font-size": "12px"
-  }
-}, "DC")])], -1
-/* HOISTED */
-);
-
-var _hoisted_26 = {
-  style: {
-    "font-size": "16px"
-  }
-};
-var _hoisted_27 = {
-  style: {
-    "font-size": "10px"
-  }
-};
-var _hoisted_28 = {
-  key: 0
-};
-var _hoisted_29 = {
   key: 0,
+  style: {
+    "text-align": "center"
+  }
+};
+var _hoisted_19 = ["src"];
+var _hoisted_20 = {
+  style: {
+    "max-height": "200px",
+    "overflow-y": "scroll",
+    "margin-top": "30px",
+    "border": "1px solid"
+  }
+};
+var _hoisted_21 = ["onClick"];
+var _hoisted_22 = ["onClick"];
+var _hoisted_23 = {
+  "class": "col-sm-6"
+};
+
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  style: {
+    "text-align": "center"
+  }
+}, "Team 2", -1
+/* HOISTED */
+);
+
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  selected: "",
+  disabled: ""
+}, "Select", -1
+/* HOISTED */
+);
+
+var _hoisted_26 = ["value"];
+var _hoisted_27 = {
+  key: 0,
+  style: {
+    "text-align": "center"
+  }
+};
+var _hoisted_28 = ["src"];
+var _hoisted_29 = {
+  style: {
+    "max-height": "200px",
+    "overflow-y": "scroll",
+    "margin-top": "30px",
+    "border": "1px solid"
+  }
+};
+var _hoisted_30 = ["onClick"];
+var _hoisted_31 = ["onClick"];
+var _hoisted_32 = {
   "class": "row",
   style: {
-    "margin-top": "10px"
+    "width": "100%",
+    "text-align": "center",
+    "margin-top": "30px"
   }
 };
-var _hoisted_30 = {
-  "class": "col-sm-3"
-};
-var _hoisted_31 = {
-  style: {
-    "float": "left",
-    "width": "100%"
-  }
-};
-var _hoisted_32 = {
+var _hoisted_33 = {
   style: {
     "border": "1px solid",
     "text-align": "center",
@@ -22513,7 +22654,7 @@ var _hoisted_32 = {
   }
 };
 
-var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
   style: {
     "height": "34px"
   }
@@ -22523,27 +22664,55 @@ var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
     "margin": "auto",
     "padding": "0px"
   }
-}, "ROSTER STRENGTH")], -1
+}, "TOTALS")], -1
 /* HOISTED */
 );
 
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "2",
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  "class": "pos-rating-header border-a"
+}, "OVR"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  "class": "pos-rating-header border-a"
+}, "ROS"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  "class": "pos-rating-header border-a"
+}, "DC")], -1
+/* HOISTED */
+);
+
+var _hoisted_36 = {
+  style: {
+    "border": "1px solid",
+    "text-align": "center",
+    "width": "100%"
+  }
+};
+
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+  style: {
+    "height": "34px"
+  }
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  colspan: "8",
+  style: {
+    "margin": "auto",
+    "padding": "0px"
+  }
+}, "POS CHANGE")], -1
+/* HOISTED */
+);
+
+var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "pos-rating-header border-a"
 }, "QB"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "2",
   "class": "pos-rating-header border-a"
 }, "RB"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "2",
   "class": "pos-rating-header border-a"
 }, "WR"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "2",
   "class": "pos-rating-header border-a"
 }, "TE")], -1
 /* HOISTED */
 );
 
-var _hoisted_35 = {
+var _hoisted_39 = {
   style: {
     "border": "1px solid",
     "text-align": "center",
@@ -22552,7 +22721,7 @@ var _hoisted_35 = {
   }
 };
 
-var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
   style: {
     "height": "34px"
   }
@@ -22563,30 +22732,427 @@ var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
     "padding": "0px",
     "border": "1px solid #000000"
   }
-}, "DRAFT CAPITAL")], -1
+}, "DC CHANGE")], -1
 /* HOISTED */
 );
 
-var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "2",
+var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "pos-rating-header border-a"
 }, "2023"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "2",
   "class": "pos-rating-header border-a"
 }, "2024")], -1
 /* HOISTED */
 );
 
-var _hoisted_38 = {
+var _hoisted_42 = {
+  "class": "row",
+  style: {
+    "width": "100%",
+    "text-align": "center",
+    "margin-top": "30px"
+  }
+};
+var _hoisted_43 = {
+  "class": "col-sm-12"
+};
+var _hoisted_44 = {
+  key: 2
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_dynasty_team_info = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("dynasty-team-info");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "dynasty-tab",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $data.tab = 'league';
+    })
+  }, "Rankings"), _hoisted_7, _hoisted_8, _hoisted_9]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [$data.tab == 'league' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_dynasty_team_info, {
+    key: 0
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tab == 'trade' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.trade.team_1 = $event;
+    })
+  }, [_hoisted_16, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: team,
+      value: team
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name), 9
+    /* TEXT, PROPS */
+    , _hoisted_17);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.trade.team_1]]), $data.trade.team_1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.trade.team_1.team_name), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    "class": "dynasty-team-logo",
+    src: $data.trade.team_1.logo
+  }, null, 8
+  /* PROPS */
+  , _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.trade.team_1.players, function (player, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "trade-player-selection",
+      key: player,
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "width": "100%"
+      }, [player.selected ? {
+        'background-color': '#f2e4e4'
+      } : '']]),
+      onClick: function onClick($event) {
+        return $options.toggle_player_selection_t1(index);
+      }
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(player.name), 13
+    /* TEXT, STYLE, PROPS */
+    , _hoisted_21);
+  }), 128
+  /* KEYED_FRAGMENT */
+  )), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.trade.team_1.picks, function (pick, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "trade-player-selection",
+      key: pick,
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "width": "100%"
+      }, [pick.selected ? {
+        'background-color': '#f2e4e4'
+      } : '']]),
+      onClick: function onClick($event) {
+        return $options.toggle_pick_selection_t1(index);
+      }
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.original_owner) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.year) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.ordinal_suffix_of(pick.round)), 13
+    /* TEXT, STYLE, PROPS */
+    , _hoisted_22);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.trade.team_2 = $event;
+    })
+  }, [_hoisted_25, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: team,
+      value: team
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name), 9
+    /* TEXT, PROPS */
+    , _hoisted_26);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.trade.team_2]]), $data.trade.team_2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.trade.team_2.team_name), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    "class": "dynasty-team-logo",
+    src: $data.trade.team_2.logo
+  }, null, 8
+  /* PROPS */
+  , _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.trade.team_2.players, function (player, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "trade-player-selection",
+      key: player,
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "width": "100%"
+      }, [player.selected ? {
+        'background-color': '#f2e4e4'
+      } : '']]),
+      onClick: function onClick($event) {
+        return $options.toggle_player_selection_t2(index);
+      }
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(player.name), 13
+    /* TEXT, STYLE, PROPS */
+    , _hoisted_30);
+  }), 128
+  /* KEYED_FRAGMENT */
+  )), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.trade.team_2.picks, function (pick, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "trade-player-selection",
+      key: pick,
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "width": "100%"
+      }, [pick.selected ? {
+        'background-color': '#f2e4e4'
+      } : '']]),
+      onClick: function onClick($event) {
+        return $options.toggle_pick_selection_t2(index);
+      }
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.original_owner) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.year) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.ordinal_suffix_of(pick.round)), 13
+    /* TEXT, STYLE, PROPS */
+    , _hoisted_31);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.changes, function (change) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "col-sm-6",
+      key: change
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_33, [_hoisted_34, _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.ovr != 0 ? change.ovr > 0 ? {
+        'background-color': 'rgb(5,165,81,0.5)'
+      } : {
+        'background-color': 'rgb(204,36,35,0.5)'
+      } : ''])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(change.ovr), 5
+    /* TEXT, STYLE */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.total != 0 ? change.total > 0 ? {
+        'background-color': 'rgb(5,165,81,0.5)'
+      } : {
+        'background-color': 'rgb(204,36,35,0.5)'
+      } : ''])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(change.total), 5
+    /* TEXT, STYLE */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.dc != 0 ? change.dc > 0 ? {
+        'background-color': 'rgb(5,165,81,0.5)'
+      } : {
+        'background-color': 'rgb(204,36,35,0.5)'
+      } : ''])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(change.dc), 5
+    /* TEXT, STYLE */
+    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_36, [_hoisted_37, _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.qb != 0 ? change.qb > 0 ? {
+        'background-color': 'rgb(5,165,81,0.5)'
+      } : {
+        'background-color': 'rgb(204,36,35,0.5)'
+      } : ''])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(change.qb), 5
+    /* TEXT, STYLE */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.rb != 0 ? change.rb > 0 ? {
+        'background-color': 'rgb(5,165,81,0.5)'
+      } : {
+        'background-color': 'rgb(204,36,35,0.5)'
+      } : ''])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(change.rb), 5
+    /* TEXT, STYLE */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.wr != 0 ? change.wr > 0 ? {
+        'background-color': 'rgb(5,165,81,0.5)'
+      } : {
+        'background-color': 'rgb(204,36,35,0.5)'
+      } : ''])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(change.wr), 5
+    /* TEXT, STYLE */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.te != 0 ? change.te > 0 ? {
+        'background-color': 'rgb(5,165,81,0.5)'
+      } : {
+        'background-color': 'rgb(204,36,35,0.5)'
+      } : ''])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(change.te), 5
+    /* TEXT, STYLE */
+    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_39, [_hoisted_40, _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.dc23 != 0 ? change.dc23 > 0 ? {
+        'background-color': 'rgb(5,165,81,0.5)'
+      } : {
+        'background-color': 'rgb(204,36,35,0.5)'
+      } : ''])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(change.dc23), 5
+    /* TEXT, STYLE */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.dc24 != 0 ? change.dc24 > 0 ? {
+        'background-color': 'rgb(5,165,81,0.5)'
+      } : {
+        'background-color': 'rgb(204,36,35,0.5)'
+      } : ''])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(change.dc24), 5
+    /* TEXT, STYLE */
+    )])])]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[3] || (_cache[3] = function ($event) {
+      return $options.calculate_trade_value();
+    })
+  }, "CALCULATE")])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tab == 'draft_history' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-sm-3\">\n                        <table>\n                            <tr>\n                                <th colspan=\"3\">\n                                    FOUNDATIONAL PLAYERS\n                                </th>\n                            </tr>\n                            <tr>\n                                <th>\n                                    Name\n                                </th>\n                                <th>\n                                    Pos\n                                </th>\n                                <th>\n                                    Team\n                                </th>\n                            </tr>\n                            <tr v-for=\"player in team.cornerstone_players\" :style=\"{'background-color': player.background_string }\" :key=\"player\">\n                                <td style=\"width: 150px\">\n                                    {{ player.name }}\n                                </td>\n                                <td style=\"width: 50px\">\n                                    {{ player.pos }}\n                                </td>\n                                <td style=\"height:55px;\" >\n                                    <img :src=\"player.team_logo\" style=\"width:50px; max-height:50px; height:auto\"/>\n                                </td>\n                            </tr>\n                        </table>\n                    </div>\n                </div> ")])])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=template&id=1e427c92&scoped=true":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=template&id=1e427c92&scoped=true ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withScopeId = function _withScopeId(n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-1e427c92"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
+};
+
+var _hoisted_1 = ["onClick"];
+var _hoisted_2 = {
+  "class": "row"
+};
+var _hoisted_3 = {
+  "class": "col-sm-7",
+  style: {
+    "margin": "auto"
+  }
+};
+var _hoisted_4 = ["src"];
+var _hoisted_5 = {
+  style: {
+    "float": "left",
+    "margin": "auto",
+    "margin-left": "10px"
+  }
+};
+var _hoisted_6 = {
+  "class": "dynasty-team-h1"
+};
+
+var _hoisted_7 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_8 = {
+  "class": "dynasty-team-h2"
+};
+
+var _hoisted_9 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_10 = {
+  "class": "col-sm-5",
+  style: {
+    "white-space": "nowrap",
+    "text-align": "right"
+  }
+};
+var _hoisted_11 = {
+  "class": "rating-table float-r"
+};
+
+var _hoisted_12 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    "class": "border-a",
+    style: {
+      "height": "25px",
+      "width": "50px"
+    }
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    style: {
+      "font-size": "12px"
+    }
+  }, "DC")])], -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_13 = {
+  style: {
+    "font-size": "16px"
+  }
+};
+var _hoisted_14 = {
+  style: {
+    "font-size": "10px"
+  }
+};
+var _hoisted_15 = {
+  key: 0
+};
+var _hoisted_16 = {
+  "class": "rating-table float-r"
+};
+
+var _hoisted_17 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    "class": "border-a",
+    style: {
+      "height": "25px",
+      "width": "50px"
+    }
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    style: {
+      "font-size": "12px"
+    }
+  }, "Roster")])], -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_18 = {
+  style: {
+    "font-size": "16px"
+  }
+};
+var _hoisted_19 = {
+  style: {
+    "font-size": "10px"
+  }
+};
+var _hoisted_20 = {
+  key: 0
+};
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<table class=\"rating-table float-r\" data-v-1e427c92><tr data-v-1e427c92><td class=\"border-a\" style=\"height:25px;width:50px;\" data-v-1e427c92><span style=\"font-size:14px;font-weight:600;\" data-v-1e427c92>2022</span></td></tr><tr data-v-1e427c92><td style=\"height:50px;width:50px;\" data-v-1e427c92><div style=\"font-size:16px;\" data-v-1e427c92>TBD</div><div style=\"font-size:10px;\" data-v-1e427c92>#XX | (0)</div></td></tr></table>", 1);
+
+var _hoisted_22 = {
+  "class": "rating-table float-r"
+};
+
+var _hoisted_23 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    "class": "border-a",
+    style: {
+      "height": "25px",
+      "width": "75px"
+    }
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    style: {
+      "font-size": "14px",
+      "font-weight": "600"
+    }
+  }, "OVERALL")])], -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_24 = {
+  style: {
+    "font-size": "20px"
+  }
+};
+var _hoisted_25 = {
+  style: {
+    "font-size": "12px"
+  }
+};
+var _hoisted_26 = {
+  key: 0
+};
+var _hoisted_27 = {
+  key: 0,
+  "class": "row",
+  style: {
+    "margin-top": "10px"
+  }
+};
+var _hoisted_28 = {
   "class": "col-sm-3"
 };
-var _hoisted_39 = {
+var _hoisted_29 = {
   style: {
     "float": "left",
     "width": "100%"
   }
 };
-var _hoisted_40 = {
+var _hoisted_30 = {
   style: {
     "border": "1px solid",
     "text-align": "center",
@@ -22594,60 +23160,155 @@ var _hoisted_40 = {
   }
 };
 
-var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
-  style: {
-    "height": "34px"
-  }
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "8",
-  style: {
-    "margin": "auto",
-    "padding": "0px"
-  }
-}, "CORNERSTONE PLAYERS")], -1
-/* HOISTED */
-);
+var _hoisted_31 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+    style: {
+      "height": "34px"
+    }
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "8",
+    style: {
+      "margin": "auto",
+      "padding": "0px"
+    }
+  }, "ROSTER STRENGTH")], -1
+  /* HOISTED */
+  );
+});
 
-var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "2",
-  "class": "border-a"
-}, "Team"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  "class": "border-a"
-}, "Pos"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "5",
-  "class": "border-a"
-}, "Name")], -1
-/* HOISTED */
-);
+var _hoisted_32 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "2",
+    "class": "pos-rating-header border-a"
+  }, "QB"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "2",
+    "class": "pos-rating-header border-a"
+  }, "RB"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "2",
+    "class": "pos-rating-header border-a"
+  }, "WR"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "2",
+    "class": "pos-rating-header border-a"
+  }, "TE")], -1
+  /* HOISTED */
+  );
+});
 
-var _hoisted_43 = {
+var _hoisted_33 = {
+  style: {
+    "border": "1px solid",
+    "text-align": "center",
+    "width": "50%",
+    "margin-top": "10px"
+  }
+};
+
+var _hoisted_34 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+    style: {
+      "height": "34px"
+    }
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "4",
+    style: {
+      "margin": "auto",
+      "padding": "0px",
+      "border": "1px solid #000000"
+    }
+  }, "DRAFT CAPITAL")], -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_35 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "2",
+    "class": "pos-rating-header border-a"
+  }, "2023"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "2",
+    "class": "pos-rating-header border-a"
+  }, "2024")], -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_36 = {
+  "class": "col-sm-3"
+};
+var _hoisted_37 = {
+  style: {
+    "float": "left",
+    "width": "100%"
+  }
+};
+var _hoisted_38 = {
+  style: {
+    "border": "1px solid",
+    "text-align": "center",
+    "width": "100%"
+  }
+};
+
+var _hoisted_39 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+    style: {
+      "height": "34px"
+    }
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "8",
+    style: {
+      "margin": "auto",
+      "padding": "0px"
+    }
+  }, "CORNERSTONE PLAYERS")], -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_40 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "2",
+    "class": "border-a"
+  }, "Team"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    "class": "border-a"
+  }, "Pos"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "5",
+    "class": "border-a"
+  }, "Name")], -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_41 = {
   key: 0
 };
 
-var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  colspan: "4"
-}, "None", -1
-/* HOISTED */
-);
+var _hoisted_42 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    colspan: "4"
+  }, "None", -1
+  /* HOISTED */
+  );
+});
 
-var _hoisted_45 = [_hoisted_44];
-var _hoisted_46 = {
+var _hoisted_43 = [_hoisted_42];
+var _hoisted_44 = {
   colspan: "2"
 };
-var _hoisted_47 = ["src"];
-var _hoisted_48 = {
+var _hoisted_45 = ["src"];
+var _hoisted_46 = {
   colspan: "5"
+};
+var _hoisted_47 = {
+  "class": "col-sm-3"
+};
+var _hoisted_48 = {
+  style: {
+    "float": "left",
+    "width": "100%"
+  }
 };
 var _hoisted_49 = {
-  "class": "col-sm-3"
-};
-var _hoisted_50 = {
-  style: {
-    "float": "left",
-    "width": "100%"
-  }
-};
-var _hoisted_51 = {
   style: {
     "border": "1px solid",
     "text-align": "center",
@@ -22655,169 +23316,178 @@ var _hoisted_51 = {
   }
 };
 
-var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
-  style: {
-    "height": "34px"
-  }
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "8",
-  style: {
-    "margin": "auto",
-    "padding": "0px"
-  }
-}, "FUTURE PICKS")], -1
-/* HOISTED */
-);
+var _hoisted_50 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+    style: {
+      "height": "34px"
+    }
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "8",
+    style: {
+      "margin": "auto",
+      "padding": "0px"
+    }
+  }, "FUTURE PICKS")], -1
+  /* HOISTED */
+  );
+});
 
-var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "2",
-  "class": "border-a"
-}, "Yr"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  "class": "border-a"
-}, "Rd"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  colspan: "5",
-  "class": "border-a"
-}, "Originally")], -1
-/* HOISTED */
-);
+var _hoisted_51 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "2",
+    "class": "border-a"
+  }, "Yr"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    "class": "border-a"
+  }, "Rd"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    colspan: "5",
+    "class": "border-a"
+  }, "Originally")], -1
+  /* HOISTED */
+  );
+});
 
-var _hoisted_54 = {
+var _hoisted_52 = {
   key: 0
 };
 
-var _hoisted_55 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  colspan: "4"
-}, "None", -1
-/* HOISTED */
-);
+var _hoisted_53 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    colspan: "4"
+  }, "None", -1
+  /* HOISTED */
+  );
+});
 
-var _hoisted_56 = [_hoisted_55];
-var _hoisted_57 = {
+var _hoisted_54 = [_hoisted_53];
+var _hoisted_55 = {
   colspan: "2"
 };
-var _hoisted_58 = {
+var _hoisted_56 = {
   colspan: "5"
 };
-var _hoisted_59 = {
+var _hoisted_57 = {
   "class": "col-sm-3"
 };
-var _hoisted_60 = {
+var _hoisted_58 = {
   style: {
     "float": "left"
   }
 };
-var _hoisted_61 = {
+var _hoisted_59 = {
   style: {
     "border": "1px solid",
     "text-align": "center"
   }
 };
 
-var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  style: {
-    "height": "25px",
-    "width": "200px",
-    "border": "1px solid #000000"
-  },
-  colspan: "4"
-}, " TROPHY CASE ")], -1
-/* HOISTED */
-);
+var _hoisted_60 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+    style: {
+      "height": "25px",
+      "width": "200px",
+      "border": "1px solid #000000"
+    },
+    colspan: "4"
+  }, " TROPHY CASE ")], -1
+  /* HOISTED */
+  );
+});
 
-var _hoisted_63 = {
+var _hoisted_61 = {
   key: 0
 };
 
-var _hoisted_64 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  colspan: "2"
-}, "None", -1
-/* HOISTED */
-);
+var _hoisted_62 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    colspan: "2"
+  }, "None", -1
+  /* HOISTED */
+  );
+});
 
-var _hoisted_65 = [_hoisted_64];
-var _hoisted_66 = {
+var _hoisted_63 = [_hoisted_62];
+var _hoisted_64 = {
   style: {
     "margin": "auto",
     "text-align": "center"
   }
 };
-var _hoisted_67 = {
+var _hoisted_65 = {
   style: {
     "text-align": "center"
   }
 };
-var _hoisted_68 = {
+var _hoisted_66 = {
   style: {
     "text-align": "center"
   }
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team, index) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      "class": "row team-row border-a",
-      key: team
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "row",
+      "class": "container team-row border-a",
+      key: team,
       onClick: function onClick($event) {
         return $options.toggle_index(index);
+      },
+      style: {
+        "max-width": "100%"
       }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       "class": "float-l dynasty-team-logo",
       src: team.logo
     }, null, 8
     /* PROPS */
-    , _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name), 1
+    , _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name), 1
     /* TEXT */
-    ), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.owner), 1
+    ), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.owner), 1
     /* TEXT */
-    ), _hoisted_12])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
-        "height": "50px",
-        "width": "100px"
-      }, {
-        'background-color': team.background.ovr_rating
-      }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.ovr), 1
-    /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.ovr_rank) + " | ", 1
-    /* TEXT */
-    ), team.previous ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_18, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.ovr - team.previous.value.ovr) + ")", 1
-    /* TEXT */
-    )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 4
-    /* STYLE */
-    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
-        "height": "50px",
-        "width": "50px"
-      }, {
-        'background-color': team.background.total_rating
-      }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.total), 1
-    /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.total_rank) + " | ", 1
-    /* TEXT */
-    ), team.previous ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.total - team.previous.value.total) + ")", 1
-    /* TEXT */
-    )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 4
-    /* STYLE */
-    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    ), _hoisted_9])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
         "height": "50px",
         "width": "50px"
       }, {
         'background-color': team.background.dc_rating
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.dc), 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.dc), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.dc_rank) + " | ", 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.dc_rank) + " | ", 1
     /* TEXT */
-    ), team.previous ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_28, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.dc - team.previous.value.dc) + ")", 1
+    ), team.previous ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_15, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.dc - team.previous.value.dc) + ")", 1
     /* TEXT */
     )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 4
     /* STYLE */
-    )])])])], 8
-    /* PROPS */
-    , _hoisted_5), index == $data.selected_index ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_32, [_hoisted_33, _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "height": "50px",
+        "width": "50px"
+      }, {
+        'background-color': team.background.total_rating
+      }])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.total), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.total_rank) + " | ", 1
+    /* TEXT */
+    ), team.previous ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_20, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.total - team.previous.value.total) + ")", 1
+    /* TEXT */
+    )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 4
+    /* STYLE */
+    )])]), _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "height": "50px",
+        "width": "100px"
+      }, {
+        'background-color': team.background.ovr_rating
+      }])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.ovr), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.ovr_rank) + " | ", 1
+    /* TEXT */
+    ), team.previous ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_26, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.ovr - team.previous.value.ovr) + ")", 1
+    /* TEXT */
+    )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 4
+    /* STYLE */
+    )])])])]), index == $data.selected_index ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_30, [_hoisted_31, _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
       "class": "border-l",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         'background-color': team.background.qb_rating
@@ -22873,7 +23543,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       })
     }, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.te_rank), 5
     /* TEXT, STYLE */
-    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_35, [_hoisted_36, _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_33, [_hoisted_34, _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
       "class": "border-l",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         'background-color': team.background.dc23_rating
@@ -22901,14 +23571,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       })
     }, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.value.dc24_rank), 5
     /* TEXT, STYLE */
-    )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_40, [_hoisted_41, _hoisted_42, !team.cornerstone_players.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_43, _hoisted_45)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(team.cornerstone_players, function (player) {
+    )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_38, [_hoisted_39, _hoisted_40, !team.cornerstone_players.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_41, _hoisted_43)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(team.cornerstone_players, function (player) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
         key: player,
         style: {
           "height": "30px",
           "border-right": "1px solid"
         }
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
         src: player.team_logo,
         style: {
           "width": "30px",
@@ -22917,30 +23587,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }
       }, null, 8
       /* PROPS */
-      , _hoisted_47)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(player.pos), 1
+      , _hoisted_45)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(player.pos), 1
       /* TEXT */
-      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(player.name), 1
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(player.name), 1
       /* TEXT */
       )]);
     }), 128
     /* KEYED_FRAGMENT */
-    ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_51, [_hoisted_52, _hoisted_53, !team.draft_picks.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_54, _hoisted_56)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(team.draft_picks, function (pick) {
+    ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_49, [_hoisted_50, _hoisted_51, !team.draft_picks.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_52, _hoisted_54)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(team.draft_picks, function (pick) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
         key: pick,
         style: {
           "height": "30px",
           "border-right": "1px solid"
         }
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.year), 1
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.year), 1
       /* TEXT */
       ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.round), 1
       /* TEXT */
-      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.original_team), 1
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.original_team), 1
       /* TEXT */
       )]);
     }), 128
     /* KEYED_FRAGMENT */
-    ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_61, [_hoisted_62, !team.trophy_row_array.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_63, _hoisted_65)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(team.trophy_row_array, function (row) {
+    ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_59, [_hoisted_60, !team.trophy_row_array.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_61, _hoisted_63)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(team.trophy_row_array, function (row) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
         key: row,
         style: {
@@ -22953,7 +23623,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "width": "100px",
             "padding": "2px"
           }
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
           "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(trophy.fa_class),
           style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([trophy.fa_style, {
             "margin": "auto",
@@ -22961,9 +23631,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }])
         }, null, 6
         /* CLASS, STYLE */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trophy.year), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trophy.year), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trophy.award), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(trophy.award), 1
         /* TEXT */
         )]);
       }), 128
@@ -22971,10 +23641,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ))]);
     }), 128
     /* KEYED_FRAGMENT */
-    ))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+    ))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8
+    /* PROPS */
+    , _hoisted_1);
   }), 128
   /* KEYED_FRAGMENT */
-  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-sm-3\">\n                        <table>\n                            <tr>\n                                <th colspan=\"3\">\n                                    FOUNDATIONAL PLAYERS\n                                </th>\n                            </tr>\n                            <tr>\n                                <th>\n                                    Name\n                                </th>\n                                <th>\n                                    Pos\n                                </th>\n                                <th>\n                                    Team\n                                </th>\n                            </tr>\n                            <tr v-for=\"player in team.cornerstone_players\" :style=\"{'background-color': player.background_string }\" :key=\"player\">\n                                <td style=\"width: 150px\">\n                                    {{ player.name }}\n                                </td>\n                                <td style=\"width: 50px\">\n                                    {{ player.pos }}\n                                </td>\n                                <td style=\"height:55px;\" >\n                                    <img :src=\"player.team_logo\" style=\"width:50px; max-height:50px; height:auto\"/>\n                                </td>\n                            </tr>\n                        </table>\n                    </div>\n                </div> ")])])]);
+  );
 }
 
 /***/ }),
@@ -24039,7 +24711,31 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#body-style{background-color:#FFFFFF; color:#000000; min-height:100vh; height:100%\n}\n.team-row{ padding:10px;\n}\n.team-row:hover{ background-color:#faf5f5; cursor:pointer}\ntable{ margin-top:10px\n}\n.float-l { float:left\n}\n.rating-table { border:1px solid; text-align:center;}\n.pos-rating-header { width:25%\n}\n.border-l { border-left:1px solid #000000\n}\n.border-r { border-right:1px solid #000000\n}\n.border-a { border: 1px solid #000000\n}\n@media (min-width : 480px) {\n.dynasty-team-logo{  height:75px; width:75px;\n}\n.dynasty-team-h1{ font-size:20px\n}\n.dynasty-team-h2{ font-size:16px\n}\n}\n@media (max-width : 480px) {\n.dynasty-team-logo{ height:50px; width:50px;\n}\n.dynasty-team-h1{ font-size:16px\n}\n.dynasty-team-h2{ font-size:12px\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#body-style{background-color:#FFFFFF; color:#000000; min-height:100vh; height:100%\n}\n.team-row{ padding:10px;\n}\n.team-row:hover, .dynasty-tab:hover, .trade-player-selection:hover{ background-color:#faf5f5; cursor:pointer}\ntable{ margin-top:10px\n}\n.float-l { float:left\n}\n.float-r { float:right\n}\n.inline { display:inline-block\n}\n.rating-table { border:1px solid; text-align:center;}\n.pos-rating-header { width:25%\n}\n.border-l { border-left:1px solid #000000\n}\n.border-r { border-right:1px solid #000000\n}\n.border-a { border: 1px solid #000000\n}\n.dynasty-tab{ font-size:14px; margin-left:10px; padding:5px; font-weight: 400; border-radius: 5px;}\n.coming-soon{ text-decoration: line-through; color:#8F8F8F}\n@media (min-width : 480px) {\n.dynasty-team-logo{  height:75px; width:75px;\n}\n.dynasty-team-h1{ font-size:20px\n}\n.dynasty-team-h2{ font-size:16px\n}\n}\n@media (max-width : 480px) {\n.dynasty-team-logo{ height:50px; width:50px;\n}\n.dynasty-team-h1{ font-size:16px\n}\n.dynasty-team-h2{ font-size:12px\n}\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.p1[data-v-1e427c92]{\n        padding:1px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -41799,6 +42495,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_dynasty_team_info_vue_vue_type_style_index_0_id_1e427c92_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_dynasty_team_info_vue_vue_type_style_index_0_id_1e427c92_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_dynasty_team_info_vue_vue_type_style_index_0_id_1e427c92_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/recipe/recipe_index.vue?vue&type=style&index=0&id=018ed5aa&lang=css":
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/recipe/recipe_index.vue?vue&type=style&index=0&id=018ed5aa&lang=css ***!
@@ -42461,6 +43187,37 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/vue/dynasty_league/dynasty_team_info.vue":
+/*!***************************************************************!*\
+  !*** ./resources/js/vue/dynasty_league/dynasty_team_info.vue ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _dynasty_team_info_vue_vue_type_template_id_1e427c92_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dynasty_team_info.vue?vue&type=template&id=1e427c92&scoped=true */ "./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=template&id=1e427c92&scoped=true");
+/* harmony import */ var _dynasty_team_info_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dynasty_team_info.vue?vue&type=script&lang=js */ "./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=script&lang=js");
+/* harmony import */ var _dynasty_team_info_vue_vue_type_style_index_0_id_1e427c92_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css */ "./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css");
+/* harmony import */ var _Users_rhaughee_Desktop_personal_projects_ryanhaughee_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_Users_rhaughee_Desktop_personal_projects_ryanhaughee_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_dynasty_team_info_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_dynasty_team_info_vue_vue_type_template_id_1e427c92_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-1e427c92"],['__file',"resources/js/vue/dynasty_league/dynasty_team_info.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/vue/recipe/recipe_index.vue":
 /*!**************************************************!*\
   !*** ./resources/js/vue/recipe/recipe_index.vue ***!
@@ -42767,6 +43524,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=script&lang=js":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=script&lang=js ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_dynasty_team_info_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_dynasty_team_info_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./dynasty_team_info.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/vue/recipe/recipe_index.vue?vue&type=script&lang=js":
 /*!**************************************************************************!*\
   !*** ./resources/js/vue/recipe/recipe_index.vue?vue&type=script&lang=js ***!
@@ -43007,6 +43780,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=template&id=1e427c92&scoped=true":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=template&id=1e427c92&scoped=true ***!
+  \*********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_dynasty_team_info_vue_vue_type_template_id_1e427c92_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_dynasty_team_info_vue_vue_type_template_id_1e427c92_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./dynasty_team_info.vue?vue&type=template&id=1e427c92&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=template&id=1e427c92&scoped=true");
+
+
+/***/ }),
+
 /***/ "./resources/js/vue/recipe/recipe_index.vue?vue&type=template&id=018ed5aa":
 /*!********************************************************************************!*\
   !*** ./resources/js/vue/recipe/recipe_index.vue?vue&type=template&id=018ed5aa ***!
@@ -43174,6 +43963,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_dynasty_league_index_vue_vue_type_style_index_0_id_14c0d02b_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./dynasty_league_index.vue?vue&type=style&index=0&id=14c0d02b&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_league_index.vue?vue&type=style&index=0&id=14c0d02b&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css":
+/*!***********************************************************************************************************************!*\
+  !*** ./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css ***!
+  \***********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_dynasty_team_info_vue_vue_type_style_index_0_id_1e427c92_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/vue/dynasty_league/dynasty_team_info.vue?vue&type=style&index=0&id=1e427c92&scoped=true&lang=css");
 
 
 /***/ }),
