@@ -23072,8 +23072,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: pick.logo,
       style: {
-        "width": "30px",
-        "max-height": "30px",
+        "width": "50px",
+        "max-height": "50px",
         "height": "auto"
       }
     }, null, 8
