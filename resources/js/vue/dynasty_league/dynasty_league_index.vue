@@ -311,7 +311,7 @@ export default {
                                     <th colspan="3" class="border-a">Name</th>
                                     <th class="border-a">Pos</th>
                                 </tr>
-                                <tr v-for="pick in pick_history" :key="pick" style="height:30px; border:1px solid; padding:5px">
+                                <tr v-for="pick in pick_history" :key="pick" style="height:30px; border:1px solid; padding:5px; height:50px">
                                     <td>
                                         {{ pick.round }}
                                     </td>

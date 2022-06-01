@@ -23061,7 +23061,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: pick,
       style: {
-        "height": "30px",
+        "height": "50px",
         "border": "1px solid",
         "padding": "5px"
       }
@@ -23073,8 +23073,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       src: pick.logo,
       style: {
         "width": "50px",
-        "max-height": "50px",
-        "height": "auto"
+        "height": "50px"
       }
     }, null, 8
     /* PROPS */
