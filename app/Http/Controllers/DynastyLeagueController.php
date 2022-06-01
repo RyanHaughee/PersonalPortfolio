@@ -35,6 +35,7 @@ class DynastyLeagueController extends Controller
                 ->select(DB::raw('dynasty_future_picks.*, dynasty_teams.owner as original_team'))
                 ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_future_picks.original_owner_id')
                 ->where('dynasty_future_picks.current_owner_id','=',$team->id)
+                ->whereNull('dynasty_future_picks.player_id')
                 ->orderby('dynasty_future_picks.current_pick_value','desc')
                 ->orderby('dynasty_future_picks.round','asc')
                 ->orderby('dynasty_future_picks.year','asc')
@@ -102,6 +103,7 @@ class DynastyLeagueController extends Controller
             ->select(DB::raw('dynasty_future_picks.id, dynasty_teams.team_name as original_owner, dynasty_future_picks.year, dynasty_future_picks.round'))
             ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_future_picks.original_owner_id')
             ->where('dynasty_future_picks.current_owner_id','=',$team_id)
+            ->whereNull('dynasty_future_picks.player_id')
             ->orderBy('year','asc')
             ->orderBy('round','asc')
             ->orderBy('original_owner','asc')
@@ -252,7 +254,7 @@ class DynastyLeagueController extends Controller
                 }
             }
 
-            $where = 'dynasty_future_picks.current_owner_id = '.$team->id;
+            $where = 'dynasty_future_picks.player_id IS NOT NULL and dynasty_future_picks.current_owner_id = '.$team->id;
             if (!empty($team->picks_to_receive) && sizeof($team->picks_to_receive) > 0){
                 $where = $where." and dynasty_future_picks.id NOT IN (".implode(', ', $team->picks_to_receive).")";
             }
@@ -440,6 +442,33 @@ class DynastyLeagueController extends Controller
 
         
         
+    }
+
+    public function get_previous_draft(Request $request){
+        $input = $request->all();
+        $answer = array();
+
+        if (empty($input) || empty($input['year'])){
+            $answer['success'] = false;
+            $answer['message'] = "Improper input provided to the Controller.";
+            return $answer;
+        } else {
+            $year = $input['year'];
+        }
+
+        $picks = DB::table('dynasty_future_picks')
+            ->select(DB::raw('dynasty_future_picks.round, dynasty_future_picks.pick_num, dynasty_players.*, dynasty_teams.*'))
+            ->leftJoin('dynasty_players','dynasty_players.id','=','dynasty_future_picks.player_id')
+            ->leftJoin('dynasty_teams','dynasty_teams.id','=','dynasty_future_picks.current_owner_id')
+            ->where('dynasty_future_picks.year','=',$year)
+            ->orderBy('dynasty_future_picks.round','asc')
+            ->orderBy('dynasty_future_picks.pick_num','asc')
+            ->get();
+
+        $answer['success'] = true;
+        $answer['picks'] = $picks;
+        return $answer; 
+
     }
 
 }

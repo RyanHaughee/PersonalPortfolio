@@ -15,12 +15,12 @@
     .coming-soon{ text-decoration: line-through; color:#8F8F8F}
     @media (min-width : 480px) {
         .dynasty-team-logo{  height:75px; width:75px; }
-        .dynasty-team-h1{ font-size:20px }
+        .dynasty-team-h1{ font-size:20px; font-weight:600 }
         .dynasty-team-h2{ font-size:16px }
     }
     @media (max-width : 480px) {
         .dynasty-team-logo{ height:50px; width:50px; }
-        .dynasty-team-h1{ font-size:16px }
+        .dynasty-team-h1{ font-size:16px; font-weight:600 }
         .dynasty-team-h2{ font-size:12px }
     }
 </style>
@@ -38,7 +38,9 @@ export default {
             tab:'league',
             teams:null,
             trade: {},
-            changes: null
+            changes: null,
+            pick_history: null,
+            draft_year: 2022
         }
     },
     watch: {
@@ -74,6 +76,16 @@ export default {
                 })
             }
             
+        },
+        tab: function(){
+            var self = this;
+            if (self.tab == 'draft_history'){
+                self.draft_year = '2022';
+            }
+        },
+        draft_year: function(){
+            var self = this;
+            self.get_past_draft();
         }
 
         
@@ -150,6 +162,14 @@ export default {
                 self.changes = response.change_array;
             })  
 
+        },
+        get_past_draft(){
+            var self = this;
+            var sds = {};
+            sds.year = self.draft_year;
+            $.get('/dynasty_function/get_previous_draft', sds, function(response){
+                self.pick_history = response.picks;
+            }) 
         }
     }
 }
@@ -172,7 +192,7 @@ export default {
                         <h4>Menu</h4>
                         <div class="dynasty-tab" @click="tab = 'league'">Rankings</div>
                         <div class="dynasty-tab coming-soon">League History</div>
-                        <div class="dynasty-tab coming-soon">Draft History</div>
+                        <div class="dynasty-tab" @click="tab = 'draft_history'">Draft History</div>
                         <div class="dynasty-tab coming-soon">Trade Calculator</div>
                     </div>
                     <div class="col-sm-10">
@@ -276,7 +296,42 @@ export default {
                             </div>
                        </div>
                        <div v-if="tab == 'draft_history'">
-
+                            <h4 style="display:inline; margin-right:5px">Year:</h4>
+                            <select class="form-control" v-model="draft_year" style="width:100px; display:inline">
+                                <option selected>2022</option>
+                                <option>2021</option>
+                                <option disabled>Startup</option>
+                            </select>
+                           <table style="border:1px solid; text-align:center; width:100%;">
+                                <tr>
+                                    <th class="border-a">Rd</th>
+                                    <th class="border-a">Pk</th>
+                                    <th colspan="1" class="border-a">Team</th>
+                                    <th colspan="3" class="border-a">Team</th>
+                                    <th colspan="3" class="border-a">Name</th>
+                                    <th class="border-a">Pos</th>
+                                </tr>
+                                <tr v-for="pick in pick_history" :key="pick" style="height:30px; border:1px solid; padding:5px">
+                                    <td>
+                                        {{ pick.round }}
+                                    </td>
+                                    <td>
+                                        {{ pick.pick_num }}
+                                    </td>
+                                    <td>
+                                        <img :src="pick.logo" style="width:30px; max-height:30px; height:auto"/>
+                                    </td>
+                                    <td colspan="3">
+                                        {{ pick.team_name }}
+                                    </td>
+                                    <td colspan="3">
+                                        {{ pick.name }}
+                                    </td>
+                                    <td>
+                                        {{ pick.pos }}
+                                    </td>
+                                </tr>
+                            </table>
                        </div>
                     </div>
                 </div>

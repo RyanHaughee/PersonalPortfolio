@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DraftController;
 use App\Http\Controllers\DynastyLeagueController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\RecipeController;
 
@@ -25,6 +26,7 @@ Route::get('/', function () {
 // Loading the draft room
 Route::get('/draft', [DraftController::class, 'index']);
 Route::get('/draft/{id}', [DraftController::class, 'league_index']);
+Route::get('/test', [Controller::class, 'test']);
 
 
 // Functions for the draft room
@@ -72,4 +74,5 @@ Route::prefix('dynasty_function')->group(function () {
     Route::get('/get_teams', [DynastyLeagueController::class, 'get_teams']);
     Route::get('/get_team_assets', [DynastyLeagueController::class, 'get_team_assets']);
     Route::get('/compute_rankings_change', [DynastyLeagueController::class, 'compute_rankings_change']);
+    Route::get('/get_previous_draft', [DynastyLeagueController::class, 'get_previous_draft']);
 });

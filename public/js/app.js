@@ -20091,7 +20091,9 @@ __webpack_require__.r(__webpack_exports__);
       tab: 'league',
       teams: null,
       trade: {},
-      changes: null
+      changes: null,
+      pick_history: null,
+      draft_year: 2022
     };
   },
   watch: {
@@ -20128,6 +20130,17 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    tab: function tab() {
+      var self = this;
+
+      if (self.tab == 'draft_history') {
+        self.draft_year = '2022';
+      }
+    },
+    draft_year: function draft_year() {
+      var self = this;
+      self.get_past_draft();
     }
   },
   methods: {
@@ -20208,6 +20221,14 @@ __webpack_require__.r(__webpack_exports__);
       sds.team_2_picks_sent = self.trade.team_2.picks_sent;
       $.get('/dynasty_function/compute_rankings_change', sds, function (response) {
         self.changes = response.change_array;
+      });
+    },
+    get_past_draft: function get_past_draft() {
+      var self = this;
+      var sds = {};
+      sds.year = self.draft_year;
+      $.get('/dynasty_function/get_previous_draft', sds, function (response) {
+        self.pick_history = response.picks;
       });
     }
   }
@@ -22539,36 +22560,30 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "dynasty-tab coming-soon"
-}, "Draft History", -1
-/* HOISTED */
-);
-
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "dynasty-tab coming-soon"
 }, "Trade Calculator", -1
 /* HOISTED */
 );
 
-var _hoisted_10 = {
+var _hoisted_9 = {
   "class": "col-sm-10"
 };
-var _hoisted_11 = {
+var _hoisted_10 = {
   key: 1
 };
-var _hoisted_12 = {
+var _hoisted_11 = {
   "class": "container",
   style: {
     "max-width": "100%"
   }
 };
-var _hoisted_13 = {
+var _hoisted_12 = {
   "class": "row"
 };
-var _hoisted_14 = {
+var _hoisted_13 = {
   "class": "col-sm-6"
 };
 
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
   style: {
     "text-align": "center"
   }
@@ -22576,22 +22591,22 @@ var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
   selected: "",
   disabled: ""
 }, "Select", -1
 /* HOISTED */
 );
 
-var _hoisted_17 = ["value"];
-var _hoisted_18 = {
+var _hoisted_16 = ["value"];
+var _hoisted_17 = {
   key: 0,
   style: {
     "text-align": "center"
   }
 };
-var _hoisted_19 = ["src"];
-var _hoisted_20 = {
+var _hoisted_18 = ["src"];
+var _hoisted_19 = {
   style: {
     "max-height": "200px",
     "overflow-y": "scroll",
@@ -22599,13 +22614,13 @@ var _hoisted_20 = {
     "border": "1px solid"
   }
 };
+var _hoisted_20 = ["onClick"];
 var _hoisted_21 = ["onClick"];
-var _hoisted_22 = ["onClick"];
-var _hoisted_23 = {
+var _hoisted_22 = {
   "class": "col-sm-6"
 };
 
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
   style: {
     "text-align": "center"
   }
@@ -22613,22 +22628,22 @@ var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
   selected: "",
   disabled: ""
 }, "Select", -1
 /* HOISTED */
 );
 
-var _hoisted_26 = ["value"];
-var _hoisted_27 = {
+var _hoisted_25 = ["value"];
+var _hoisted_26 = {
   key: 0,
   style: {
     "text-align": "center"
   }
 };
-var _hoisted_28 = ["src"];
-var _hoisted_29 = {
+var _hoisted_27 = ["src"];
+var _hoisted_28 = {
   style: {
     "max-height": "200px",
     "overflow-y": "scroll",
@@ -22636,9 +22651,9 @@ var _hoisted_29 = {
     "border": "1px solid"
   }
 };
+var _hoisted_29 = ["onClick"];
 var _hoisted_30 = ["onClick"];
-var _hoisted_31 = ["onClick"];
-var _hoisted_32 = {
+var _hoisted_31 = {
   "class": "row",
   style: {
     "width": "100%",
@@ -22646,7 +22661,7 @@ var _hoisted_32 = {
     "margin-top": "30px"
   }
 };
-var _hoisted_33 = {
+var _hoisted_32 = {
   style: {
     "border": "1px solid",
     "text-align": "center",
@@ -22654,7 +22669,7 @@ var _hoisted_33 = {
   }
 };
 
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
   style: {
     "height": "34px"
   }
@@ -22668,7 +22683,7 @@ var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "pos-rating-header border-a"
 }, "OVR"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "pos-rating-header border-a"
@@ -22678,7 +22693,7 @@ var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_36 = {
+var _hoisted_35 = {
   style: {
     "border": "1px solid",
     "text-align": "center",
@@ -22686,7 +22701,7 @@ var _hoisted_36 = {
   }
 };
 
-var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
   style: {
     "height": "34px"
   }
@@ -22700,7 +22715,7 @@ var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "pos-rating-header border-a"
 }, "QB"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "pos-rating-header border-a"
@@ -22712,7 +22727,7 @@ var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_39 = {
+var _hoisted_38 = {
   style: {
     "border": "1px solid",
     "text-align": "center",
@@ -22721,7 +22736,7 @@ var _hoisted_39 = {
   }
 };
 
-var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", {
   style: {
     "height": "34px"
   }
@@ -22736,7 +22751,7 @@ var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "pos-rating-header border-a"
 }, "2023"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "pos-rating-header border-a"
@@ -22744,7 +22759,7 @@ var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_42 = {
+var _hoisted_41 = {
   "class": "row",
   style: {
     "width": "100%",
@@ -22752,11 +22767,72 @@ var _hoisted_42 = {
     "margin-top": "30px"
   }
 };
-var _hoisted_43 = {
+var _hoisted_42 = {
   "class": "col-sm-12"
 };
-var _hoisted_44 = {
+var _hoisted_43 = {
   key: 2
+};
+
+var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  style: {
+    "display": "inline",
+    "margin-right": "5px"
+  }
+}, "Year:", -1
+/* HOISTED */
+);
+
+var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  selected: ""
+}, "2022", -1
+/* HOISTED */
+);
+
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", null, "2021", -1
+/* HOISTED */
+);
+
+var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  disabled: ""
+}, "Startup", -1
+/* HOISTED */
+);
+
+var _hoisted_48 = [_hoisted_45, _hoisted_46, _hoisted_47];
+var _hoisted_49 = {
+  style: {
+    "border": "1px solid",
+    "text-align": "center",
+    "width": "100%"
+  }
+};
+
+var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  "class": "border-a"
+}, "Rd"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  "class": "border-a"
+}, "Pk"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  colspan: "1",
+  "class": "border-a"
+}, "Team"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  colspan: "3",
+  "class": "border-a"
+}, "Team"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  colspan: "3",
+  "class": "border-a"
+}, "Name"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  "class": "border-a"
+}, "Pos")], -1
+/* HOISTED */
+);
+
+var _hoisted_51 = ["src"];
+var _hoisted_52 = {
+  colspan: "3"
+};
+var _hoisted_53 = {
+  colspan: "3"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_dynasty_team_info = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("dynasty-team-info");
@@ -22766,32 +22842,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $data.tab = 'league';
     })
-  }, "Rankings"), _hoisted_7, _hoisted_8, _hoisted_9]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [$data.tab == 'league' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_dynasty_team_info, {
+  }, "Rankings"), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "dynasty-tab",
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $data.tab = 'draft_history';
+    })
+  }, "Draft History"), _hoisted_8]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [$data.tab == 'league' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_dynasty_team_info, {
     key: 0
-  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tab == 'trade' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tab == 'trade' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-control",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.trade.team_1 = $event;
     })
-  }, [_hoisted_16, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team) {
+  }, [_hoisted_15, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: team,
       value: team
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name), 9
     /* TEXT, PROPS */
-    , _hoisted_17);
+    , _hoisted_16);
   }), 128
   /* KEYED_FRAGMENT */
   ))], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.trade.team_1]]), $data.trade.team_1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.trade.team_1.team_name), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.trade.team_1]]), $data.trade.team_1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.trade.team_1.team_name), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     "class": "dynasty-team-logo",
     src: $data.trade.team_1.logo
   }, null, 8
   /* PROPS */
-  , _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.trade.team_1.players, function (player, index) {
+  , _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.trade.team_1.players, function (player, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "trade-player-selection",
       key: player,
@@ -22805,7 +22886,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(player.name), 13
     /* TEXT, STYLE, PROPS */
-    , _hoisted_21);
+    , _hoisted_20);
   }), 128
   /* KEYED_FRAGMENT */
   )), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.trade.team_1.picks, function (pick, index) {
@@ -22822,33 +22903,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.original_owner) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.year) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.ordinal_suffix_of(pick.round)), 13
     /* TEXT, STYLE, PROPS */
-    , _hoisted_22);
+    , _hoisted_21);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-control",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.trade.team_2 = $event;
     })
-  }, [_hoisted_25, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team) {
+  }, [_hoisted_24, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teams, function (team) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: team,
       value: team
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team.team_name), 9
     /* TEXT, PROPS */
-    , _hoisted_26);
+    , _hoisted_25);
   }), 128
   /* KEYED_FRAGMENT */
   ))], 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.trade.team_2]]), $data.trade.team_2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.trade.team_2.team_name), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.trade.team_2]]), $data.trade.team_2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.trade.team_2.team_name), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     "class": "dynasty-team-logo",
     src: $data.trade.team_2.logo
   }, null, 8
   /* PROPS */
-  , _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.trade.team_2.players, function (player, index) {
+  , _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.trade.team_2.players, function (player, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "trade-player-selection",
       key: player,
@@ -22862,7 +22943,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(player.name), 13
     /* TEXT, STYLE, PROPS */
-    , _hoisted_30);
+    , _hoisted_29);
   }), 128
   /* KEYED_FRAGMENT */
   )), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.trade.team_2.picks, function (pick, index) {
@@ -22879,14 +22960,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.original_owner) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.year) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.ordinal_suffix_of(pick.round)), 13
     /* TEXT, STYLE, PROPS */
-    , _hoisted_31);
+    , _hoisted_30);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.changes, function (change) {
+  ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.changes, function (change) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col-sm-6",
       key: change
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_33, [_hoisted_34, _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_32, [_hoisted_33, _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.ovr != 0 ? change.ovr > 0 ? {
         'background-color': 'rgb(5,165,81,0.5)'
       } : {
@@ -22910,7 +22991,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       } : ''])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(change.dc), 5
     /* TEXT, STYLE */
-    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_36, [_hoisted_37, _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_35, [_hoisted_36, _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.qb != 0 ? change.qb > 0 ? {
         'background-color': 'rgb(5,165,81,0.5)'
       } : {
@@ -22942,7 +23023,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       } : ''])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(change.te), 5
     /* TEXT, STYLE */
-    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_39, [_hoisted_40, _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+    )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_38, [_hoisted_39, _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([change.dc23 != 0 ? change.dc23 > 0 ? {
         'background-color': 'rgb(5,165,81,0.5)'
       } : {
@@ -22961,11 +23042,52 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     )])])]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[3] || (_cache[3] = function ($event) {
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[4] || (_cache[4] = function ($event) {
       return $options.calculate_trade_value();
     })
-  }, "CALCULATE")])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tab == 'draft_history' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-sm-3\">\n                        <table>\n                            <tr>\n                                <th colspan=\"3\">\n                                    FOUNDATIONAL PLAYERS\n                                </th>\n                            </tr>\n                            <tr>\n                                <th>\n                                    Name\n                                </th>\n                                <th>\n                                    Pos\n                                </th>\n                                <th>\n                                    Team\n                                </th>\n                            </tr>\n                            <tr v-for=\"player in team.cornerstone_players\" :style=\"{'background-color': player.background_string }\" :key=\"player\">\n                                <td style=\"width: 150px\">\n                                    {{ player.name }}\n                                </td>\n                                <td style=\"width: 50px\">\n                                    {{ player.pos }}\n                                </td>\n                                <td style=\"height:55px;\" >\n                                    <img :src=\"player.team_logo\" style=\"width:50px; max-height:50px; height:auto\"/>\n                                </td>\n                            </tr>\n                        </table>\n                    </div>\n                </div> ")])])]);
+  }, "CALCULATE")])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.tab == 'draft_history' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return $data.draft_year = $event;
+    }),
+    style: {
+      "width": "100px",
+      "display": "inline"
+    }
+  }, _hoisted_48, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.draft_year]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_49, [_hoisted_50, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.pick_history, function (pick) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: pick,
+      style: {
+        "height": "30px",
+        "border": "1px solid",
+        "padding": "5px"
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.round), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.pick_num), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      src: pick.logo,
+      style: {
+        "width": "30px",
+        "max-height": "30px",
+        "height": "auto"
+      }
+    }, null, 8
+    /* PROPS */
+    , _hoisted_51)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.team_name), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.name), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pick.pos), 1
+    /* TEXT */
+    )]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-sm-3\">\n                        <table>\n                            <tr>\n                                <th colspan=\"3\">\n                                    FOUNDATIONAL PLAYERS\n                                </th>\n                            </tr>\n                            <tr>\n                                <th>\n                                    Name\n                                </th>\n                                <th>\n                                    Pos\n                                </th>\n                                <th>\n                                    Team\n                                </th>\n                            </tr>\n                            <tr v-for=\"player in team.cornerstone_players\" :style=\"{'background-color': player.background_string }\" :key=\"player\">\n                                <td style=\"width: 150px\">\n                                    {{ player.name }}\n                                </td>\n                                <td style=\"width: 50px\">\n                                    {{ player.pos }}\n                                </td>\n                                <td style=\"height:55px;\" >\n                                    <img :src=\"player.team_logo\" style=\"width:50px; max-height:50px; height:auto\"/>\n                                </td>\n                            </tr>\n                        </table>\n                    </div>\n                </div> ")])])]);
 }
 
 /***/ }),
@@ -24711,7 +24833,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#body-style{background-color:#FFFFFF; color:#000000; min-height:100vh; height:100%\n}\n.team-row{ padding:10px;\n}\n.team-row:hover, .dynasty-tab:hover, .trade-player-selection:hover{ background-color:#faf5f5; cursor:pointer}\ntable{ margin-top:10px\n}\n.float-l { float:left\n}\n.float-r { float:right\n}\n.inline { display:inline-block\n}\n.rating-table { border:1px solid; text-align:center;}\n.pos-rating-header { width:25%\n}\n.border-l { border-left:1px solid #000000\n}\n.border-r { border-right:1px solid #000000\n}\n.border-a { border: 1px solid #000000\n}\n.dynasty-tab{ font-size:14px; margin-left:10px; padding:5px; font-weight: 400; border-radius: 5px;}\n.coming-soon{ text-decoration: line-through; color:#8F8F8F}\n@media (min-width : 480px) {\n.dynasty-team-logo{  height:75px; width:75px;\n}\n.dynasty-team-h1{ font-size:20px\n}\n.dynasty-team-h2{ font-size:16px\n}\n}\n@media (max-width : 480px) {\n.dynasty-team-logo{ height:50px; width:50px;\n}\n.dynasty-team-h1{ font-size:16px\n}\n.dynasty-team-h2{ font-size:12px\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#body-style{background-color:#FFFFFF; color:#000000; min-height:100vh; height:100%\n}\n.team-row{ padding:10px;\n}\n.team-row:hover, .dynasty-tab:hover, .trade-player-selection:hover{ background-color:#faf5f5; cursor:pointer}\ntable{ margin-top:10px\n}\n.float-l { float:left\n}\n.float-r { float:right\n}\n.inline { display:inline-block\n}\n.rating-table { border:1px solid; text-align:center;}\n.pos-rating-header { width:25%\n}\n.border-l { border-left:1px solid #000000\n}\n.border-r { border-right:1px solid #000000\n}\n.border-a { border: 1px solid #000000\n}\n.dynasty-tab{ font-size:14px; margin-left:10px; padding:5px; font-weight: 400; border-radius: 5px;}\n.coming-soon{ text-decoration: line-through; color:#8F8F8F}\n@media (min-width : 480px) {\n.dynasty-team-logo{  height:75px; width:75px;\n}\n.dynasty-team-h1{ font-size:20px; font-weight:600\n}\n.dynasty-team-h2{ font-size:16px\n}\n}\n@media (max-width : 480px) {\n.dynasty-team-logo{ height:50px; width:50px;\n}\n.dynasty-team-h1{ font-size:16px; font-weight:600\n}\n.dynasty-team-h2{ font-size:12px\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

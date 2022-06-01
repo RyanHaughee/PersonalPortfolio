@@ -187,6 +187,7 @@ class store_league_info extends Command
             $draft_picks = DB::table('dynasty_future_picks')
                 ->select(DB::raw('*'))
                 ->where('dynasty_future_picks.current_owner_id','=',$team->id)
+                ->whereNull('dynasty_future_picks.player_id')
                 ->orderBy('dynasty_future_picks.current_pick_value','asc')
                 ->get();
 
